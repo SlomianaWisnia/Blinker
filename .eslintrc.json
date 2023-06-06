@@ -1,0 +1,44 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "plugin:vue/base",
+        "eslint:recommended",
+        "plugin:vue/vue3-recommended", 
+        "plugin:vue/essential"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "parser": "@typescript-eslint/parser",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "vue"
+    ],
+    "rules": {
+        "vue/html-indent": [
+            "tab",
+            "warning"
+        ],
+        "indent": [
+            2,
+            "tab",
+            "warning"
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ]
+    }
+}
