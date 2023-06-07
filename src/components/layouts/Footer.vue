@@ -1,3 +1,4 @@
+
 <template>
   <footer>
     <router-link :to="{ path: '/' }" exact>
@@ -21,7 +22,6 @@
   </footer>
 </template>
 
-
 <script lang="ts">
 export default {
   name: 'Footer',
@@ -37,8 +37,6 @@ export default {
   }
 }
 </script>
-
-
 
 <style module lang="scss">
 @use '../../main.scss' as *;
