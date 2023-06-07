@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      users: [{ name: 'Wiśnia', avatar: '', lastMessage: 'Witam serdecznie.' }]
+      users: [{ name: 'Wiśnia', lastMessage: 'Witam serdecznie.' }]
     }
   }
 }
