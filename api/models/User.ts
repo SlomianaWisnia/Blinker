@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
   email: {
     type: String,
     minlength: 5,
-    maxlength: 320,
+    maxlength: 70,
     required: true
   },
   password: {
