@@ -21,8 +21,8 @@
  *                    required: true
  *                 password:
  *                    type: string
- *                    minLength: 1
- *                    maxLength: 350
+ *                    minLength: 8
+ *                    maxLength: 70
  *                    description: Password
  *                    required: true
  *     responses:
