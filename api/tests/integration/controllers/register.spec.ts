@@ -74,6 +74,10 @@ describe('POST /api/register', () => {
     const res = await exec({ username: 'TestUser', email: {}, password: '12345678' });
     expect(res.status).toBe(400);
   });
+  it('should return 400 when email is not a valid email', async () => {
+    const res = await exec({ username: 'TestUser', email: 'aaaaa', password: '12345678' });
+    expect(res.status).toBe(400);
+  });
   it('should return 400 when password is not a string type', async () => {
     const res = await exec({ username: 'TestUser', email: 'b@vp.pl', password: {} });
     expect(res.status).toBe(400);
