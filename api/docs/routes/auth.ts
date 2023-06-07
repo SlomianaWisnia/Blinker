@@ -16,7 +16,7 @@
  *                 username:
  *                    type: string
  *                    minLength: 5
- *                    maxLength: 50
+ *                    maxLength: 70
  *                    description: Username or email address
  *                    required: true
  *                 password:
