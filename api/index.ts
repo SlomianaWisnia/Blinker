@@ -4,6 +4,9 @@ import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import './services/db';
+import swaggerUI from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+import specs from './docs/index';
 import auth from './routes/auth';
 
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
@@ -27,6 +30,9 @@ app.use(session({
     httpOnly: true
   }
 }));
+if (process.env.NODE_ENV === 'development') {
+  app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
+}
 app.use('/api/auth', auth);
 
 const port = process.env.PORT || 3001;
