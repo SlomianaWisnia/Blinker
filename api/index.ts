@@ -1,6 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import './helpers/db';
+import './services/db';
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
 
 const app = express();
