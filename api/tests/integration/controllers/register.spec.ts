@@ -35,13 +35,12 @@ describe('POST /api/register', () => {
     const password = '12345678';
     const res = await exec({ username, email, password });
 
-    const result = await User.find({ username: 'TestUser', email: 'b@vp.pl', password: '12345678' });
-    expect(result).toBeDefined();
-    
+    const result = await User.findOne({ username, email });
+
     expect(result.username).toEqual(username);
     expect(result.email).toEqual(email);
     
-    const validatePassword = await bcrypt.compare(result.password, password);
+    const validatePassword = await bcrypt.compare(password, result.password);
     expect(validatePassword).toBeTruthy();
   });
 
