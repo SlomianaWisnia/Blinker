@@ -12,15 +12,15 @@ export default {
       <h1>Blinker</h1>
     </div>
     <div :class="$style.controls">
-      <img src="../assets/icons/navigation/search.svg" alt="search icon">
-      <img src="../assets/icons/navigation/more.svg" alt="menu icon">
+      <img src="../../assets/icons/navigation/search.svg" alt="search icon">
+      <img src="../../assets/icons/navigation/more.svg" alt="menu icon">
     </div>
-    <img src="../assets/icons/navigation/wave.svg" alt="animated wave background" :class="$style.wave">
+    <img src="../../assets/icons/navigation/wave.svg" alt="animated wave background" :class="$style.wave">
   </nav>
 </template>
 
 <style module lang="scss">
-@use '../main.scss' as *;
+@use '../../main.scss' as *;
 
 nav {
   position: relative;
