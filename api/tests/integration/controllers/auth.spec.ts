@@ -23,6 +23,8 @@ describe('POST /api/auth', () => {
     await server.close();
   });
 
+  // Valid credentials
+
   it('should return 200 if user gave correct username and password', async () => {
     const res = await exec({ username: 'Test1', password: '12345678' });
     expect(res.status).toBe(200);
@@ -39,6 +41,20 @@ describe('POST /api/auth', () => {
     const res = await exec({ username: 'a@vp.pl', password: '12345678' });
     expect(res.headers['set-cookie'][0]).toContain('connect.sid=');
   });
+
+  // Invalid credentials
+
+  it('should return 400 if user gave invalid username', async () => {
+    const res = await exec({ username: 'Test2', password: '12345678' });
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if user gave invalid password', async () => {
+    const res = await exec({ username: 'Test1', password: '1' });
+    expect(res.status).toBe(400);
+  });
+
+  // Invalid types of data or invalid length
+
   it('should return 400 if no username given', async () => {
     const res = await exec({ password: '12345678' });
     expect(res.status).toBe(400);
@@ -47,12 +63,28 @@ describe('POST /api/auth', () => {
     const res = await exec({ username: 'Test1' });
     expect(res.status).toBe(400);
   });
-  it('should return 400 if user gave invalid username', async () => {
-    const res = await exec({ username: 'Test2', password: '12345678' });
+  it('should return 400 if username is not a string type', async () => {
+    const res = await exec({ username: {}, password: '12345678' });
     expect(res.status).toBe(400);
   });
-  it('should return 400 if user gave invalid password', async () => {
-    const res = await exec({ username: 'Test1', password: '1' });
+  it('should return 400 if password is not a string type', async () => {
+    const res = await exec({ username: 'Test1', password: {} });
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if username is less than 5 characters', async () => {
+    const res = await exec({ username: 'Test', password: '12345678' });
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if password is less than 8 characters', async () => {
+    const res = await exec({ username: 'Test1', password: '1234567' });
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if username is longer than 70 characters', async () => {
+    const res = await exec({ username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', password: '12345678' });
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if password is longer than 70 characters', async () => {
+    const res = await exec({ username: 'Test1', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' });
     expect(res.status).toBe(400);
   });
 });
