@@ -11,7 +11,10 @@
      "emitDecoratorMetadata": true,
      "esModuleInterop": true,
      "experimentalDecorators": true,
-     "sourceMap": true,
+     "sourceMap": true
+  },
+  "ts-node": {
+   "esm": true
   },
   "include": ["*.ts"],
 }
