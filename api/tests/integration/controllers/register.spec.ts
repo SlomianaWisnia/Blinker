@@ -91,7 +91,7 @@ describe('POST /api/register', () => {
     const res = await exec({ username: 'TestUser', email: 'b@vp', password: '12345678' });
     expect(res.status).toBe(400);
   });
-  it('should return 400 when email length is more than 50 characters', async () => {
+  it('should return 400 when email length is more than 70 characters', async () => {
     const res = await exec({ username: 'TestUser', email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@vp.pl', password: '12345678' });
     expect(res.status).toBe(400);
   });
