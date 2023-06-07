@@ -14,7 +14,7 @@ describe('POST /api/auth', () => {
   };
 
   beforeEach(async () => {
-    const user = new User({ username: 'Test1', email: 'a@vp.pl', password: '12345678' });
+    const user = new User({ username: 'Test1', email: 'a@vp.pl', password: '$2b$15$B4Lr9qSun4U6wgM0865gV.5iFs8mcbDonPQwN4F3BEmWNFcbVocu.' });
     await user.save();
   });
 
