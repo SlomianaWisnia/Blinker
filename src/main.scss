@@ -1,0 +1,8 @@
+@forward './assets/scss/_funcs.scss';
+@forward './assets/scss/_variables.scss';
+
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
