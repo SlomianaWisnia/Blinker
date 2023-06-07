@@ -1,10 +1,3 @@
-<script lang="ts">
-
-export default {
-  name: 'Navigation',
-}
-</script>
-
 <template>
   <nav>
     <div :class="$style.info">
@@ -18,6 +11,12 @@ export default {
     <img src="../../assets/icons/navigation/wave.svg" alt="animated wave background" :class="$style.wave">
   </nav>
 </template>
+
+<script lang="ts">
+export default {
+  name: 'Navigation',
+}
+</script>
 
 <style module lang="scss">
 @use '../../main.scss' as *;

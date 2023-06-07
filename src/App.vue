@@ -1,3 +1,9 @@
+<template>
+  <Navigation />
+  <router-view />
+  <Footer />
+</template>
+
 <script lang="ts">
 import Navigation from './components/layouts/Navigation.vue';
 import Footer from './components/layouts/Footer.vue';
@@ -11,10 +17,4 @@ export default {
 }
 </script>
 
-<template>
-  <Navigation />
-  <router-view />
-  <Footer />
-</template>
-
-<style lang="scss"></style>
+<style module lang="scss"></style>
