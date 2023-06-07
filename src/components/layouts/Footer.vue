@@ -1,20 +1,4 @@
-<script lang="ts">
 
-export default {
-  name: 'Footer',
-  data() {
-    return {
-      currentPath: this.$route.path
-    }
-  },
-  watch: {
-    $route(to) {
-      this.currentPath = to.path;
-    }
-  }
-}
-
-</script>
 <template>
   <footer>
     <router-link :to="{ path: '/' }" exact>
@@ -38,7 +22,21 @@ export default {
   </footer>
 </template>
 
-
+<script lang="ts">
+export default {
+  name: 'Footer',
+  data() {
+    return {
+      currentPath: this.$route.path
+    }
+  },
+  watch: {
+    $route(to) {
+      this.currentPath = to.path;
+    }
+  }
+}
+</script>
 
 <style module lang="scss">
 @use '../../main.scss' as *;
@@ -80,6 +78,5 @@ footer {
       border-radius: 0.5rem;
     }
   }
-
 }
 </style>

@@ -1,15 +1,3 @@
-<script lang="ts">
-import User from '../../interfaces/User.ts';
-export default {
-  name: 'UsersComponent',
-  props: {
-    users: Array<User>
-  },
-
-
-}
-</script>
-
 <template>
   <li v-for="user in users" :class="$style.user">
     <p v-if="!user.avatar" :class="$style.avatar">{{ user.name.charAt(0).toUpperCase() }}</p>
@@ -20,6 +8,16 @@ export default {
     </div>
   </li>
 </template>
+
+<script lang="ts">
+import User from '../../interfaces/User.ts';
+export default {
+  name: 'UsersComponent',
+  props: {
+    users: Array<User>
+  },
+}
+</script>
 
 <style module lang="scss">
 @use '../../main.scss' as *;
