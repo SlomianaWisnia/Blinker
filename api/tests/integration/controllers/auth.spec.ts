@@ -54,7 +54,14 @@ describe('POST /api/auth', () => {
   });
 
   // Invalid types of data or invalid length
-
+  it('should return 400 if no object given', async () => {
+    const res = await request(server).post('/api/auth').send();
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if empty object given', async () => {
+    const res = await exec({});
+    expect(res.status).toBe(400);
+  });
   it('should return 400 if no username given', async () => {
     const res = await exec({ password: '12345678' });
     expect(res.status).toBe(400);
