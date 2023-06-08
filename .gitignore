@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 production.env
+coverage
+log
 
 # Editor directories and files
 .vscode/*
