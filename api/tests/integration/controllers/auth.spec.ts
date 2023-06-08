@@ -14,8 +14,19 @@ describe('POST /api/auth', () => {
   };
 
   beforeEach(async () => {
-    const user = new User({ username: 'Test1', email: 'a@vp.pl', password: '$2b$15$B4Lr9qSun4U6wgM0865gV.5iFs8mcbDonPQwN4F3BEmWNFcbVocu.' });
+    const user = new User({
+      username: 'Test1',
+      email: 'a@vp.pl',
+      password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
+    });
     await user.save();
+
+    const user2 = new User({
+      username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@vp.pl',
+      password: '$2b$15$5CW6wntRwsGIgF/FKhX3SOwbBalfOY6mEuR0DKmnnI2fep56.kthS' // 70 x 'a' password
+    });
+    await user2.save();
   });
 
   afterEach(() => clearDB());
@@ -31,6 +42,13 @@ describe('POST /api/auth', () => {
   });
   it('should return 200 if user gave correct email and password', async () => {
     const res = await exec({ username: 'a@vp.pl', password: '12345678' });
+    expect(res.status).toBe(200);
+  });
+  it('should return 200 if user gave maximum length but correct username and password', async () => {
+    const res = await exec({
+      username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@vp.pl',
+      password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+    });
     expect(res.status).toBe(200);
   });
   it('should return connect.sid cookie if user gave correct username and password', async () => {
