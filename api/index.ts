@@ -8,11 +8,8 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import specs from './docs/index';
 import auth from './routes/auth';
-<<<<<<< HEAD
-import log from './utils/log';
-=======
 import register from './routes/register';
->>>>>>> main
+import log from './utils/log';
 
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
 
