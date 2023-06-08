@@ -8,6 +8,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import specs from './docs/index';
 import auth from './routes/auth';
+import log from './utils/log';
 
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
 
@@ -36,6 +37,6 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', auth);
 
 const port = process.env.PORT || 3001;
-const server = app.listen(port, () => console.log(`App listening on port ${port}...`));
+const server = app.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
 
 export default server;

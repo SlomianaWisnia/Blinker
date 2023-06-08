@@ -2,6 +2,7 @@ import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
+import log from '../utils/log';
 import validate from '../validate/auth';
 const router = Router();
 
@@ -27,6 +28,7 @@ router.post('/', async (req:RequestSession, res:Response) => {
 
     return res.json({ msg: 'Sucessfully logged in!' });
   } catch (ex) {
+    log.error({ label: 'Auth Controller', message: ex });
     return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
   }
 });
