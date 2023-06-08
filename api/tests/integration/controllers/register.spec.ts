@@ -25,6 +25,14 @@ describe('POST /api/register', () => {
     const res = await exec({ username: 'TestUser', email: 'b@vp.pl', password: '12345678' });
     expect(res.status).toBe(200);
   });
+  it('should return 200 when user gives maximum length but valid username, email and password', async () => {
+    const res = await exec({
+      username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@vp.pl',
+      password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+     });
+    expect(res.status).toBe(200);
+  });
   it('should return connect.sid cookie when user gives valid username, email and password', async () => {
     const res = await exec({ username: 'TestUser', email: 'b@vp.pl', password: '12345678' });
     expect(res.headers['set-cookie'][0]).toContain('connect.sid=');
