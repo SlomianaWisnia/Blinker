@@ -7,7 +7,7 @@
 import Navigation from '../components/Navigation.vue';
 import Footer from '../components/Footer.vue';
 export default {
-  name: 'Home',
+  name: 'HomeLayout',
   components: {
     Navigation,
     Footer
