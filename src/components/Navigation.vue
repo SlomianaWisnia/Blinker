@@ -19,8 +19,6 @@ export default {
 </script>
 
 <style module lang="scss">
-@use '../main.scss' as *;
-
 nav {
   position: relative;
   display: flex;

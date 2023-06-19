@@ -39,8 +39,6 @@ export default {
 </script>
 
 <style module lang="scss">
-@use '../main.scss' as *;
-
 footer {
   position: fixed;
   display: flex;

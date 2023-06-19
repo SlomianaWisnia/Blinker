@@ -3,12 +3,11 @@
 </template>
 
 <script lang="ts">
-import './main.scss';
 
 export default {
   name: 'App'
 }
 </script>
 
-<style module lang="scss"></style>
+<style lang="scss"></style>
 
