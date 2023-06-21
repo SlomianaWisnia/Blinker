@@ -10,12 +10,17 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		component: HomeLayout,
+		meta: { auth: true },
 		children: [
 			{
 				name: 'home',
-				meta: { auth: true },
 				path: '',
 				component: HomeView,
+			},
+			{
+				path: '/:catchAll(.*)',
+				name: 'NotFound',
+				component: PageNotFound,
 			},
 		],
 	},
@@ -25,15 +30,11 @@ const routes: Array<RouteRecordRaw> = [
 		children: [
 			{
 				name: 'auth',
+				meta: { redirectLoggedIn: true },
 				path: '',
 				component: AuthView,
 			},
 		],
-	},
-	{
-		path: '/:catchAll(.*)',
-		name: 'NotFound',
-		component: PageNotFound,
 	},
 ];
 
@@ -48,6 +49,11 @@ router.beforeEach((to, from, next) => {
 			.post('/auth-verify')
 			.then(() => next())
 			.catch(() => next({ name: 'auth' }));
+	} else if (to.meta.redirectLoggedIn) {
+		axios
+			.post('/auth-verify')
+			.then(() => next('/'))
+			.catch(() => next());
 	} else {
 		next();
 	}

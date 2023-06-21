@@ -54,9 +54,8 @@ export default {
         username: data.email,
         password: data.password
       }).then(() => {
-        //
         this.$router.push('/')
-      })
+      }).catch(err => console.log(err))
     },
     passwordVisibilityHandler() {
       this.passwordIsVisible = !this.passwordIsVisible;
