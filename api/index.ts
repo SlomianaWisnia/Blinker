@@ -17,23 +17,27 @@ dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
 
 const app = express();
 app.use(express.json());
-app.use(cors({
-  origin: '127.0.0.1',
-  credentials: true
-}));
+
+const corsOptions = {
+  origin: process.env.REQUEST_DOMAIN,
+  credentials: true,
+  optionSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
 app.use(cookieParser());
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: false,
-  cookie: {
-    maxAge: 3 * 60 * 60 * 1000, //3H
-    secure: process.env.NODE_ENV === 'production',
-    domain: '127.0.0.1',
-    sameSite: 'none',
-    httpOnly: true
-  }
-}));
+
+app.use(
+  session({
+      secret: process.env.SESSION_SECRET,
+      resave: true,
+      saveUninitialized: false,
+      cookie: {
+          maxAge: 3 * 60 * 60 * 1000, //3H
+          httpOnly: true,
+      },
+  })
+);
 if (process.env.NODE_ENV === 'development') {
   app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
 }
