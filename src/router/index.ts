@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
+import axios from 'axios';
 import HomeView from '../views/HomeView.vue';
 import PageNotFound from '../views/PageNotFound.vue';
 import AuthView from '../views/AuthView.vue';
@@ -12,6 +13,7 @@ const routes: Array<RouteRecordRaw> = [
 		children: [
 			{
 				name: 'home',
+				meta: { auth: true },
 				path: '',
 				component: HomeView,
 			},
@@ -40,4 +42,17 @@ const router = createRouter({
 	routes,
 });
 
+router.beforeEach((to, from, next) => {
+	if (to.meta.auth) {
+		axios
+			.post('/auth-verify')
+			.then(() => next())
+			.catch(() => next({ name: 'auth' }));
+	} else {
+		next();
+	}
+});
+
 export default router;
+
+// on mounted auth check,
