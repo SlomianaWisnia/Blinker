@@ -8,7 +8,9 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import specs from './docs/index';
 import auth from './routes/auth';
+import authorization from './middleware/auth';
 import register from './routes/register';
+import authVerify from './routes/auth-verify';
 import log from './utils/log';
 
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
@@ -37,6 +39,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use('/api/auth', auth);
 app.use('/api/register', register);
+app.use('/api/auth-verify', [authorization, authVerify]);
 
 const port = process.env.PORT || 3001;
 const server = app.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
