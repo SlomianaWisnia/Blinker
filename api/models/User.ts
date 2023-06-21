@@ -13,12 +13,21 @@ const schema = new mongoose.Schema({
     maxlength: 70,
     required: true
   },
+  avatar: {
+    type: String,
+    minlength: 5,
+    maxlength: 128
+  },
   password: {
     type: String,
     minlength: 8,
     maxlength: 1024,
     required: true
   },
+  friends: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
+  }]
 });
 
 export default mongoose.model('User', schema);
