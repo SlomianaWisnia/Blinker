@@ -40,7 +40,8 @@
  *                maxLength: 512
  *                description: Text message (required and allowed only when `source` is not set)
  *              created:
- *                type: Date
+ *                type: string
+ *                format: date-time
  *                description: Date of message sending 
  *          description: Array of messages
  *      example:
