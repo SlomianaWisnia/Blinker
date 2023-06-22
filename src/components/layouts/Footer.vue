@@ -3,19 +3,19 @@
   <footer>
     <router-link :to="{ path: '/' }" exact>
       <div :class="currentPath === '/' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/chat.svg" alt="">
+        <img src="../../assets/icons/footer/chat.svg" alt="">
         <p>Chats</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/calls' }" exact>
       <div :class="currentPath === '/calls' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/call.svg" alt="">
+        <img src="../../assets/icons/footer/call.svg" alt="">
         <p>Calls</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/stories' }" exact>
       <div :class="currentPath === '/stories' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/stories.svg" alt="">
+        <img src="../../assets/icons/footer/stories.svg" alt="">
         <p>Stories</p>
       </div>
     </router-link>
@@ -39,6 +39,8 @@ export default {
 </script>
 
 <style module lang="scss">
+@use '../../main.scss' as *;
+
 footer {
   position: fixed;
   display: flex;

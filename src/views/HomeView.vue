@@ -27,6 +27,8 @@ export default {
 </script>
 
 <style module lang="scss">
+@use '../main.scss' as *;
+
 .homePage {
   background-color: $bg-color-primary;
   min-height: 100vh;

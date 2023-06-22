@@ -20,6 +20,8 @@ export default {
 </script>
 
 <style module lang="scss">
+@use '../../main.scss' as *;
+
 .user {
   display: flex;
   justify-content: center;
