@@ -1,21 +1,13 @@
 <template>
-  <Navigation />
   <router-view />
-  <Footer />
 </template>
 
 <script lang="ts">
-import Navigation from './components/layouts/Navigation.vue';
-import Footer from './components/layouts/Footer.vue';
-import './main.scss';
 
 export default {
-  components: {
-    Navigation,
-    Footer
-  }
+  name: 'App'
 }
 </script>
 
-<style module lang="scss"></style>
+<style lang="scss"></style>
 

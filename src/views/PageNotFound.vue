@@ -13,8 +13,6 @@ export default {
 </script>
 
 <style module lang="scss">
-@use '../main.scss' as *;
-
 .errorPage {
   background-color: $bg-color-primary;
   height: 80vh;
