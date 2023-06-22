@@ -1,35 +1,22 @@
 import mongoose from 'mongoose';
-import User from './User';
 
 const messageSchema = new mongoose.Schema({
   from: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    // items: 1,
-    // required: true
+    ref: 'User'
   },
   source: {
     type: String,
+    minLength: 5,
+    maxLength: 128,
     description: 'Path for a message media'
   },
   message: {
     type: String,
     minLength: 1,
-    maxLength: 512
+    maxLength: 512,
+    description: 'Text message without media'
   },
-  reactions: [{
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      items: 1,
-      // required: true
-    },
-    type: {
-      enum: ['love', 'like', 'dislike', 'laugh', 'suprise', 'sad'],
-      // items: 1,
-      // required: true
-    }
-  }],
   created: {
     type: Date,
     default: Date.now
@@ -47,38 +34,15 @@ messageSchema.path('source').validate(
 );
 
 const roomSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    minLength: 1,
-    maxLength: 50,
-    required: true
-  },
-  avatar: {
-    type: String,
-    minLength: 3,
-    maxLength: 128
-  },
-  members: {
-    type: [{
-      _id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        // required: true
-      },
-      nickname: {
-        type: String,
-        minLength: 1,
-        maxLength: 50,
-        // required: true
-      }
-    }],
-    minItems: 2,
-    required: true
-  },
+  members: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  }],
   messages: [messageSchema],
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    required: true
   }
 });
 
