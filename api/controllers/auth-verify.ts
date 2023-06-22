@@ -8,9 +8,9 @@ const router = Router();
 router.post('/', async (req:RequestSession, res:Response) => {
   try {
     const { userId } = req.session;
-    const user = await User.findOne({ _id: userId }).lean().select('-_id username email avatar friends');
-    const friends = await User.find({ _id: user.friends }).select('-_id username avatar');
+    const user = await User.findOne({ _id: userId }).lean().select('-_id username email avatar').populate('friends', '-_id username avatar');
 
+    const { friends } = user;
     delete user.friends;
 
     return res.json({
