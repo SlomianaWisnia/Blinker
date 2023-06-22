@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use('/api/auth', auth);
 app.use('/api/register', register);
-app.use('/api/get-last-messages', getLastMessages);
+app.use('/api/get-last-messages', [authorization, getLastMessages]);
 app.use('/api/auth-verify', [authorization, authVerify]);
 
 const port = process.env.PORT || 3001;
