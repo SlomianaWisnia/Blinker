@@ -5,12 +5,15 @@ import PageNotFound from '../views/PageNotFound.vue';
 import AuthView from '../views/AuthView.vue';
 import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
+import store from '../store';
+
+let isAuthorized = false;
 
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
 		component: HomeLayout,
-		meta: { auth: true },
+		meta: { requireAuth: true },
 		children: [
 			{
 				name: 'home',
@@ -44,11 +47,19 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	if (to.meta.auth) {
+	if (to.matched.some((record) => record.meta.requireAuth) && !isAuthorized) {
 		axios
 			.post('/auth-verify')
-			.then(() => next())
-			.catch(() => next({ name: 'auth' }));
+			.then((res) => {
+				store.commit('addUserInfo', res.data.data);
+				next();
+				isAuthorized = true;
+			})
+			.catch(() => {
+				console.error('You have to log in first!');
+				next({ name: 'auth' });
+			});
+		console.log('Meta');
 	} else if (to.meta.redirectLoggedIn) {
 		axios
 			.post('/auth-verify')
@@ -60,5 +71,3 @@ router.beforeEach((to, from, next) => {
 });
 
 export default router;
-
-// on mounted auth check,
