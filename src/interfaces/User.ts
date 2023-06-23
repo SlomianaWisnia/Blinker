@@ -1,5 +1,5 @@
 export default interface User {
 	avatar?: string;
-	name: string;
-	lastMessage: string;
+	username: string;
+	email: string;
 }
