@@ -7,8 +7,6 @@ import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 import store from '../store';
 
-let isAuthorized = false;
-
 const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
@@ -46,20 +44,20 @@ const router = createRouter({
 	routes,
 });
 
-router.beforeEach((to, from, next) => {
-	if (to.matched.some((record) => record.meta.requireAuth) && !isAuthorized) {
+router.beforeEach((to, _from, next) => {
+	if (
+		to.matched.some((record) => record.meta.requireAuth) &&
+		!store.state.user_info
+	) {
 		axios
 			.post('/auth-verify')
 			.then((res) => {
 				store.commit('addUserInfo', res.data.data);
 				next();
-				isAuthorized = true;
 			})
 			.catch(() => {
-				console.error('You have to log in first!');
 				next({ name: 'auth' });
 			});
-		console.log('Meta');
 	} else if (to.meta.redirectLoggedIn) {
 		axios
 			.post('/auth-verify')
