@@ -1,11 +1,13 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import axios from 'axios';
+import store from '../store';
 import HomeView from '../views/HomeView.vue';
 import PageNotFound from '../views/PageNotFound.vue';
 import AuthView from '../views/AuthView.vue';
 import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
-import store from '../store';
+import SettingsLayout from '../layouts/SettingsLayout.vue';
+import SettingsView from '../views/settings/SettingsView.vue';
 
 let isAuthorized = false;
 
@@ -36,6 +38,17 @@ const routes: Array<RouteRecordRaw> = [
 				meta: { redirectLoggedIn: true },
 				path: '',
 				component: AuthView,
+			},
+		],
+	},
+	{
+		path: '/settings',
+		component: SettingsLayout,
+		children: [
+			{
+				name: 'settings',
+				path: '',
+				component: SettingsView,
 			},
 		],
 	},
