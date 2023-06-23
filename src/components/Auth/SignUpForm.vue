@@ -41,6 +41,7 @@
 <script lang="ts">
 import FormKit from '@formkit/vue';
 import axios from 'axios';
+import RegisterData from '../../interfaces/RegisterData';
 
 export default {
   name: 'SignUpForm',
@@ -59,12 +60,11 @@ export default {
     }
   },
   methods: {
-    registerHandler(data: any) {
-      console.log(data)
+    registerHandler({ username, email, password }: RegisterData) {
       axios.post('/register', {
-        username: data.username,
-        email: data.email,
-        password: data.password,
+        username,
+        email,
+        password
       }).then(() => {
         this.$router.push('/')
       }).catch(err => console.error(err))
