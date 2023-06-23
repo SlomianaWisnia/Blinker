@@ -44,6 +44,7 @@ const routes: Array<RouteRecordRaw> = [
 	{
 		path: '/settings',
 		component: SettingsLayout,
+		meta: { requireAuth: true },
 		children: [
 			{
 				name: 'settings',
