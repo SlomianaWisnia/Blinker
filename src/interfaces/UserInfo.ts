@@ -1,8 +1,5 @@
 import User from './User';
-interface Friend {
-	username: string;
-	avatar?: string;
-}
+import Friend from './Friend';
 
 export default interface UserInfo {
 	user: User;

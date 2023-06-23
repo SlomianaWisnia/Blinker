@@ -1,21 +1,21 @@
 <template>
-  <li v-for="user in users" :class="$style.user">
-    <p v-if="!user.avatar" :class="$style.avatar">{{ user.name.charAt(0).toUpperCase() }}</p>
-    <img v-if="user.avatar" :src="user.avatar" alt="">
+  <!-- <li v-for="friend in friends" :class="$style.friend">
+    <p v-if="!friend.avatar" :class="$style.avatar">{{ friend.username.charAt(0).toUpperCase() }}</p>
+    <img v-if="friend.avatar" :src="friend.avatar" alt="">
     <div :class="$style.info">
-      <h4>{{ user.name }}</h4>
-      <p>{{ user.lastMessage }}</p>
+      <h4>{{ friend.username }}</h4>
+      <p>{{friend.lastMessage}}</p>
     </div>
-  </li>
+  </li> -->
 </template>
 
 <script lang="ts">
-import User from '../../interfaces/User.ts';
+// import Friend from '../../interfaces/Friend';
 export default {
   name: 'UsersComponent',
-  props: {
-    users: Array<User>
-  },
+  // props: {
+  //   // friends: Array<Friend>
+  // },
 }
 </script>
 
