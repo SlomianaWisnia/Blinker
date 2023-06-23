@@ -5,11 +5,11 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import './services/db';
 import swaggerUI from 'swagger-ui-express';
-import swaggerJSDoc from 'swagger-jsdoc';
 import specs from './docs/index';
 import auth from './routes/auth';
 import authorization from './middleware/auth';
 import register from './routes/register';
+import getLastMessages from './routes/getLastMessages';
 import authVerify from './routes/auth-verify';
 import log from './utils/log';
 
@@ -43,6 +43,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use('/api/auth', auth);
 app.use('/api/register', register);
+app.use('/api/get-last-messages', [authorization, getLastMessages]);
 app.use('/api/auth-verify', [authorization, authVerify]);
 
 const port = process.env.PORT || 3001;
