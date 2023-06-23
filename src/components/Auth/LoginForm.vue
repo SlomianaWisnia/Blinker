@@ -30,13 +30,13 @@
 <script lang="ts">
 import FormKit from '@formkit/vue';
 import axios from 'axios';
+import LoginData from '../../interfaces/LoginData'
 
 export default {
   name: 'LoginForm',
   data() {
     return {
       passwordIsVisible: false,
-      dummy: null,
     }
   },
   props: {
@@ -49,10 +49,10 @@ export default {
     }
   },
   methods: {
-    loginHandler(data: any) {
+    loginHandler({ email, password }: LoginData) {
       axios.post('/auth', {
-        username: data.email,
-        password: data.password
+        username: email,
+        password
       }).then(() => {
         this.$router.push('/')
       }).catch(err => console.error(err))
