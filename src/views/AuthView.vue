@@ -20,7 +20,6 @@ export default {
   methods: {
     checkAuthMethod(method: string) {
       this.authMethod = method;
-      console.log(method)
     }
   }
 }
