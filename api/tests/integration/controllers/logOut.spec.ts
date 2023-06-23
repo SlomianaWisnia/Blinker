@@ -2,7 +2,7 @@ import request from 'supertest';
 import server from '../../../index';
 import User from '../../../models/User';
 
-describe('POST /api/auth-verify', () => {
+describe('POST /api/logout', () => {
   const clearDB = async () => await User.deleteMany({});
 
   beforeAll(() => clearDB());
