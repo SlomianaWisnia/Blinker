@@ -115,7 +115,7 @@ describe('GET /api/get-last-messages', () => {
     const token = tokenRes.headers['set-cookie'][0];
     const res = await exec(token);
 
-    const users = await User.find({ _id: id }).select('username avatar');
+    const users = await User.find({ _id: id }).select('username avatar avatarHex');
     expect(res.body.chats[0]).toHaveProperty('_id');
     expect(res.body.chats[0].members[0]).toMatchObject({
       username: users[0].username,
@@ -140,7 +140,7 @@ describe('GET /api/get-last-messages', () => {
     const token = tokenRes.headers['set-cookie'][0];
     const res = await exec(token);
 
-    const users = await User.find({ _id: id }).select('username avatar');
+    const users = await User.find({ _id: id }).select('username avatar avatarHex');
     expect(res.body.chats[1]).toHaveProperty('_id');
     expect(res.body.chats[1].members[0]).toMatchObject({
       username: users[0].username,
@@ -165,7 +165,7 @@ describe('GET /api/get-last-messages', () => {
     const token = tokenRes.headers['set-cookie'][0];
     const res = await exec(token);
 
-    const users = await User.find({ _id: id }).select('username avatar');
+    const users = await User.find({ _id: id }).select('username avatar avatarHex');
     expect(res.body.chats[2]).toHaveProperty('_id');
     expect(res.body.chats[2].members[0]).toMatchObject({
       username: users[0].username,

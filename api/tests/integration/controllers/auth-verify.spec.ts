@@ -81,6 +81,7 @@ describe('POST /api/auth-verify', () => {
     expect(res.body.data.user.username).toEqual('Test1');
     expect(res.body.data.user.email).toEqual('a@vp.pl');
     expect(res.body.data.user.avatar).toEqual('example.jpg');
+    expect(res.body.data.user).toHaveProperty('avatarHex');
   });
   it('should return valid data in friends object if user has a valid connect.sid cookie with session and friends', async () => {
     const tokenRes = await request(server).post('/api/auth').send({
@@ -92,6 +93,8 @@ describe('POST /api/auth-verify', () => {
     const res = await exec(token);
     expect(res.body.data.friends[0].username).toEqual('Test1');
     expect(res.body.data.friends[0].avatar).toEqual('example.jpg');
+    expect(res.body.data.friends[0]).toHaveProperty('avatarHex');
     expect(res.body.data.friends[1].username).toEqual('Test2');
+    expect(res.body.data.friends[1]).toHaveProperty('avatarHex');
   });
 });
