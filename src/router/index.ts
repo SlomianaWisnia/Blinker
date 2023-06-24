@@ -1,11 +1,15 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import axios from 'axios';
+import store from '../store';
 import HomeView from '../views/HomeView.vue';
 import PageNotFound from '../views/PageNotFound.vue';
 import AuthView from '../views/AuthView.vue';
 import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
-import store from '../store';
+import SettingsLayout from '../layouts/SettingsLayout.vue';
+import SettingsView from '../views/settings/SettingsView.vue';
+
+let isAuthorized = false;
 
 const routes: Array<RouteRecordRaw> = [
 	{
@@ -37,6 +41,18 @@ const routes: Array<RouteRecordRaw> = [
 			},
 		],
 	},
+	{
+		path: '/settings',
+		component: SettingsLayout,
+		meta: { requireAuth: true },
+		children: [
+			{
+				name: 'settings',
+				path: '',
+				component: SettingsView,
+			},
+		],
+	},
 ];
 
 const router = createRouter({
@@ -45,15 +61,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _from, next) => {
-	if (
-		to.matched.some((record) => record.meta.requireAuth) &&
-		!store.state.user_info
-	) {
+	if (to.matched.some((record) => record.meta.requireAuth) && !isAuthorized) {
 		axios
 			.post('/auth-verify')
 			.then((res) => {
 				store.commit('addUserInfo', res.data.data);
 				next();
+				isAuthorized = store.getters.dataIsDownloaded;
 			})
 			.catch(() => {
 				next({ name: 'auth' });

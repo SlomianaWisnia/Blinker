@@ -11,6 +11,11 @@ const store = createStore<RootState>({
 			user_info: [],
 		};
 	},
+	getters: {
+		dataIsDownloaded(state: RootState) {
+			return !!state.user_info;
+		},
+	},
 	mutations: {
 		addUserInfo(state: RootState, payload: UserInfo) {
 			state.user_info = payload;

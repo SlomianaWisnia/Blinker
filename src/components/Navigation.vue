@@ -1,7 +1,8 @@
 <template>
   <nav>
     <div :class="$style.info">
-      <p>K</p>
+      <router-link to="/settings" v-if="userAvatar"><img :src="userAvatar" alt=""></router-link>
+      <router-link to="/settings" v-if="!userAvatar">{{ usernameFirstLetter }}</router-link>
       <h1>Blinker</h1>
     </div>
     <div :class="$style.controls">
@@ -13,8 +14,18 @@
 </template>
 
 <script lang="ts">
+import store from '../store';
+
 export default {
   name: 'Navigation',
+  computed: {
+    usernameFirstLetter() {
+      return store.state.user_info.user.username.charAt(0).toUpperCase()
+    },
+    userAvatar() {
+      return store.state.user_info.user.avatar
+    }
+  },
 }
 </script>
 
@@ -37,7 +48,7 @@ nav {
   }
 
   .info {
-    p {
+    a {
       @include flex-center;
       font-size: 1.2rem;
       width: 2.2rem;
@@ -45,6 +56,8 @@ nav {
       border-radius: 50%;
       background-color: #52796F;
       box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+      text-decoration: none;
+      color: inherit;
     }
 
     h1 {
