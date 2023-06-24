@@ -1,6 +1,6 @@
 <template>
   <nav :class="$style.settingsNavbar">
-    <img src="../assets/icons/navigation/arrow_back.svg" alt="">
+    <router-link to="/"><img src="../assets/icons/navigation/arrow_back.svg" alt="" /></router-link>
     <h2>{{ currentRouteName }}</h2>
   </nav>
   <router-view />
