@@ -25,6 +25,7 @@ describe('GET /api/get-last-messages', () => {
       username: 'Test1',
       email: 'a@vp.pl',
       avatar: 'example.jpg',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     const { _id } = await user.save();
@@ -35,6 +36,7 @@ describe('GET /api/get-last-messages', () => {
       username: 'Test2',
       email: 'b@vp.pl',
       friends: [_id],
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     const res2 = await user2.save();
@@ -44,6 +46,7 @@ describe('GET /api/get-last-messages', () => {
     await new User({
       username: 'Test3',
       email: 'c@vp.pl',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     }).save();
 

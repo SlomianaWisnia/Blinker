@@ -19,6 +19,7 @@ describe('POST /api/auth-verify', () => {
       username: 'Test1',
       email: 'a@vp.pl',
       avatar: 'example.jpg',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     const { _id } = await user.save();
@@ -27,6 +28,7 @@ describe('POST /api/auth-verify', () => {
       username: 'Test2',
       email: 'b@vp.pl',
       friends: [_id],
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     const res2 = await user2.save();
@@ -35,6 +37,7 @@ describe('POST /api/auth-verify', () => {
       username: 'Test3',
       email: 'c@vp.pl',
       friends: [_id, res2._id],
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     await user3.save();
