@@ -18,6 +18,11 @@ const schema = new mongoose.Schema({
     minlength: 5,
     maxlength: 128
   },
+  avatarHex: {
+    type: String,
+    length: 7,
+    required: true
+  },
   password: {
     type: String,
     minlength: 8,
