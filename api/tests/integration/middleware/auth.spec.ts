@@ -19,6 +19,7 @@ describe('Authorization Middleware', () => {
       username: 'Test1',
       email: 'a@vp.pl',
       avatar: 'example.jpg',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     await user.save();
