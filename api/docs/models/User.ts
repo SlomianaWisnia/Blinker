@@ -7,6 +7,7 @@
  *      required:
  *        - username
  *        - email
+ *        - avatarHex
  *        - password
  *      properties:
  *        _id:
@@ -27,6 +28,10 @@
  *         minLength: 5
  *         maxLength: 128
  *         description: Path for User's avatar
+ *        avatarHex:
+ *         type: string
+ *         length: 7
+ *         description: Random hex color for User's default avatar
  *        password:
  *         type: string
  *         minLength: 8
