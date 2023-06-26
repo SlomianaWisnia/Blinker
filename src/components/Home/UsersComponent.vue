@@ -1,29 +1,34 @@
 <template>
-  <!-- <li v-for="friend in friends" :class="$style.friend">
-    <p v-if="!friend.avatar" :class="$style.avatar">{{ friend.username.charAt(0).toUpperCase() }}</p>
-    <img v-if="friend.avatar" :src="friend.avatar" alt="">
+  <li :class="$style.friend">
+    <p v-if="chat.friend.avatar" :class="$style.avatar">{{ chat.friend.username.charAt(0).toUpperCase() }}</p>
+    <img v-if="chat.friend.avatar" :src="chat.friend.avatar" alt="">
     <div :class="$style.info">
-      <h4>{{ friend.username }}</h4>
-      <p>{{friend.lastMessage}}</p>
+      <h4>{{ chat.friend.username }}</h4>
+      <p>{{ chat.last_message.message }}</p>
     </div>
-  </li> -->
+    <p :class="$style.date">{{ chat.last_message.created }}</p>
+  </li>
 </template>
 
+
 <script lang="ts">
-// import Friend from '../../interfaces/Friend';
+
 export default {
   name: 'UsersComponent',
-  // props: {
-  //   // friends: Array<Friend>
-  // },
+  props: {
+    chat: {
+      type: Object,
+      required: true,
+    },
+  },
 }
 </script>
 
 <style module lang="scss">
-.user {
+.friend {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   color: $txt-color-primary;
 
   .avatar {
@@ -37,7 +42,7 @@ export default {
   }
 
   .info {
-    width: 75%;
+    width: 70%;
 
     p {
       margin-top: 0.5rem;
