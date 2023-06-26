@@ -14,6 +14,9 @@
 import axios from 'axios';
 import UsersComponent from '../components/Home/UsersComponent.vue';
 import store from '../store';
+import FetchedChatrooms from '../interfaces/FetchedChatrooms';
+import Chats from '../interfaces/Chats'
+
 
 export default {
   name: 'HomeView',
@@ -22,29 +25,27 @@ export default {
   },
   data() {
     return {
-      chatrooms: [] as any,
-      chats: [] as any,
+      chats: [] as Array<Chats>,
       hasFetchedChatrooms: false,
     }
   },
   methods: {
-    fetchChatrooms() {
-      axios.get('/get-last-messages').then(res => {
-        this.chatrooms = res.data.chats;
-        this.getChats()
-      });
-    },
-    getChats() {
-      const username = store.state.user_info.user.username
-      this.chatrooms.forEach(room => {
-        const last_message = room.messages[0]
-        const member = room.members.find(member => member.username !== username);
-        this.chats.push({ friend: member, last_message })
+    getChatrooms() {
+      axios.get('/get-last-messages').then((res) => {
+        const loggedInUsername = store.state.user_info.user.username;
+        const chats: Array<FetchedChatrooms> = res.data.chats;
+        chats.forEach(({ messages, members }) => {
+          const last_message = messages[0];
+          const friend = members.find(({ username }) => username !== loggedInUsername);
+          if (friend) {
+            this.chats.push({ friend, last_message });
+          }
+        });
       })
     }
   },
   mounted() {
-    this.fetchChatrooms()
+    this.getChatrooms()
   }
 }
 </script>
@@ -69,4 +70,4 @@ export default {
     margin-top: 1rem;
   }
 }
-</style>
+</style>../interfaces/FetchedChatrooms

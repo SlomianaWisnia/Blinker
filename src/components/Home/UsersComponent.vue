@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     getDate() {
-      console.log(this.chat.last_message.created)
       return getMessageDate(this.chat.last_message.created)
     }
   },
@@ -45,6 +44,7 @@ export default {
     border-radius: 50%;
     background-color: grey;
     box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
+    width: 10%;
   }
 
   .info {
