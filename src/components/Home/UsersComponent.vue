@@ -6,12 +6,12 @@
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ chat.last_message.message }}</p>
     </div>
-    <p :class="$style.date">{{ chat.last_message.created }}</p>
+    <p :class="$style.date">{{ getDate() }}</p>
   </li>
 </template>
 
-
 <script lang="ts">
+import getMessageDate from '../../helpers/getMessageDate'
 
 export default {
   name: 'UsersComponent',
@@ -20,6 +20,12 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  methods: {
+    getDate() {
+      console.log(this.chat.last_message.created)
+      return getMessageDate(this.chat.last_message.created)
+    }
   },
 }
 </script>
