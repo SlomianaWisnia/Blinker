@@ -34,12 +34,10 @@ export default {
       axios.get('/get-last-messages').then((res) => {
         const loggedInUsername = store.state.user_info.user.username;
         const chats: Array<FetchedChatrooms> = res.data.chats;
-        chats.forEach(({ messages, members }) => {
+        chats.forEach(({ _id, messages, members }) => {
           const last_message = messages[0];
           const friend = members.find(({ username }) => username !== loggedInUsername);
-          if (friend) {
-            this.chats.push({ friend, last_message });
-          }
+          if (friend) this.chats.push({ id: _id, friend, last_message, });
         });
       })
     }

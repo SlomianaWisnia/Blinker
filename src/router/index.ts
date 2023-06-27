@@ -8,6 +8,7 @@ import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 import SettingsLayout from '../layouts/SettingsLayout.vue';
 import SettingsView from '../views/settings/SettingsView.vue';
+import ChatView from '../views/ChatView.vue';
 
 let isAuthorized = false;
 
@@ -26,6 +27,17 @@ const routes: Array<RouteRecordRaw> = [
 				path: '/:catchAll(.*)',
 				name: 'NotFound',
 				component: PageNotFound,
+			},
+		],
+	},
+	{
+		path: '/chat',
+		component: HomeLayout,
+		meta: { requireAuth: true },
+		children: [
+			{
+				path: '/chat/:userId',
+				component: ChatView,
 			},
 		],
 	},

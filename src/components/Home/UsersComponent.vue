@@ -2,11 +2,11 @@
   <li :class="$style.friend">
     <p v-if="chat.friend.avatar" :class="$style.avatar">{{ chat.friend.username.charAt(0).toUpperCase() }}</p>
     <img v-if="chat.friend.avatar" :src="chat.friend.avatar" alt="">
-    <div :class="$style.info">
+    <div @click="goToChat()" :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ chat.last_message.message }}</p>
     </div>
-    <p :class="$style.date">{{ getDate() }}</p>
+    <p @click="goToChat()" :class="$style.date">{{ getDate() }}</p>
   </li>
 </template>
 
@@ -24,6 +24,9 @@ export default {
   methods: {
     getDate() {
       return getMessageDate(this.chat.last_message.created)
+    },
+    goToChat() {
+      this.$router.push(`/chat/${this.chat.id}`)
     }
   },
 }
