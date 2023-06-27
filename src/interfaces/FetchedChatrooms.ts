@@ -1,4 +1,5 @@
 export default interface Chatrooms {
+	_id: string;
 	members: [
 		{
 			username: string;
