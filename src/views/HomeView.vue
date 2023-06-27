@@ -5,14 +5,14 @@
       <p>Get started by messaging a friend.</p>
     </section>
     <ul v-if="chats.length > 0" :class="$style.users">
-      <UsersComponent v-for="chat in chats" :key="chat.friend.username" :chat="chat" />
+      <UserComponent v-for="chat in chats" :key="chat.friend.username" :chat="chat" />
     </ul>
   </main>
 </template>
 
 <script lang="ts">
 import axios from 'axios';
-import UsersComponent from '../components/Home/UsersComponent.vue';
+import UserComponent from '../components/Home/UserComponent.vue';
 import store from '../store';
 import FetchedChatrooms from '../interfaces/FetchedChatrooms';
 import Chats from '../interfaces/Chats'
@@ -21,7 +21,7 @@ import Chats from '../interfaces/Chats'
 export default {
   name: 'HomeView',
   components: {
-    UsersComponent,
+    UserComponent,
   },
   data() {
     return {
