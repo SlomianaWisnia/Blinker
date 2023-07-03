@@ -76,7 +76,6 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
           $group: {
             _id: "$_id",
             messages: { $push: "$messages" },
-            totalMessages: { $sum: 1 },
           },
         },
         {
@@ -84,9 +83,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
             messages: { $slice: ["$messages", 0, parseInt(limit)] },
             reachedMax: {
               $cond: {
-                if: {
-                  $gte: ["$totalMessages", parseInt(start) + parseInt(limit) + 1],
-                },
+                if: { $gte: [{ $size: "$messages" }, parseInt(limit) + 1] },
                 then: false,
                 else: true,
               },
