@@ -9,6 +9,7 @@ import AuthLayout from '../layouts/AuthLayout.vue';
 import SettingsLayout from '../layouts/SettingsLayout.vue';
 import SettingsView from '../views/settings/SettingsView.vue';
 import ChatView from '../views/ChatView.vue';
+import ChatLayout from '../layouts/ChatLayout.vue';
 
 let isAuthorized = false;
 
@@ -32,7 +33,7 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: '/chat',
-		component: HomeLayout,
+		component: ChatLayout,
 		meta: { requireAuth: true },
 		children: [
 			{
