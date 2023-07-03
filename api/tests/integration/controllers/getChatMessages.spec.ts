@@ -39,8 +39,9 @@ describe('GET /api/messages/:id/:start/:limit', () => {
     });
     for (let i = 0; i <= 4; i++) {
       chatRoom2.messages.push({
+        // @ts-ignore
         from: user1Id,
-        message: i
+        message: `${i}`
       });
     }
     await chatRoom2.save();
