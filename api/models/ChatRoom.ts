@@ -17,7 +17,7 @@ const messageSchema = new mongoose.Schema({
     maxLength: 512,
     description: 'Text message without media'
   },
-  created: {
+  createdAt: {
     type: Date,
     default: Date.now,
     required: true
@@ -39,12 +39,7 @@ const roomSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
-  messages: [messageSchema],
-  created: {
-    type: Date,
-    default: Date.now,
-    required: true
-  }
+  messages: [messageSchema]
 });
 
 export default mongoose.model('ChatRoom', roomSchema);
