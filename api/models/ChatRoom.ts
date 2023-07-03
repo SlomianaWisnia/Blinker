@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import Message from '../interfaces/models/Message';
+import ChatRoom from '../interfaces/models/ChatRoom';
 
-const messageSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema<Message>({
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -34,7 +36,7 @@ messageSchema.path('source').validate(
   'Source is required and allowed only when message is not set!'
 );
 
-const roomSchema = new mongoose.Schema({
+const roomSchema = new mongoose.Schema<ChatRoom>({
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
