@@ -17,6 +17,7 @@ describe('POST /api/auth', () => {
     const user = new User({
       username: 'Test1',
       email: 'a@vp.pl',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     await user.save();
@@ -24,6 +25,7 @@ describe('POST /api/auth', () => {
     const user2 = new User({
       username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
       email: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@vp.pl',
+      avatarHex: '#000000',
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SOwbBalfOY6mEuR0DKmnnI2fep56.kthS' // 70 x 'a' password
     });
     await user2.save();

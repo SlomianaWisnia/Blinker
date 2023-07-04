@@ -31,6 +31,15 @@
  *                properties:
  *                  msg:
  *                    type: string
+ *        500:
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  msg:
+ *                    type: string
  *        200:
  *          description: Successfully verified cookie and returned user data
  *          content:
@@ -65,6 +74,12 @@
  *                                 maxLength: 128
  *                                 example: 64830300d29f75fd600c4436.jpg
  *                                 description: Path for member's avatar
+ *                               avatarHex:
+ *                                 type: string
+ *                                 length: 7
+ *                                 example: '#333333'
+ *                                 description: Member's random hex color for the default avatar
+ *                                 required: true
  *                           description: Array of Chat members
  *                           required: true
  *                         messages:
@@ -90,6 +105,12 @@
  *                                     maxLength: 128
  *                                     example: 64830300d29f75fd600c4436.jpg
  *                                     description: Path for senders's avatar
+ *                                   avatarHex:
+ *                                     type: string
+ *                                     length: 7
+ *                                     example: '#333333'
+ *                                     description: Sender's random hex color for the default avatar
+ *                                     required: true
  *                               source:
  *                                 type: string
  *                                 minLength: 5
@@ -108,8 +129,9 @@
  *                           example:
  *                             _id: 64830300d29f75fd600c4436
  *                             from: {
- *                               username: Test1,
- *                               avatar: 64830300d29f75fd600c4436.jpg
+ *                               username: 'Test1',
+ *                               avatar: '64830300d29f75fd600c4436.jpg',
+ *                               avatarHex: '#333333',
  *                             }
  *                             message: Hello World!
  *                             created: 2023-06-22T14:47:51.630Z

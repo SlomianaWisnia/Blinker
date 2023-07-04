@@ -35,6 +35,15 @@
  *                properties:
  *                  msg:
  *                    type: string
+ *        500:
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  msg:
+ *                    type: string
  *        200:
  *          description: Successfully logged in (connect.sid cookie has been set properly)
  *          content:

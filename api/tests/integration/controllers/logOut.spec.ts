@@ -2,14 +2,14 @@ import request from 'supertest';
 import server from '../../../index';
 import User from '../../../models/User';
 
-describe('Authorization Middleware', () => {
+describe('POST /api/logout', () => {
   const clearDB = async () => await User.deleteMany({});
 
   beforeAll(() => clearDB());
 
   const exec = async (cookie: string) => {
     return request(server)
-      .post('/api/auth-verify')
+      .post('/api/logout')
       .set('Cookie', cookie)
       .send();
   };
@@ -30,26 +30,21 @@ describe('Authorization Middleware', () => {
     await server.close();
   });
 
-  it('should return 401 if there is no connect.sid cookie', async () => {
+  it('should return 400 if there is no connect.sid cookie', async () => {
     const res = await exec('');
-    expect(res.status).toBe(401);
+    expect(res.status).toBe(400);
   });
-  it('should return 401 if there is a connect.sid cookie with invalid token', async () => {
-    const res = await exec('connect.sid=A; Path=/; Expires=Wed, 21 Jun 2023 23:19:23 GMT; HttpOnly');
-    expect(res.status).toBe(401);
-  });
-  it('should return 401 if there is a connect.sid cookie with expired token', async () => {
-    const res = await exec('connect.sid=s%3AGsiEJUCGLAK5TrNwfvFlMWZnsVQIVl4B.1J%2F5P8kn0sk%2BYZWZeMTqziDHo2xLf%2Fbe5HV2dMGeSWU;Domain=127.0.0.1; Path=/; Expires=Thu, 08 Jun 2023 18:23:59 GMT; HttpOnly; SameSite=None');
-    expect(res.status).toBe(401);
-  });
-  it('should return 200 if user has a valid connect.sid cookie with session', async () => {
+  it('should return 200 and log out user if there is a connect.sid cookie', async () => {
     const tokenRes = await request(server).post('/api/auth').send({
       username: 'Test1',
       password: '12345678'
     });
-
     const token = tokenRes.headers['set-cookie'][0];
     const res = await exec(token);
+
+    const verifyRes = await request(server).post('/api/auth').set('Cookie', token).send();
+
     expect(res.status).toBe(200);
+    expect(verifyRes.status).not.toBe(200);
   });
 });

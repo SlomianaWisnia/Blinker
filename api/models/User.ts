@@ -1,6 +1,7 @@
+import User from '../interfaces/models/User';
 import mongoose from 'mongoose';
 
-const schema = new mongoose.Schema({
+const schema = new mongoose.Schema<User>({
   username: {
     type: String,
     minlength: 5,
@@ -17,6 +18,11 @@ const schema = new mongoose.Schema({
     type: String,
     minlength: 5,
     maxlength: 128
+  },
+  avatarHex: {
+    type: String,
+    length: 7,
+    required: true
   },
   password: {
     type: String,

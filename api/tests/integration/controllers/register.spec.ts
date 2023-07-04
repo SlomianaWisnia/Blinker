@@ -47,6 +47,7 @@ describe('POST /api/register', () => {
 
     expect(result.username).toEqual(username);
     expect(result.email).toEqual(email);
+    expect(result.avatarHex).toBeDefined();
     
     const validatePassword = await bcrypt.compare(password, result.password);
     expect(validatePassword).toBeTruthy();

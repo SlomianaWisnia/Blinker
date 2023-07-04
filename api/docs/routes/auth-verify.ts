@@ -32,6 +32,15 @@
  *                properties:
  *                  msg:
  *                    type: string
+ *        500:
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  msg:
+ *                    type: string
  *        200:
  *          description: Successfully verified cookie and returned user data
  *          content:
@@ -60,6 +69,12 @@
  *                             type: string
  *                             description: Logged user's path for avatar
  *                             example: 6480a22330db01f182b4646f.png
+ *                           avatarHex:
+ *                             type: string
+ *                             length: 7
+ *                             description: Random hex color for User's default avatar
+ *                             example: '#c1c1c1'
+ *                             required: true
  *                       friends:
  *                         type: array
  *                         items:
@@ -73,4 +88,10 @@
  *                               type: string
  *                               description: Friend's path for avatar
  *                               example: 64830300d29f75fd600c4436.jpg
+ *                             avatarHex:
+ *                               type: string
+ *                               length: 7
+ *                               description: Friend's random hex color for the default avatar
+ *                               example: '#efeefe'
+ *                               required: true
  */

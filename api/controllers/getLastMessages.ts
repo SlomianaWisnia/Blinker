@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', async (req:RequestSession, res:Response) => {
   try {
     const { userId } = req.session;
-    const result = await ChatRoom.find({ members: userId }).select('members messages').slice('messages', -1).populate('members messages.from', '-_id username avatar');
+    const result = await ChatRoom.find({ members: userId }).select('members messages').slice('messages', -1).populate('members messages.from', '-_id username avatar avatarHex');
     return res.json({ chats: [...result] });
   } catch (ex) {
     log.error({ label: 'Get Last Messages', message: ex });

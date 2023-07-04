@@ -10,7 +10,9 @@ import auth from './routes/auth';
 import authorization from './middleware/auth';
 import register from './routes/register';
 import getLastMessages from './routes/getLastMessages';
+import getChatMessages from './routes/getChatMessages';
 import authVerify from './routes/auth-verify';
+import logOut from './routes/logOut';
 import log from './utils/log';
 
 dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
@@ -44,7 +46,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api/auth', auth);
 app.use('/api/register', register);
 app.use('/api/get-last-messages', [authorization, getLastMessages]);
+app.use('/api/messages', [authorization, getChatMessages]);
 app.use('/api/auth-verify', [authorization, authVerify]);
+app.use('/api/logout', logOut);
 
 const port = process.env.PORT || 3001;
 const server = app.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
