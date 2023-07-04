@@ -1,7 +1,7 @@
 <template>
   <li :class="$style.friend">
-    <p v-if="chat.friend.avatar" :class="$style.avatar">{{ chat.friend.username.charAt(0).toUpperCase() }}</p>
-    <img v-if="chat.friend.avatar" :src="chat.friend.avatar" alt="">
+    <UserAvatar :avatarExists="chat.friend.avatar" :usernameLetter="chat.friend.username.charAt(0).toUpperCase()"
+      avatarSrc="source" />
     <div @click="goToChat()" :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ chat.last_message.message }}</p>
@@ -11,10 +11,14 @@
 </template>
 
 <script lang="ts">
-import getMessageDate from '../../helpers/getMessageDate'
+import getMessageDate from '../../helpers/getMessageDate';
+import UserAvatar from '../UserAvatar.vue';
 
 export default {
   name: 'UsersComponent',
+  components: {
+    UserAvatar,
+  },
   props: {
     chat: {
       type: Object,
@@ -23,13 +27,13 @@ export default {
   },
   methods: {
     getDate() {
-      return getMessageDate(this.chat.last_message.created)
+      return getMessageDate(this.chat.last_message.created);
     },
     goToChat() {
-      this.$router.push(`/chat/${this.chat.id}`)
-    }
+      this.$router.push(`/chat/${this.chat.id}`);
+    },
   },
-}
+};
 </script>
 
 <style module lang="scss">
@@ -38,17 +42,6 @@ export default {
   justify-content: center;
   gap: 0.5rem;
   color: $txt-color-primary;
-
-  .avatar {
-    @include flex-center;
-    font-size: 1.2rem;
-    width: 2.2rem;
-    height: 2.2rem;
-    border-radius: 50%;
-    background-color: grey;
-    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-    width: 10%;
-  }
 
   .info {
     width: 70%;
