@@ -30,6 +30,9 @@ export default {
   padding: 1.6rem 1.5rem;
   justify-content: flex-start;
   gap: 1rem;
+  background-color: $bg-color-secondary;
+  position: fixed;
+  width: 100%;
 
   a {
     font-size: 0;
