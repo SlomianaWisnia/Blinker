@@ -124,9 +124,25 @@ describe('GET /api/messages/:id/:start/:limit', () => {
     expect(response.status).toBe(400);
   });
   
+  it('should return 400 if the start parameter is less than 0', async () => {
+    const response = await request(server)
+      .get(`/api/messages/${chatRoomId}/-1/10`)
+      .set('Cookie', sessionCookie);
+
+    expect(response.status).toBe(400);
+  });
+  
   it('should return 400 if the limit parameter is invalid', async () => {
     const response = await request(server)
       .get(`/api/messages/${chatRoomId}/0/a`)
+      .set('Cookie', sessionCookie);
+
+    expect(response.status).toBe(400);
+  });
+  
+  it('should return 400 if the limit parameter is less than 1', async () => {
+    const response = await request(server)
+      .get(`/api/messages/${chatRoomId}/0/0`)
       .set('Cookie', sessionCookie);
 
     expect(response.status).toBe(400);

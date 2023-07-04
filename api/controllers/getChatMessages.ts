@@ -19,7 +19,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
       if (!await ChatRoom.exists({ _id: id, members: userId }))
         return res.status(400).json({ msg: 'Invalid Chat Room ID!' });
 
-      if (!(+start >= 0) || !(+limit >= 0))
+      if (!(+start >= 0) || !(+limit > 0))
         return res.status(400).json({ msg: 'Invalid parameters!' });
 
       const result = await ChatRoom.aggregate([
@@ -105,7 +105,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
             },
           },
         },
-      ]);      
+      ]);     
         
       const { messages, reachedMax } = result[0];
       if (!messages[0].from)
