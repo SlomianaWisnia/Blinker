@@ -1,8 +1,8 @@
 <template>
-  <p v-if="!avatarExists || !imgIsValid" :class="$style.avatar">
+  <p v-if="!avatar || !imgIsValid" :class="$style.avatar">
     {{ usernameLetter }}
   </p>
-  <img @error="imgErrorHandler" v-if="avatarExists && imgIsValid" :src="avatarSrc" alt="" />
+  <img @error="imgErrorHandler" v-if="avatar && imgIsValid" :src="avatar" alt="" />
 </template>
 
 <script lang="ts">
@@ -14,15 +14,11 @@ export default {
     };
   },
   props: {
-    avatarExists: {
+    avatar: {
       type: String,
       required: true,
     },
     usernameLetter: {
-      type: String,
-      required: true,
-    },
-    avatarSrc: {
       type: String,
       required: true,
     },
