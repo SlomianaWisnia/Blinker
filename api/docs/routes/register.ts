@@ -45,6 +45,15 @@
  *                properties:
  *                  msg:
  *                    type: string
+ *        500:
+ *          description: Internal server error
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: object
+ *                properties:
+ *                  msg:
+ *                    type: string
  *        200:
  *          description: Successfully registered (user has been saved in the database and connect.sid cookie has been set properly)
  *          content:

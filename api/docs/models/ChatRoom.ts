@@ -39,7 +39,7 @@
  *                minLength: 1
  *                maxLength: 512
  *                description: Text message (required and allowed only when `source` is not set)
- *              created:
+ *              createdAt:
  *                type: string
  *                format: date-time
  *                description: Date of message sending 
@@ -47,5 +47,5 @@
  *      example:
  *        _id: 649424a8f3ca6c564f58c857
  *        members: ['64830309d29f75fd600c443a', '64830300d29f75fd600c4436']
- *        messages: [{ from: '64830309d29f75fd600c443a', message: 'Hello World!', created: '2023-06-22T10:45:50.315Z' }]
+ *        messages: [{ from: '64830309d29f75fd600c443a', message: 'Hello World!', createdAt: '2023-06-22T10:45:50.315Z' }]
  */

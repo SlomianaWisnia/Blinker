@@ -80,8 +80,8 @@ describe('GET /api/get-last-messages', () => {
   });
 
   afterEach(() => clearDB());
-  afterAll(async () => {
-    await server.close();
+  afterAll(() => {
+    server.close();
   });
 
   it('should return 401 if there is no connect.sid cookie', async () => {
@@ -122,7 +122,8 @@ describe('GET /api/get-last-messages', () => {
       avatar: users[0].avatar
     });
     expect(res.body.chats[0].messages[0]).toHaveProperty('_id');
-    expect(res.body.chats[0].messages[0]).toHaveProperty('created');
+    expect(res.body.chats[0].messages[0]).toHaveProperty('createdAt');
+    expect(res.body.chats[0].messages[0].from).toHaveProperty('avatarHex');
     expect(res.body.chats[0].messages[0]).toMatchObject({
       from: {
         username: users[0].username,
@@ -142,12 +143,13 @@ describe('GET /api/get-last-messages', () => {
 
     const users = await User.find({ _id: id }).select('username avatar avatarHex');
     expect(res.body.chats[1]).toHaveProperty('_id');
+    expect(res.body.chats[1].members[0]).toHaveProperty('avatarHex');
     expect(res.body.chats[1].members[0]).toMatchObject({
       username: users[0].username,
       avatar: users[0].avatar
     });
     expect(res.body.chats[1].messages[0]).toHaveProperty('_id');
-    expect(res.body.chats[1].messages[0]).toHaveProperty('created');
+    expect(res.body.chats[1].messages[0]).toHaveProperty('createdAt');
     expect(res.body.chats[1].messages[0]).toMatchObject({
       from: {
         username: users[0].username,
@@ -167,6 +169,7 @@ describe('GET /api/get-last-messages', () => {
 
     const users = await User.find({ _id: id }).select('username avatar avatarHex');
     expect(res.body.chats[2]).toHaveProperty('_id');
+    expect(res.body.chats[2].members[0]).toHaveProperty('avatarHex');
     expect(res.body.chats[2].members[0]).toMatchObject({
       username: users[0].username,
       avatar: users[0].avatar

@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import Message from '../interfaces/models/Message';
+import ChatRoom from '../interfaces/models/ChatRoom';
 
-const messageSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema<Message>({
   from: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -17,7 +19,7 @@ const messageSchema = new mongoose.Schema({
     maxLength: 512,
     description: 'Text message without media'
   },
-  created: {
+  createdAt: {
     type: Date,
     default: Date.now,
     required: true
@@ -34,17 +36,12 @@ messageSchema.path('source').validate(
   'Source is required and allowed only when message is not set!'
 );
 
-const roomSchema = new mongoose.Schema({
+const roomSchema = new mongoose.Schema<ChatRoom>({
   members: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
   }],
-  messages: [messageSchema],
-  created: {
-    type: Date,
-    default: Date.now,
-    required: true
-  }
+  messages: [messageSchema]
 });
 
 export default mongoose.model('ChatRoom', roomSchema);
