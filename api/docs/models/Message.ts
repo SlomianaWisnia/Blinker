@@ -19,9 +19,13 @@
  *               required: true
  *         source:
  *           type: string
+ *           minLength: 5
+ *           maxLength: 128
  *           description: Path for message media (required and allowed only when `message` is not set)
  *         message:
  *           type: string
+ *           minLength: 1
+ *           maxLength: 512
  *           description: Message content (required and allowed only when `source` is not set)
  *         createdAt:
  *           type: string
