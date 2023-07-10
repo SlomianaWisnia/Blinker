@@ -16,7 +16,7 @@ export default {
   props: {
     avatar: {
       type: String,
-      required: true,
+      default: undefined,
     },
     usernameLetter: {
       type: String,
