@@ -3,7 +3,7 @@
     <UserAvatar :avatar="chat.friend.avatar" :usernameLetter="chat.friend.username.charAt(0).toUpperCase()" />
     <div @click="goToChat()" :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
-      <p>{{ chat.last_message.message }}</p>
+      <p>{{ checkMessageType }}</p>
     </div>
     <p @click="goToChat()" :class="$style.date">{{ getDate() }}</p>
   </li>
@@ -12,6 +12,7 @@
 <script lang="ts">
 import getMessageDate from '../../helpers/getMessageDate';
 import UserAvatar from '../UserAvatar.vue';
+import store from '../../store';
 
 export default {
   name: 'UsersComponent',
@@ -23,6 +24,15 @@ export default {
       type: Object,
       required: true,
     },
+  },
+  computed: {
+    checkMessageType() {
+      if (this.chat.last_message.hasOwnProperty('message')) {
+        return this.chat.last_message.message
+      } else {
+        return this.chat.last_message.from.username === store.state.user_info.user.username ? 'You sent a media file.' : 'Received a media file.'
+      }
+    }
   },
   methods: {
     getDate() {
