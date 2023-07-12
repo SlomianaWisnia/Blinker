@@ -20,30 +20,7 @@
  *        messages:
  *          type: array
  *          items:
- *            type: object
- *            required:
- *              - from
- *            properties:
- *              from:
- *                type: string
- *                description: ObjectId of the message sender
- *                example: 64830300d29f75fd600c4436
- *                required: true
- *              source:
- *                type: string
- *                minLength: 5
- *                maxLength: 128
- *                description: Path for message media (required and allowed only when `message` field is not set)
- *              message:
- *                type: string
- *                minLength: 1
- *                maxLength: 512
- *                description: Text message (required and allowed only when `source` is not set)
- *              createdAt:
- *                type: string
- *                format: date-time
- *                description: Date of message sending 
- *          description: Array of messages
+ *            $ref: '#/components/schemas/Message'
  *      example:
  *        _id: 649424a8f3ca6c564f58c857
  *        members: ['64830309d29f75fd600c443a', '64830300d29f75fd600c4436']
