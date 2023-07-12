@@ -5,15 +5,41 @@
       <h2>Test</h2>
       <p>email@gmail.com</p>
     </div>
+    <div :class="$style.chatMessages">
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+      <ChatMessage message="Testowa" />
+    </div>
   </main>
 </template>
 <script lang="ts">
 import UserAvatar from '../components/UserAvatar.vue';
+import ChatMessage from '../components/Chat/ChatMessage.vue'
+import axios from 'axios';
 
 export default {
   name: "ChatView",
   components: {
-    UserAvatar
+    UserAvatar,
+    ChatMessage
+  },
+  computed: {
+    chatId() {
+      return this.$route.params.chatId
+    }
+  },
+  methods: {
+    fetchLastMessages() {
+      axios.get(`/messages/${this.chatId}/1/15)`).then(res => console.log(res)).catch(err => console.log(err))
+    }
   }
 }
 </script>
@@ -44,7 +70,19 @@ export default {
     }
 
     p:nth-of-type(2) {
-      opacity: 0.7;
+      color: #dfeed8a8;
+    }
+
+  }
+
+  .chatMessages {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2rem;
+
+    p:last-of-type {
+      margin-bottom: 90px
     }
   }
 
