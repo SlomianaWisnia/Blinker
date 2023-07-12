@@ -87,19 +87,4 @@
  *               properties:
  *                 msg:
  *                   type: string
- * 
- * components:
- *   schemas:
- *     Message:
- *       type: object
- *       properties:
- *         from:
- *           $ref: '#/components/schemas/User'
- *         message:
- *           type: string
- *         source:
- *           type: string
- *         createdAt:
- *           type: string
- *           format: date-time
  */
