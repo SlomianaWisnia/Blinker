@@ -37,7 +37,7 @@ const routes: Array<RouteRecordRaw> = [
 		meta: { requireAuth: true },
 		children: [
 			{
-				path: '/chat/:userId',
+				path: '/chat/:chatId',
 				component: ChatView,
 			},
 		],
@@ -71,6 +71,9 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes,
+	scrollBehavior() {
+		return { top: 0 };
+	},
 });
 
 router.beforeEach((to, _from, next) => {
