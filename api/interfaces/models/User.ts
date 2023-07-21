@@ -7,5 +7,5 @@ export default interface User extends Document {
   avatar?: string;
   avatarHex: string;
   password: string;
-  friends: mongoose.Schema.Types.ObjectId[];
+  friends?: mongoose.Schema.Types.ObjectId[];
 };
