@@ -1,52 +1,48 @@
 <template>
   <main :class="$style.chatPage">
-    <div :class="$style.friendInfo">
-      <UserAvatar :avatar="'avatar'" :usernameLetter="'T'" />
-      <h2>Test</h2>
-      <p>email@gmail.com</p>
-    </div>
-    <div :class="$style.chatMessages">
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
-      <ChatMessage message="Testowa" />
+    <div :class="$style.chatMessages" ref="el">
+      <ChatMessage v-for="message in messages" :message="message.message" />
     </div>
   </main>
 </template>
-<script lang="ts">
-import UserAvatar from '../components/UserAvatar.vue';
+<script setup lang="ts">
 import ChatMessage from '../components/Chat/ChatMessage.vue'
 import axios from 'axios';
+import { AxiosResponse } from 'axios';
+import { ref, reactive, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
 
-export default {
-  name: "ChatView",
-  components: {
-    UserAvatar,
-    ChatMessage
-  },
-  computed: {
-    chatId() {
-      return this.$route.params.chatId
-    }
-  },
-  methods: {
-    fetchLastMessages() {
-      axios.get(`/messages/${this.chatId}/1/15)`).then(res => console.log(res)).catch(err => console.log(err))
-    }
-  }
+const AMOUNT_TO_FETCH = 10
+
+const route = useRoute()
+const chatId = route.params.chatId
+
+const messages = reactive([] as Array<AxiosResponse>)
+const messagesAmount = ref(AMOUNT_TO_FETCH)
+
+
+const fetchLastMessages = () => {
+  axios.get(`/messages/${chatId}/${messagesAmount.value - AMOUNT_TO_FETCH}/${messagesAmount.value}`).then(res => {
+    messages.unshift(...res.data.messages.reverse())
+  }).catch(err => console.log(err))
 }
+
+const handleInfiniteScroll = () => {
+  const isAtTopOfPage = window.scrollY <= 20;
+  if (isAtTopOfPage) {
+    messagesAmount.value += AMOUNT_TO_FETCH;
+  }
+};
+
+watchEffect(() => {
+  fetchLastMessages();
+});
+
+window.addEventListener("scroll", handleInfiniteScroll);
 </script>
 <style module lang="scss">
 .chatPage {
   background-color: $bg-color-primary;
-  min-height: 100vh;
   padding: 0.8rem;
   color: $txt-color-primary;
 
@@ -78,8 +74,11 @@ export default {
   .chatMessages {
     display: flex;
     flex-direction: column;
+    justify-content: flex-end;
     align-items: flex-end;
     gap: 2rem;
+    min-height: 100vh;
+    margin-top: 6rem;
 
     p:last-of-type {
       margin-bottom: 90px
