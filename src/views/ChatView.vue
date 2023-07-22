@@ -1,13 +1,15 @@
 <template>
   <main :class="$style.chatPage">
     <div :class="$style.chatMessages" ref="el">
-      <ChatMessage v-for="message in messages" :message="message.message" />
+      <ChatMessage v-for="message in messages" :message="message.message" :date="message.createdAt"
+        :class="$style[checkMessageSender(message)]" />
     </div>
   </main>
 </template>
 <script setup lang="ts">
 import ChatMessage from '../components/Chat/ChatMessage.vue'
 import axios from 'axios';
+import store from '../store';
 import { AxiosResponse } from 'axios';
 import { ref, reactive, watchEffect } from 'vue';
 import { useRoute } from 'vue-router';
@@ -39,6 +41,10 @@ const handleInfiniteScroll = () => {
 watchEffect(() => {
   fetchLastMessages();
 });
+
+const checkMessageSender = (message: any) => {
+  return message.from.username === store.state.user_info.user.username ? 'userMessage' : 'friendMessage'
+}
 
 window.addEventListener("scroll", handleInfiniteScroll);
 </script>
@@ -77,10 +83,17 @@ window.addEventListener("scroll", handleInfiniteScroll);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    align-items: flex-end;
     gap: 2rem;
     min-height: 100vh;
     margin: 6rem 0 4rem 0;
+
+    .userMessage {
+      align-self: flex-end;
+    }
+
+    .friendMessage {
+      align-self: flex-start;
+    }
   }
 }
 </style>
