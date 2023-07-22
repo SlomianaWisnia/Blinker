@@ -78,13 +78,7 @@ window.addEventListener("scroll", handleInfiniteScroll);
     align-items: flex-end;
     gap: 2rem;
     min-height: 100vh;
-    margin-top: 6rem;
-
-    p:last-of-type {
-      margin-bottom: 90px
-    }
+    margin: 6rem 0 4rem 0;
   }
-
-
 }
 </style>

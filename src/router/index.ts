@@ -38,6 +38,7 @@ const routes: Array<RouteRecordRaw> = [
 		children: [
 			{
 				path: '/chat/:chatId',
+				name: 'chat',
 				component: ChatView,
 			},
 		],
@@ -71,8 +72,14 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes,
-	scrollBehavior() {
-		return { top: 0 };
+	scrollBehavior(to) {
+		if (to.name === 'chat') {
+			return {
+				top: document.body.clientHeight,
+			};
+		} else {
+			return { top: 0 };
+		}
 	},
 });
 
