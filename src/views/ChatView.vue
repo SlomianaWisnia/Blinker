@@ -19,17 +19,19 @@ const chatId = route.params.chatId
 
 const messages = reactive([] as Array<AxiosResponse>)
 const messagesAmount = ref(AMOUNT_TO_FETCH)
+const reachedMax = ref(false)
 
 
 const fetchLastMessages = () => {
   axios.get(`/messages/${chatId}/${messagesAmount.value - AMOUNT_TO_FETCH}/${messagesAmount.value}`).then(res => {
     messages.unshift(...res.data.messages.reverse())
+    reachedMax.value = res.data.reachedMax
   }).catch(err => console.log(err))
 }
 
 const handleInfiniteScroll = () => {
   const isAtTopOfPage = window.scrollY <= 20;
-  if (isAtTopOfPage) {
+  if (isAtTopOfPage && !reachedMax.value) {
     messagesAmount.value += AMOUNT_TO_FETCH;
   }
 };
