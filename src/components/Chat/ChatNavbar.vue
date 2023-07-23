@@ -12,16 +12,11 @@
     </div>
   </nav>
 </template>
-<script lang="ts">
-import UserAvatar from '../UserAvatar.vue';
 
-export default {
-  name: "ChatNavbar",
-  components: {
-    UserAvatar
-  }
-}
+<script setup lang="ts">
+import UserAvatar from '../UserAvatar.vue';
 </script>
+
 <style module lang="scss">
 .chatNavbar {
   padding: 1.6rem 1.5rem;
