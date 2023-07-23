@@ -6,16 +6,16 @@
   <router-view />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'SettingsLayout',
-  computed: {
-    currentRouteName() {
-      let routeName = this.$route.name;
-      return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
-    }
-  },
-}
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+
+const currentRouteName = computed(() => {
+  let routeName = route.name as string;
+  return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
+});
 
 </script>
 
