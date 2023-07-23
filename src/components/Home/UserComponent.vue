@@ -1,6 +1,6 @@
 <template>
   <li :class="$style.friend" @click="goToChat()">
-    <UserAvatar :avatar="chat.friend.avatar" :usernameLetter="chat.friend.username.charAt(0).toUpperCase()" />
+    <UserAvatar :avatar="chat.friend.avatar" :usernameFirstLetter="chat.friend.username.charAt(0).toUpperCase()" />
     <div :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ lastMessageType }}</p>
@@ -12,12 +12,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
 import getMessageDate from '../../helpers/getMessageDate';
 import UserAvatar from '../UserAvatar.vue';
-import store from '../../store';
 import Chats from '../../interfaces/Chats';
 
 const router = useRouter()
+const store = useStore()
 
 const props = defineProps({
   chat: {
