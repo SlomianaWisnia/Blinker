@@ -25,10 +25,10 @@ export default {
   },
   computed: {
     usernameFirstLetter() {
-      return store.state.user_info.user.username.charAt(0).toUpperCase()
+      return store.state.loggedInUserData.user.username.charAt(0).toUpperCase()
     },
     userAvatar() {
-      return store.state.user_info.user.avatar
+      return store.state.loggedInUserData.user.avatar
     }
   },
 }

@@ -32,7 +32,7 @@ export default {
   methods: {
     getChatrooms() {
       axios.get('/get-last-messages').then((res) => {
-        const loggedInUsername = store.state.user_info.user.username;
+        const loggedInUsername = store.state.loggedInUserData.user.username;
         const chats: Array<FetchedChatrooms> = res.data.chats;
         chats.forEach(({ _id, messages, members }) => {
           const last_message = messages[0];
@@ -68,4 +68,4 @@ export default {
     margin-top: 1rem;
   }
 }
-</style>../interfaces/FetchedChatrooms
+</style>

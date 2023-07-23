@@ -2,23 +2,23 @@ import { createStore, Store } from 'vuex';
 import UserInfo from '../interfaces/UserInfo';
 
 interface RootState {
-	user_info: UserInfo | [];
+	loggedInUserData: UserInfo | [];
 }
 
 const store = createStore<RootState>({
 	state(): RootState {
 		return {
-			user_info: [],
+			loggedInUserData: [],
 		};
 	},
 	getters: {
 		dataIsDownloaded(state: RootState) {
-			return !!state.user_info;
+			return !!state.loggedInUserData;
 		},
 	},
 	mutations: {
 		addUserInfo(state: RootState, payload: UserInfo) {
-			state.user_info = payload;
+			state.loggedInUserData = payload;
 		},
 	},
 });
