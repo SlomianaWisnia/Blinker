@@ -2,7 +2,7 @@
   <nav>
     <div :class="$style.info">
       <router-link to="/settings">
-        <UserAvatar :avatar="userAvatar" :usernameLetter="usernameFirstLetter" />
+        <UserAvatar :avatar="userAvatar" :usernameFirstLetter="loggedInUsernameFirstLetter" />
       </router-link>
       <h1>Blinker</h1>
     </div>
@@ -14,24 +14,21 @@
   </nav>
 </template>
 
-<script lang="ts">
-import store from '../store';
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useStore } from 'vuex'
 import UserAvatar from './UserAvatar.vue';
 
-export default {
-  name: 'Navigation',
-  components: {
-    UserAvatar,
-  },
-  computed: {
-    usernameFirstLetter() {
-      return store.state.loggedInUserData.user.username.charAt(0).toUpperCase()
-    },
-    userAvatar() {
-      return store.state.loggedInUserData.user.avatar
-    }
-  },
-}
+const store = useStore()
+
+const userAvatar = computed(() => {
+  return store.state.loggedInUserData.user.avatar
+})
+
+const loggedInUsernameFirstLetter = computed(() => {
+  return store.state.loggedInUserData.user.username.charAt(0).toUpperCase()
+})
+
 </script>
 
 <style module lang="scss">
