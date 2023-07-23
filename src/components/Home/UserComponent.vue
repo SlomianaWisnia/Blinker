@@ -1,48 +1,45 @@
 <template>
-  <li :class="$style.friend">
+  <li :class="$style.friend" @click="goToChat()">
     <UserAvatar :avatar="chat.friend.avatar" :usernameLetter="chat.friend.username.charAt(0).toUpperCase()" />
-    <div @click="goToChat()" :class="$style.info">
+    <div :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
-      <p>{{ checkMessageType }}</p>
+      <p>{{ lastMessageType }}</p>
     </div>
-    <p @click="goToChat()" :class="$style.date">{{ getDate() }}</p>
+    <p :class="$style.date">{{ getMessageDate(props.chat.last_message.created) }}</p>
   </li>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRouter } from 'vue-router';
 import getMessageDate from '../../helpers/getMessageDate';
 import UserAvatar from '../UserAvatar.vue';
 import store from '../../store';
+import Chats from '../../interfaces/Chats';
 
-export default {
-  name: 'UsersComponent',
-  components: {
-    UserAvatar,
+const router = useRouter()
+
+const props = defineProps({
+  chat: {
+    type: Object as () => Chats,
+    required: true,
   },
-  props: {
-    chat: {
-      type: Object,
-      required: true,
-    },
-  },
-  computed: {
-    checkMessageType() {
-      if (this.chat.last_message.hasOwnProperty('message')) {
-        return this.chat.last_message.message
-      } else {
-        return this.chat.last_message.from.username === store.state.user_info.user.username ? 'You sent a media file.' : 'Received a media file.'
-      }
-    }
-  },
-  methods: {
-    getDate() {
-      return getMessageDate(this.chat.last_message.created);
-    },
-    goToChat() {
-      this.$router.push(`/chat/${this.chat.id}`);
-    },
-  },
-};
+})
+
+const lastMessageType = computed(() => {
+  const { last_message } = props.chat
+  const { loggedInUserData } = store.state
+
+  if (last_message.message) {
+    return last_message.message
+  } else {
+    return last_message.from.username === loggedInUserData.user.username ? 'You sent a media file.' : 'Received a media file.'
+  }
+})
+
+const goToChat = () => {
+  router.push(`/chat/${props.chat.id}`);
+}
 </script>
 
 <style module lang="scss">
