@@ -5,6 +5,6 @@ export default interface RequestSession extends Request {
     save: ping;
     destroy: ping;
     userId: string;
-    file: Express.Multer.File;
-  }
+  };
+  file?: Express.Multer.File;
 };
