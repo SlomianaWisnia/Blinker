@@ -1,47 +1,73 @@
 <template>
   <main :class="$style.settingsPage">
     <div :class="$style.profile">
-      <img v-if="user_info.avatar" :src="user_info.avatar" alt="">
-      <p :class="$style.defaultAvatar" v-if="!user_info.avatar">{{ user_info.username.charAt(0) }}</p>
-      <div :class="$style.profile_info">
-        <h3>{{ user_info.username }}</h3>
-        <p>{{ user_info.email }}</p>
+      <UserAvatar :avatar="loggedInUserInfo.avatar" :usernameFirstLetter="loggedInUserInfo.username.charAt(0)" />
+      <div :class="$style.profileInfo">
+        <h3>{{ loggedInUserInfo.username }}</h3>
+        <p>{{ loggedInUserInfo.email }}</p>
       </div>
     </div>
     <div :class="$style.settingsTabs">
-      <router-link to='/settings/general'><img src="../../assets/icons/settings/general.svg" alt="">
-        <p>General</p>
-      </router-link>
-      <router-link to="/settings/appearance"><img src="../../assets/icons/settings/appearance.svg" alt="">
-        <p>Appearance</p>
-      </router-link>
-      <router-link to="/settings/chats"><img src="../../assets/icons/footer/chat.svg" alt="">
-        <p>Chats</p>
-      </router-link>
-      <router-link to="/settings/calls"><img src="../../assets/icons/footer/call.svg" alt="">
-        <p>Calls</p>
-      </router-link>
-      <router-link to="/settings/notifications"><img src="../../assets/icons/settings/notifications.svg" alt="">
-        <p>Notifications</p>
-      </router-link>
-      <router-link to="/settings/privacy"><img src="../../assets/icons/settings/privacy.svg" alt="">
-        <p>Privacy</p>
+      <router-link v-for="tab in settingsTabs" :to="tab.to" :key="tab.to">
+        <img :src="tab.icon" :alt="tab.title">
+        <p>{{ tab.title }}</p>
       </router-link>
     </div>
   </main>
 </template>
-<script lang="ts">
-import store from '../../store';
-import User from '../../interfaces/User'
 
-export default {
-  computed: {
-    user_info(): User {
-      return store.state.user_info.user
-    }
-  }
-}
+<script setup lang="ts">
+import { useStore } from 'vuex';
+import { computed } from 'vue';
+import UserAvatar from '@/components/UserAvatar.vue';
+import generalIcon from '@/assets/icons/settings/general.svg';
+import appearanceIcon from '@/assets/icons/settings/appearance.svg';
+import chatIcon from '@/assets/icons/footer/chat.svg';
+import callIcon from '@/assets/icons/footer/call.svg';
+import notificationsIcon from '@/assets/icons/settings/notifications.svg';
+import privacyIcon from '@/assets/icons/settings/privacy.svg';
+
+const store = useStore()
+
+const settingsTabs = [
+  {
+    title: 'General',
+    to: '/settings/general',
+    icon: generalIcon
+  },
+  {
+    title: 'Appearance',
+    to: '/settings/appearance',
+    icon: appearanceIcon
+  },
+  {
+    title: 'Chats',
+    to: '/settings/chats',
+    icon: chatIcon
+  },
+  {
+    title: 'Calls',
+    to: '/settings/calls',
+    icon: callIcon
+  },
+  {
+    title: 'Notifications',
+    to: '/settings/notifications',
+    icon: notificationsIcon
+  },
+  {
+    title: 'Privacy',
+    to: '/settings/privacy',
+    icon: privacyIcon
+  },
+]
+
+
+const loggedInUserInfo = computed(() => {
+  return store.state.loggedInUserData.user
+})
 </script>
+
 <style module lang="scss">
 .settingsPage {
   display: flex;
@@ -57,26 +83,17 @@ export default {
     gap: 1rem;
     margin: 0.5rem 0 2.5rem 0;
 
-    h3 {
-      font-size: 1.4rem;
+    .profileInfo {
+      h3 {
+        font-size: 1.4rem;
+      }
+
+      p {
+        opacity: 0.7;
+        margin-top: 0.3rem
+      }
     }
 
-    p {
-      opacity: 0.7;
-      margin-top: 0.3rem
-    }
-
-    .defaultAvatar,
-    img {
-      @include flex-center;
-      font-size: 1.4rem;
-      width: 3rem;
-      height: 3rem;
-      border-radius: 50%;
-      background-color: #52796F;
-      box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
-      color: white;
-    }
   }
 
   .settingsTabs {
