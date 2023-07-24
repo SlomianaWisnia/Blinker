@@ -1,7 +1,13 @@
-import User from './User';
-import Friend from './Friend';
+interface Friend {
+	username: string;
+	avatar?: string;
+}
 
 export default interface UserInfo {
-	user: User;
+	user: {
+		avatar?: string;
+		username: string;
+		email: string;
+	};
 	friends: Array<Friend>;
 }

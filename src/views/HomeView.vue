@@ -15,7 +15,7 @@ import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import UserComponent from '@/components/Home/UserComponent.vue';
-import FetchedChatrooms from '@/interfaces/FetchedChatrooms';
+import FetchedChats from '@/interfaces/FetchedChats';
 import Chats from '@/interfaces/Chats'
 
 const chats = ref([] as Array<Chats>)
@@ -25,7 +25,7 @@ const store = useStore()
 const getChatrooms = () => {
   axios.get('/get-last-messages').then((res) => {
     const loggedInUserUsername = store.state.loggedInUserData.user.username;
-    const fetchedChats: Array<FetchedChatrooms> = res.data.chats;
+    const fetchedChats: Array<FetchedChats> = res.data.chats;
 
     fetchedChats.forEach(({ _id, messages, members }) => {
       const last_message = messages[0];
@@ -59,4 +59,4 @@ onMounted(() => getChatrooms())
     margin-top: 1rem;
   }
 }
-</style>
+</style>@interfaces/FetchedChats
