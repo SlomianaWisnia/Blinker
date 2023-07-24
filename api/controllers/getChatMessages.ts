@@ -110,10 +110,10 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
       ]);     
         
       const decryptedMessagesPromises = result[0].messages.map(async (message:Message) => {
-        return {
+        return message.message ? {
           ...message,
-          message: message.message ? await decrypt(message.message) : '',
-        };
+          message: await decrypt(message.message)
+        } : { ...message };
       });
       const decryptedMessages = await Promise.all(decryptedMessagesPromises);
   

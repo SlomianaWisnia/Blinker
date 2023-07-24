@@ -2,7 +2,7 @@ import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import log from '../utils/log';
 import ChatRoom from '../models/ChatRoom';
-import { decrypt } from '../services/encrypt';
+import { encrypt, decrypt } from '../services/encrypt';
 const router = Router();
 
 router.get('/', async (req:RequestSession, res:Response) => {
@@ -12,10 +12,10 @@ router.get('/', async (req:RequestSession, res:Response) => {
     const decryptedResult = result.map((room) => {
     const decryptedMessages = room.messages.map((message) => {
       const decryptedContent = message.message ? decrypt(message.message) : '';
-        return {
+        return decryptedContent ? {
           ...message.toObject(),
           message: decryptedContent,
-        };
+        } : { ...message.toObject() };
       });
       return {
         chats: {
