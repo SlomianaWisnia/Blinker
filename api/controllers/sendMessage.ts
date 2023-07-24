@@ -5,6 +5,7 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
+import { encrypt } from '../services/encrypt';
 const router = Router();
 
 router.put('/:id', async (req:RequestSession, res:Response) => {
@@ -79,7 +80,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
 
         const messageBody = {
           from: userId,
-          message
+          message: encrypt(message)
         };
 
         await ChatRoom.updateOne({ _id: id }, {
