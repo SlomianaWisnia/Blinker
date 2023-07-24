@@ -6,10 +6,7 @@
   </main>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'PageNotFound'
-}
+<script setup lang="ts">
 </script>
 
 <style module lang="scss">
