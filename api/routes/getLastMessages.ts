@@ -3,6 +3,6 @@ import getLastMessagesController from '../controllers/getLastMessages';
 
 const router = Router();
 
-router.get('/:id', getLastMessagesController);
+router.get('/', getLastMessagesController);
 
 export default router;
