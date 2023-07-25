@@ -5,6 +5,7 @@
 			"@*": ["src/*"],
 			"@configs/*": ["src/config/*"]
 		},
+		"forceConsistentCasingInFileNames": false,
 		"target": "ES2020",
 		"useDefineForClassFields": true,
 		"module": "ESNext",
