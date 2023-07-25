@@ -16,9 +16,10 @@
             length: 'Password has to be at least 8 characters long.'
           }
             " />
-        <img src="../../assets/icons/forms/visible.svg" v-if="passwordIsVisible" @click="switchPasswordVisiblity" alt="">
-        <img src="../../assets/icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="switchPasswordVisiblity"
-          alt="">
+        <img src="@/assets/icons/forms/visible.svg" v-if="passwordIsVisible" @click="switchPasswordVisiblity"
+          alt="Icon to hide the password">
+        <img src="@/assets/icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="switchPasswordVisiblity"
+          alt="Icon to show the password">
       </div>
       <FormKit type="submit" class="btn" outer-class="submit">Log in</FormKit>
     </FormKit>
@@ -31,7 +32,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { FormKit } from '@formkit/vue';
-import LoginData from '../../interfaces/LoginData'
+import LoginData from '@/interfaces/LoginData'
 
 const router = useRouter()
 
@@ -54,5 +55,7 @@ const switchPasswordVisiblity = () => {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@import '@/assets/scss/forms.scss';
+</style>
 

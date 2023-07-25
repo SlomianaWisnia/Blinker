@@ -21,9 +21,10 @@
             length: 'Password has to be at least 8 characters long.'
           }
             " />
-        <img src="../../assets//icons/forms/visible.svg" v-if="passwordIsVisible" @click="switchPasswordVisiblity" alt="">
-        <img src="../../assets//icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="switchPasswordVisiblity"
-          alt="">
+        <img src="@/assets/icons/forms/visible.svg" v-if="passwordIsVisible" @click="switchPasswordVisiblity"
+          alt="Icon to hide the password">
+        <img src="@/assets/icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="switchPasswordVisiblity"
+          alt="Icon to show the password">
       </div>
       <FormKit :type="passwordIsVisible ? 'text' : 'password'" name="confirmedPassword"
         validation="required|confirm:password" outer-class="input" label="Confirm Password" :validation-messages="{
@@ -42,7 +43,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { FormKit } from '@formkit/vue';
-import RegisterData from '../../interfaces/RegisterData';
+import RegisterData from '@/interfaces/RegisterData';
 
 const router = useRouter()
 
@@ -65,6 +66,6 @@ const switchPasswordVisiblity = () => {
   passwordIsVisible.value = !passwordIsVisible.value
 }
 </script>
-<style lang="">
-  
+<style lang="scss">
+@import '@/assets/scss/forms.scss';
 </style>
