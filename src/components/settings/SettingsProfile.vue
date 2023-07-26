@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { useStore } from 'vuex';
 import { computed } from 'vue';
-import UserAvatar from '@/components/UserAvatar.vue';
+import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
 const store = useStore()
 

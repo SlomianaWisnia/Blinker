@@ -1,20 +1,20 @@
 <template>
   <nav :class="$style.chatNavbar">
-    <router-link to="/"><img src="../../assets/icons/navigation/arrow_back.svg" alt="" /></router-link>
+    <router-link to="/"><img src="@/assets/icons/navigation/arrow_back.svg" alt="" /></router-link>
     <div :class="$style.info">
       <UserAvatar :avatar="'avatar'" :usernameFirstLetter="'T'" />
       <h4>Test</h4>
     </div>
     <div :class="$style.controls">
-      <img src="../../assets/icons/navigation/videocall.svg" alt="">
-      <img src="../../assets/icons/footer/call.svg" alt="">
-      <img src="../../assets/icons/navigation/more.svg" alt="">
+      <img src="@/assets/icons/navigation/videocall.svg" alt="">
+      <img src="@/assets/icons/footer/call.svg" alt="">
+      <img src="@/assets/icons/navigation/more.svg" alt="">
     </div>
   </nav>
 </template>
 
 <script setup lang="ts">
-import UserAvatar from '../UserAvatar.vue';
+import UserAvatar from '@/components/reusable/UserAvatar.vue';
 </script>
 
 <style module lang="scss">

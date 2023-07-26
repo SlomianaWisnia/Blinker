@@ -1,10 +1,10 @@
 <template>
-  <Navigation />
+  <TopNavigation />
   <router-view />
-  <Footer />
+  <BottomNavigation />
 </template>
 <script setup lang="ts">
-import Navigation from '../components/Navigation.vue';
-import Footer from '../components/Footer.vue';
+import TopNavigation from '@/components/home/TopNavigation.vue';
+import BottomNavigation from '@/components/home/BottomNavigation.vue';
 </script>
 <style module lang="scss"></style>

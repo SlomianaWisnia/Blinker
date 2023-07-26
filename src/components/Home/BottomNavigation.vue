@@ -3,19 +3,19 @@
   <footer>
     <router-link :to="{ path: '/' }" exact>
       <div :class="currentRoutePath === '/' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/chat.svg" alt="">
+        <img src="@/assets/icons/footer/chat.svg" alt="">
         <p>Chats</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/calls' }" exact>
       <div :class="currentRoutePath === '/calls' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/call.svg" alt="">
+        <img src="@/assets/icons/footer/call.svg" alt="">
         <p>Calls</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/stories' }" exact>
       <div :class="currentRoutePath === '/stories' ? [$style.item, $style.active] : $style.item">
-        <img src="../assets/icons/footer/stories.svg" alt="">
+        <img src="@/assets/icons/footer/stories.svg" alt="">
         <p>Stories</p>
       </div>
     </router-link>

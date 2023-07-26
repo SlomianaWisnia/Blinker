@@ -13,9 +13,9 @@
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
-import getMessageDate from '../../helpers/getMessageDate';
-import UserAvatar from '../UserAvatar.vue';
-import Chats from '../../interfaces/Chats';
+import getMessageDate from '@/helpers/getMessageDate';
+import UserAvatar from '@/components/reusable/UserAvatar.vue';
+import Chats from '@/interfaces/Chats';
 
 const router = useRouter()
 const store = useStore()
