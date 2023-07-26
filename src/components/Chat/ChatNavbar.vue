@@ -24,7 +24,9 @@ import UserAvatar from '../UserAvatar.vue';
   gap: 1rem;
   background-color: $bg-color-secondary;
   position: fixed;
+  top: 0;
   width: 100%;
+  z-index: 1000;
 
   a {
     font-size: 0;
