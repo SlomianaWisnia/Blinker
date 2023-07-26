@@ -1,11 +1,11 @@
 <template>
   <main>
-    <UsersList />
+    <ChatsList />
   </main>
 </template>
 
 <script setup lang="ts">
-import UsersList from '@/components/home/UsersList.vue';
+import ChatsList from '@/components/home/ChatsList.vue';
 </script>
 
 <style lang="scss"></style>

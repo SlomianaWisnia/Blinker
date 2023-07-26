@@ -1,6 +1,6 @@
 <template>
   <NoChats v-if="!chats" />
-  <ul v-else :class="$style.usersList">
+  <ul v-else :class="$style.chatsList">
     <UserComponent v-for="chat in chats" :key="chat.friend.username" :chat="chat" />
   </ul>
 </template>
@@ -35,7 +35,7 @@ onMounted(() => getChatrooms())
 
 </script>
 <style module lang="scss">
-.usersList {
+.chatsList {
   display: flex;
   flex-direction: column;
   padding: 1rem;
