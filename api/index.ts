@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import session from 'express-session';
 import MongoDBStore from 'connect-mongo';
+import { Schema } from 'mongoose';
 import authorizationSocket from './middleware/socket/auth';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
@@ -86,10 +87,10 @@ app.use('/api/send-message', [authorization, sendMessage]);
 app.use('/api/auth-verify', [authorization, authVerify]);
 app.use('/api/logout', logOut);
 
-io.on('connection', async (socket:any) => {
+io.on('connection', async (socket:Socket & { request: { session: { userId: string } } }) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
-  chatrooms.forEach(c => {
-    socket.join(`${c._id}`);
+  chatrooms.forEach((room:{ _id: Schema.Types.ObjectId }) => {
+    socket.join(`${room._id}`);
   });
 });
 
