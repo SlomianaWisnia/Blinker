@@ -89,7 +89,7 @@ app.use('/api/logout', logOut);
 io.on('connection', async (socket:any) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
   chatrooms.forEach(c => {
-    socket.join(c._id);
+    socket.join(`${c._id}`);
   });
 });
 
