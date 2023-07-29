@@ -96,4 +96,4 @@ io.on('connection', async (socket:any) => {
 const port = process.env.PORT || 3001;
 
 const server = httpServer.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
-export { store, server, io };
+export { server, io };
