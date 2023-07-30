@@ -11,36 +11,36 @@
       <img src="../../assets/icons/chats/camera.svg" alt="">
       <img src="../../assets/icons/chats/voice_message.svg" alt="">
     </div>
-    <img src="../../assets/icons/chats/send.svg" class="sendIcon" alt="" @click="submitForm">
+    <img src="../../assets/icons/chats/send.svg" class="sendIcon" alt="" @click="submitForm('messageForm')">
   </div>
 </template>
-<script lang="ts">
+
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { reset, submitForm } from '@formkit/vue';
 
-export default {
-  name: 'chatMessageInput',
-  computed: {
-    chatroomId() {
-      return this.$route.params.chatId
-    }
-  },
-  methods: {
-    submitForm() {
-      submitForm('messageForm')
-    },
-    sendMessage(data: any,) {
-      axios.put(`/send-message/${this.chatroomId}`, {
-        message: data.message
-      }).then(res => {
-        console.log(res)
-        reset('messageForm')
-      }
-      )
-    }
-  }
+
+interface MessageData {
+  message: string;
+}
+
+const route = useRoute()
+
+const currentChatId = computed(() => {
+  return route.params.chatId
+})
+
+const sendMessage = (data: MessageData) => {
+  axios.put(`/send-message/${currentChatId}`, {
+    message: data.message
+  }).then(() => {
+    reset('messageForm');
+  });
 }
 </script>
+
 <style lang="scss">
 .chatMessageInput {
   background-color: $bg-color-primary;
@@ -59,8 +59,6 @@ export default {
     background-color: $bg-color-secondary;
     border-radius: 1.25rem;
     padding: 0.1rem 0.7rem;
-
-
   }
 
   img {

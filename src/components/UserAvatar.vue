@@ -1,34 +1,28 @@
 <template>
-  <p v-if="!avatar || !imgIsValid" :class="$style.avatar">
-    {{ usernameLetter }}
+  <p v-if="!props.avatar || !isImgValid" :class="$style.avatar">
+    {{ usernameFirstLetter }}
   </p>
-  <img @error="imgErrorHandler" v-if="avatar && imgIsValid" :src="avatar" alt="" />
+  <img @error="imgErrorHandler" v-if="props.avatar && isImgValid" :src="props.avatar" alt="" />
 </template>
 
-<script lang="ts">
-export default {
-  name: 'UserAvatar',
-  data() {
-    return {
-      imgIsValid: true,
-    };
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const isImgValid = ref(true)
+const props = defineProps({
+  avatar: {
+    type: String,
+    default: undefined,
   },
-  props: {
-    avatar: {
-      type: String,
-      default: undefined,
-    },
-    usernameLetter: {
-      type: String,
-      required: true,
-    },
+  usernameFirstLetter: {
+    type: String,
+    required: true,
   },
-  methods: {
-    imgErrorHandler() {
-      this.imgIsValid = false;
-    },
-  },
-};
+})
+
+const imgErrorHandler = () => {
+  isImgValid.value = false
+}
 </script>
 
 <style module lang="scss">

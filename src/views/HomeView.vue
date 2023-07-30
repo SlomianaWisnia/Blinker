@@ -1,51 +1,42 @@
 <template>
   <main :class="$style.homePage">
-    <section v-if="chats.length === 0" :class="$style.empty">
+    <section v-if="!chats" :class="$style.empty">
       <p>No chats yet.</p>
       <p>Get started by messaging a friend.</p>
     </section>
-    <ul v-if="chats.length > 0" :class="$style.users">
+    <ul v-if="chats" :class="$style.users">
       <UserComponent v-for="chat in chats" :key="chat.friend.username" :chat="chat" />
     </ul>
   </main>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useStore } from 'vuex';
 import axios from 'axios';
-import UserComponent from '../components/Home/UserComponent.vue';
-import store from '../store';
-import FetchedChatrooms from '../interfaces/FetchedChatrooms';
-import Chats from '../interfaces/Chats'
+import UserComponent from '@/components/Home/UserComponent.vue';
+import FetchedChatrooms from '@/interfaces/FetchedChatrooms';
+import Chats from '@/interfaces/Chats'
 
+const chats = ref([] as Array<Chats>)
 
-export default {
-  name: 'HomeView',
-  components: {
-    UserComponent,
-  },
-  data() {
-    return {
-      chats: [] as Array<Chats>,
-      hasFetchedChatrooms: false,
-    }
-  },
-  methods: {
-    getChatrooms() {
-      axios.get('/get-last-messages').then((res) => {
-        const loggedInUsername = store.state.user_info.user.username;
-        const chats: Array<FetchedChatrooms> = res.data.chats;
-        chats.forEach(({ _id, messages, members }) => {
-          const last_message = messages[0];
-          const friend = members.find(({ username }) => username !== loggedInUsername);
-          if (friend) this.chats.push({ id: _id, friend, last_message, });
-        });
-      })
-    }
-  },
-  mounted() {
-    this.getChatrooms()
-  }
+const store = useStore()
+
+const getChatrooms = () => {
+  axios.get('/get-last-messages').then((res) => {
+    const loggedInUserUsername = store.state.loggedInUserData.user.username;
+    const fetchedChats: Array<FetchedChatrooms> = res.data.chats;
+
+    fetchedChats.forEach(({ _id, messages, members }) => {
+      const last_message = messages[0];
+      const friend = members.find(({ username }) => username !== loggedInUserUsername);
+
+      if (friend) chats.value.push({ id: _id, friend, last_message, });
+    });
+  })
 }
+
+onMounted(() => getChatrooms())
 </script>
 
 <style module lang="scss">
@@ -68,4 +59,4 @@ export default {
     margin-top: 1rem;
   }
 }
-</style>../interfaces/FetchedChatrooms
+</style>

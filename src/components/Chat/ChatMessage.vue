@@ -1,32 +1,24 @@
 <template>
   <div :class="$style.chatMessage">
     <p :class="$style.message">{{ message }}</p>
-    <p :class="$style.date">{{ messageDate() }}</p>
+    <p :class="$style.date">{{ getMessageDate(props.date) }}</p>
   </div>
   <!-- Add dynamic background color based on user settings on a specific chat -->
 </template>
-<script lang="ts">
+<script setup lang="ts">
 import getMessageDate from '../../helpers/getMessageDate';
 
+const props = defineProps({
+  message: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true
+  },
+})
 
-export default {
-  name: "ChatMessage",
-  props: {
-    message: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true
-    },
-  },
-  methods: {
-    messageDate() {
-      return getMessageDate(this.date)
-    }
-  },
-}
 </script>
 <style module lang="scss">
 .chatMessage {

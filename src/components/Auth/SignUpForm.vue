@@ -2,7 +2,7 @@
   <main class="auth">
     <h2>Sign Up</h2>
     <p>Enter your credentials and get started!</p>
-    <FormKit type="form" @submit="registerHandler" :actions="false" :errors="[]">
+    <FormKit type="form" @submit="handleRegister" :actions="false" :errors="[]">
       <FormKit type="text" name="username" validation="required|length:5,50" outer-class="input" label="Username"
         :validation-messages="{
           required: 'Please enter your username.',
@@ -21,9 +21,8 @@
             length: 'Password has to be at least 8 characters long.'
           }
             " />
-        <img src="../../assets//icons/forms/visible.svg" v-if="passwordIsVisible" @click="passwordVisibilityHandler"
-          alt="">
-        <img src="../../assets//icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="passwordVisibilityHandler"
+        <img src="../../assets//icons/forms/visible.svg" v-if="passwordIsVisible" @click="switchPasswordVisiblity" alt="">
+        <img src="../../assets//icons/forms/invisible.svg" v-if="!passwordIsVisible" @click="switchPasswordVisiblity"
           alt="">
       </div>
       <FormKit :type="passwordIsVisible ? 'text' : 'password'" name="confirmedPassword"
@@ -35,46 +34,36 @@
           " />
       <FormKit type="submit" class="btn" outer-class="submit">Sign Up</FormKit>
     </FormKit>
-    <p class="authMethod">Already have an account?<span @click="authMethodHandler('login')">Log In</span></p>
+    <p class="authMethod">Already have an account?<span @click="props.switchAuthMethod('login')">Log In</span></p>
   </main>
 </template>
-<script lang="ts">
-import FormKit from '@formkit/vue';
+<script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { FormKit } from '@formkit/vue';
 import RegisterData from '../../interfaces/RegisterData';
 
-export default {
-  name: 'SignUpForm',
-  data() {
-    return {
-      passwordIsVisible: false,
-    }
-  },
-  props: {
-    authMethodHandler: {
-      type: Function,
-      default: '',
-    },
-    title: {
-      type: String,
-    }
-  },
-  methods: {
-    registerHandler({ username, email, password }: RegisterData) {
-      axios.post('/register', {
-        username,
-        email,
-        password
-      }).then(() => {
-        this.$router.push('/')
-      }).catch(err => console.error(err))
+const router = useRouter()
 
-    },
-    passwordVisibilityHandler() {
-      this.passwordIsVisible = !this.passwordIsVisible;
-    }
-  },
-};
+const passwordIsVisible = ref(false)
+const props = defineProps({
+  switchAuthMethod: { type: Function, required: true },
+})
+
+const handleRegister = ({ username, email, password }: RegisterData) => {
+  axios.post('/register', {
+    username,
+    email,
+    password
+  }).then(() => {
+    router.push('/')
+  }).catch(err => console.error(err))
+}
+
+const switchPasswordVisiblity = () => {
+  passwordIsVisible.value = !passwordIsVisible.value
+}
 </script>
 <style lang="">
   

@@ -2,19 +2,19 @@
 <template>
   <footer>
     <router-link :to="{ path: '/' }" exact>
-      <div :class="currentPath === '/' ? [$style.item, $style.active] : $style.item">
+      <div :class="currentRoutePath === '/' ? [$style.item, $style.active] : $style.item">
         <img src="../assets/icons/footer/chat.svg" alt="">
         <p>Chats</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/calls' }" exact>
-      <div :class="currentPath === '/calls' ? [$style.item, $style.active] : $style.item">
+      <div :class="currentRoutePath === '/calls' ? [$style.item, $style.active] : $style.item">
         <img src="../assets/icons/footer/call.svg" alt="">
         <p>Calls</p>
       </div>
     </router-link>
     <router-link :to="{ path: '/stories' }" exact>
-      <div :class="currentPath === '/stories' ? [$style.item, $style.active] : $style.item">
+      <div :class="currentRoutePath === '/stories' ? [$style.item, $style.active] : $style.item">
         <img src="../assets/icons/footer/stories.svg" alt="">
         <p>Stories</p>
       </div>
@@ -22,20 +22,15 @@
   </footer>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'Footer',
-  data() {
-    return {
-      currentPath: this.$route.path
-    }
-  },
-  watch: {
-    $route(to) {
-      this.currentPath = to.path;
-    }
-  }
-}
+<script setup lang="ts">
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+
+const currentRoutePath = computed(() => {
+  return route.path
+})
 </script>
 
 <style module lang="scss">

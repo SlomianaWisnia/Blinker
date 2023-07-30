@@ -43,7 +43,7 @@ watchEffect(() => {
 });
 
 const checkMessageSender = (message: any) => {
-  return message.from.username === store.state.user_info.user.username ? 'userMessage' : 'friendMessage'
+  return message.from.username === store.state.loggedInUserData.user.username ? 'userMessage' : 'friendMessage'
 }
 
 window.addEventListener("scroll", handleInfiniteScroll);
