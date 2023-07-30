@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
 import { io } from '../index';
-import { encrypt, decrypt } from '../services/encrypt';
+import { encrypt } from '../services/encrypt';
 const router = Router();
 
 router.put('/:id', async (req:RequestSession, res:Response) => {
