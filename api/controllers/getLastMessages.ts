@@ -12,18 +12,18 @@ router.get('/', async (req:RequestSession, res:Response) => {
     const { userId } = req.session;
     const result = await ChatRoom.find({ members: userId }).select('members messages').slice('messages', -1).populate('members messages.from', '-_id username avatar avatarHex');
     const decryptedResult = result.map((room:ChatRoomInterface) => {
-    const decryptedMessages = room.messages.map((message:Message) => {
-      const decryptedContent = message.message ? decrypt(message.message) : '';
-        return decryptedContent ? {
-          ...message.toObject(),
-          message: decryptedContent,
-        } : { ...message.toObject() };
+      const decryptedMessages = room.messages.map((message:Message) => {
+        const decryptedContent = message.message ? decrypt(message.message) : '';
+        return decryptedContent
+          ? {
+              ...message.toObject(),
+              message: decryptedContent,
+            }
+          : { ...message.toObject() };
       });
       return {
-        chats: {
-          ...room.toObject(),
-          messages: decryptedMessages,
-        }
+        ...room.toObject(),
+        messages: decryptedMessages,
       };
     });
 
