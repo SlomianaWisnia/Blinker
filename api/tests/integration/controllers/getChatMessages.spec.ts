@@ -1,7 +1,8 @@
 import request from 'supertest';
-import server from '../../../index';
+import { server } from '../../../index';
 import User from '../../../models/User';
 import ChatRoom from '../../../models/ChatRoom';
+import { encrypt } from '../../../services/encrypt';
 import mongoose from 'mongoose';
 
 describe('GET /api/messages/:id/:start/:limit', () => {
@@ -37,11 +38,12 @@ describe('GET /api/messages/:id/:start/:limit', () => {
     const chatRoom2 = new ChatRoom({
       members: [user1Id, user2Id]
     });
-    for (let i = 0; i <= 4; i++) {
+    for (let i = 1; i <= 4; i++) {
+      // @ts-ignore
       chatRoom2.messages.push({
         // @ts-ignore
         from: user1Id,
-        message: `${i}`
+        message: encrypt(`${i}`)
       });
     }
     await chatRoom2.save();
@@ -185,7 +187,7 @@ describe('GET /api/messages/:id/:start/:limit', () => {
     expect(response.body.reachedMax).toBeTruthy();
   });
 
-  it('should return a valid messages range', async () => {
+  it('should return valid messages range and decrypt them properly', async () => {
     const response = await request(server)
       .get(`/api/messages/${chatRoom2Id}/0/3`)
       .set('Cookie', sessionCookie);
