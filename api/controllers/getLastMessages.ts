@@ -11,6 +11,10 @@ router.get('/', async (req:RequestSession, res:Response) => {
   try {
     const { userId } = req.session;
     const result = await ChatRoom.find({ members: userId }).select('members messages').slice('messages', -1).populate('members messages.from', '-_id username avatar avatarHex');
+
+    if (!result)
+      return res.json({ chats: [] });
+
     const decryptedResult = result.map((room:ChatRoomInterface) => {
       const decryptedMessages = room.messages.map((message:Message) => {
         const decryptedContent = message.message ? decrypt(message.message) : '';
