@@ -2,7 +2,7 @@
   <nav>
     <div :class="$style.info">
       <router-link to="/settings">
-        <UserAvatar :avatar="userAvatar" :usernameFirstLetter="loggedInUsernameFirstLetter" />
+        <UserAvatar :avatar="userAvatar" :username="store.state.loggedInUserData.user.username" />
       </router-link>
       <h1>Blinker</h1>
     </div>
@@ -23,10 +23,6 @@ const store = useStore()
 
 const userAvatar = computed(() => {
   return store.state.loggedInUserData.user.avatar
-})
-
-const loggedInUsernameFirstLetter = computed(() => {
-  return store.state.loggedInUserData.user.username.charAt(0).toUpperCase()
 })
 
 </script>

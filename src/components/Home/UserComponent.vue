@@ -1,6 +1,6 @@
 <template>
   <li :class="$style.friend" @click="goToChat()">
-    <UserAvatar :avatar="chat.friend.avatar" :usernameFirstLetter="chat.friend.username.charAt(0).toUpperCase()" />
+    <UserAvatar :avatar="chat.friend.avatar" :username="chat.friend.username" />
     <div :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ lastMessageType }}</p>

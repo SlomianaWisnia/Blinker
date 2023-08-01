@@ -1,12 +1,13 @@
 <template>
   <p v-if="!props.avatar || !isImgValid" :class="$style.avatar">
-    {{ usernameFirstLetter }}
+    {{ getCapitalizedFirstLetter(props.username) }}
   </p>
   <img @error="imgErrorHandler" v-if="props.avatar && isImgValid" :src="props.avatar" alt="" />
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
+import getCapitalizedFirstLetter from '@/helpers/getCapitalizedFirstLetter';
 
 const isImgValid = ref(true)
 const props = defineProps({
@@ -14,7 +15,7 @@ const props = defineProps({
     type: String,
     default: undefined,
   },
-  usernameFirstLetter: {
+  username: {
     type: String,
     required: true,
   },

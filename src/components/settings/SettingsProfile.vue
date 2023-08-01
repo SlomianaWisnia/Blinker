@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.profile">
-    <UserAvatar :avatar="loggedInUserInfo.avatar" :usernameFirstLetter="loggedInUserInfo.username.charAt(0)" />
+    <UserAvatar :avatar="loggedInUserInfo.avatar" :username="loggedInUserInfo.username" />
     <div :class="$style.profileInfo">
       <h3>{{ loggedInUserInfo.username }}</h3>
       <p>{{ loggedInUserInfo.email }}</p>
