@@ -1,0 +1,9 @@
+@forward 'funcs.scss';
+@forward 'variables.scss';
+
+.semipolar-spinner {
+	position: fixed !important;
+	top: 30%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
