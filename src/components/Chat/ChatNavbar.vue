@@ -2,7 +2,7 @@
   <nav :class="$style.chatNavbar">
     <router-link to="/"><img src="@/assets/icons/navigation/arrow_back.svg" alt="" /></router-link>
     <div :class="$style.info">
-      <UserAvatar :avatar="'avatar'" :usernameFirstLetter="'T'" />
+      <UserAvatar :avatar="'avatar'" :username="'T'" />
       <h4>Test</h4>
     </div>
     <div :class="$style.controls">

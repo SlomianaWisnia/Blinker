@@ -1,5 +1,5 @@
 <template>
-  <li :class="$style.friend" @click="goToChat()">
+  <li v-if="chat.friend" :class="$style.friend" @click="goToChat()">
     <UserAvatar :avatar="chat.friend.avatar" :username="chat.friend.username" />
     <div :class="$style.info">
       <h4>{{ chat.friend.username }}</h4>

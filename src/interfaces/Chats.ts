@@ -1,6 +1,6 @@
 export default interface Chats {
 	id: string;
-	friend: {
+	friend?: {
 		username: string;
 		avatar?: string | undefined;
 	};

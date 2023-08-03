@@ -1,43 +1,59 @@
 <template>
   <div :class="$style.chatMessages">
-    <p :class="$style.noMessages" v-if="!messages">No messages yet!</p>
-    <ChatMessage v-else v-for="message in messages" :key="message.createdAt" :message="message.message"
-      :date="message.createdAt" :class="$style[checkMessageSender(message)]" />
+    <SemipolarSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+    <ErrorMessage v-if="state.error" :message="state.errorMessage" />
+    <p :class="$style.noMessages" v-if="!state.messages">No messages yet!</p>
+    <ChatMessage v-if="state.messages" v-for="message in state.messages" :key="message.createdAt"
+      :message="message.message" :date="message.createdAt" :class="$style[checkMessageSender(message)]" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect } from 'vue'
+import { reactive, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+import { useFetch } from '@/helpers/useFetch.ts'
 import ChatMessage from '@/components/Chat/ChatMessage.vue'
 import Message from '@/interfaces/Message';
-import axios from 'axios'
+import { SemipolarSpinner } from 'epic-spinners'
+import ErrorMessage from '@/components/reusable/ErrorMessage.vue'
 
 const AMOUNT_TO_FETCH = 10
 const store = useStore()
-
 const route = useRoute()
+
 const chatId = route.params.chatId
 
-const messages = reactive([] as Array<Message>)
-const messagesAmount = ref(AMOUNT_TO_FETCH)
-const reachedMax = ref(false)
+const state = reactive({
+  messages: [] as Array<Message>,
+  messagesAmount: AMOUNT_TO_FETCH,
+  reachedMax: false,
+  loading: false,
+  error: false,
+  errorMessage: '',
+})
 
+const fetchLastMessages = async () => {
+  const { data, isLoading, hasError, errorMessage } = await useFetch(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`, 'get')
 
-const fetchLastMessages = () => {
-  axios.get(`/messages/${chatId}/${messagesAmount.value - AMOUNT_TO_FETCH}/${messagesAmount.value}`).then(res => {
-    const newMessages = res.data.messages.reverse();
+  state.loading = isLoading.value
+  state.error = hasError.value
+  state.errorMessage = errorMessage.value
+  if (!hasError.value) {
+    const newMessages = data.value.messages.reverse();
 
-    messages.unshift(...newMessages);
-    reachedMax.value = res.data.reachedMax;
-  }).catch(err => console.log(err))
+    state.messages.unshift(...newMessages);
+    state.reachedMax = data.value.reachedMax;
+  }
+
 }
 
 const handleInfiniteScroll = () => {
-  const isAtTopOfPage = window.scrollY <= 20;
-  if (isAtTopOfPage && !reachedMax.value) {
-    messagesAmount.value += AMOUNT_TO_FETCH;
+  if (!state.error) {
+    const isAtTopOfPage = window.scrollY <= 20;
+    if (isAtTopOfPage && !state.reachedMax) {
+      state.messagesAmount += AMOUNT_TO_FETCH;
+    }
   }
 };
 

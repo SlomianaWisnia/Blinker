@@ -1,37 +1,52 @@
 <template>
-  <NoChats v-if="!chats" />
+  <SemipolarSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+  <ErrorMessage v-if="state.error" :message="state.errorMessage" />
+  <NoChats v-if="!state.chats" />
   <ul v-else :class="$style.chatsList">
-    <UserComponent v-for="chat in chats" :key="chat.friend.username" :chat="chat" />
+    <UserComponent v-for="chat in state.chats" :key="chat.id" :chat="chat" />
   </ul>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import axios from 'axios'
+import { useFetch } from '@/helpers/useFetch.ts'
 import UserComponent from '@/components/Home/UserComponent.vue'
 import FetchedChats from '@/interfaces/FetchedChats'
 import Chats from '@/interfaces/Chats'
 import NoChats from './NoChats.vue'
-
-const chats = ref([] as Array<Chats>)
+import { SemipolarSpinner } from 'epic-spinners'
+import ErrorMessage from '@/components/reusable/ErrorMessage.vue'
 
 const store = useStore()
 
-const getChatrooms = () => {
-  axios.get('/get-last-messages').then((res) => {
+const state = reactive({
+  chats: [] as Array<Chats>,
+  loading: false,
+  error: false,
+  errorMessage: '',
+})
+
+const getChatrooms = async () => {
+  const { data, isLoading, hasError, errorMessage } = await useFetch('/get-last-messages', 'get')
+
+  state.loading = isLoading.value
+  state.error = hasError.value
+  state.errorMessage = errorMessage.value
+
+  if (!hasError.value) {
     const loggedInUserUsername = store.state.loggedInUserData.user.username
-    const fetchedChats: Array<FetchedChats> = res.data.chats
+    const fetchedChats: Array<FetchedChats> = data.value.chats
 
-    fetchedChats.forEach(({ _id, messages, members }) => {
-      const last_message = messages[0]
-      const friend = members.find(({ username }) => username !== loggedInUserUsername)
-
-      if (friend) chats.value.push({ id: _id, friend, last_message, })
+    state.chats = fetchedChats.map(({ _id, messages, members }) => {
+      const last_message = messages[0];
+      const friend = members.find(({ username }) => username !== loggedInUserUsername);
+      return { id: _id, friend, last_message };
     });
-  })
+  }
+
 }
 
-onMounted(() => getChatrooms())
+onMounted(getChatrooms);
 
 </script>
 <style module lang="scss">
