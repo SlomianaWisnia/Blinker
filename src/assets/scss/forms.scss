@@ -10,20 +10,12 @@
 		color: white;
 		font-weight: normal;
 	}
-
-	p {
-		color: $txt-color-primary;
-	}
 }
 
 .formkit-form {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
-
-	& > ul:last-of-type {
-		display: none;
-	}
 }
 
 .inputContainer {
@@ -52,17 +44,6 @@
 	}
 }
 
-.submit .formkit-input {
-	position: absolute;
-	border-radius: 1.25rem;
-	border: none;
-	background-color: $bg-color-secondary;
-	color: $txt-color-primary;
-	padding: 1rem 2rem;
-	right: 30px;
-	bottom: 20px;
-}
-
 .formkit-message {
 	color: #c54b12;
 	list-style: none;
@@ -73,8 +54,6 @@
 }
 
 .authMethod {
-	margin-top: -0.5rem;
-
 	span {
 		color: white;
 		margin-left: 0.5rem;
