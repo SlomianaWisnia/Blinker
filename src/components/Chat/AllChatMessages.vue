@@ -1,10 +1,10 @@
 <template>
   <div :class="$style.chatMessages">
-    <SemipolarSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+    <HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
     <ErrorMessage v-if="state.error" :message="state.errorMessage" />
-    <p :class="$style.noMessages" v-if="!state.messages">No messages yet!</p>
-    <ChatMessage v-if="state.messages" v-for="message in state.messages" :key="message.createdAt"
-      :message="message.message" :date="message.createdAt" :class="$style[checkMessageSender(message)]" />
+    <p :class="$style.noMessages" v-if="state.messages.length === 0 && !state.loading">No messages yet!</p>
+    <ChatMessage v-else v-for="message in state.messages" :key="message.createdAt" :message="message.message"
+      :date="message.createdAt" :class="$style[checkMessageSender(message)]" />
   </div>
 </template>
 
@@ -12,10 +12,10 @@
 import { reactive, watchEffect } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { useFetch } from '@/helpers/useFetch.ts'
+import axios from 'axios'
 import ChatMessage from '@/components/Chat/ChatMessage.vue'
 import Message from '@/interfaces/Message';
-import { SemipolarSpinner } from 'epic-spinners'
+import { HalfCircleSpinner } from 'epic-spinners'
 import ErrorMessage from '@/components/reusable/ErrorMessage.vue'
 
 const AMOUNT_TO_FETCH = 10
@@ -34,19 +34,23 @@ const state = reactive({
 })
 
 const fetchLastMessages = async () => {
-  const { data, isLoading, hasError, errorMessage } = await useFetch(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`, 'get')
-
-  state.loading = isLoading.value
-  state.error = hasError.value
-  state.errorMessage = errorMessage.value
-  if (!hasError.value) {
-    const newMessages = data.value.messages.reverse();
+  state.loading = true;
+  try {
+    const res = await axios.get(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`);
+    const newMessages = res.data.messages.reverse();
 
     state.messages.unshift(...newMessages);
-    state.reachedMax = data.value.reachedMax;
+    state.reachedMax = res.data.reachedMax;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      state.error = true;
+      state.errorMessage = error.message;
+      console.error(error.message);
+    }
+  } finally {
+    state.loading = false;
   }
-
-}
+};
 
 const handleInfiniteScroll = () => {
   if (!state.error) {

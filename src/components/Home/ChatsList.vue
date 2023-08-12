@@ -1,7 +1,7 @@
 <template>
-  <SemipolarSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+  <HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
   <ErrorMessage v-if="state.error" :message="state.errorMessage" />
-  <NoChats v-if="!state.chats" />
+  <NoChats v-if="state.chats.length === 0 && !state.loading" />
   <ul v-else :class="$style.chatsList">
     <UserComponent v-for="chat in state.chats" :key="chat.id" :chat="chat" />
   </ul>
@@ -9,12 +9,12 @@
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import { useStore } from 'vuex'
-import { useFetch } from '@/helpers/useFetch.ts'
+import axios from 'axios'
 import UserComponent from '@/components/Home/UserComponent.vue'
 import FetchedChats from '@/interfaces/FetchedChats'
 import Chats from '@/interfaces/Chats'
 import NoChats from './NoChats.vue'
-import { SemipolarSpinner } from 'epic-spinners'
+import { HalfCircleSpinner } from 'epic-spinners'
 import ErrorMessage from '@/components/reusable/ErrorMessage.vue'
 
 const store = useStore()
@@ -27,23 +27,28 @@ const state = reactive({
 })
 
 const getChatrooms = async () => {
-  const { data, isLoading, hasError, errorMessage } = await useFetch('/get-last-messages', 'get')
+  state.loading = true;
+  try {
+    const res = await axios.get('/get-last-messages');
 
-  state.loading = isLoading.value
-  state.error = hasError.value
-  state.errorMessage = errorMessage.value
-
-  if (!hasError.value) {
     const loggedInUserUsername = store.state.loggedInUserData.user.username
-    const fetchedChats: Array<FetchedChats> = data.value.chats
+    const fetchedChats: Array<FetchedChats> = res.data.chats
 
     state.chats = fetchedChats.map(({ _id, messages, members }) => {
       const last_message = messages[0];
       const friend = members.find(({ username }) => username !== loggedInUserUsername);
       return { id: _id, friend, last_message };
     });
-  }
 
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      state.error = true;
+      state.errorMessage = error.message;
+      console.error(error.message);
+    }
+  } finally {
+    state.loading = false;
+  }
 }
 
 onMounted(getChatrooms);
