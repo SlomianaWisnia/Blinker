@@ -33,7 +33,6 @@ const getChatrooms = async () => {
 
     const loggedInUserUsername = store.state.loggedInUserData.user.username
     const fetchedChats: Array<FetchedChats> = res.data.chats
-
     state.chats = fetchedChats.map(({ _id, messages, members }) => {
       const last_message = messages[0];
       const friend = members.find(({ username }) => username !== loggedInUserUsername);

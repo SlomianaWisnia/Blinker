@@ -35,10 +35,10 @@ const state = reactive({
 
 const fetchLastMessages = async () => {
   state.loading = true;
+
   try {
     const res = await axios.get(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`);
     const newMessages = res.data.messages.reverse();
-
     state.messages.unshift(...newMessages);
     state.reachedMax = res.data.reachedMax;
   } catch (error: unknown) {
