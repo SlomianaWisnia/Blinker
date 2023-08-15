@@ -47,6 +47,8 @@ import { FormKit, setErrors, clearErrors } from '@formkit/vue';
 import FormButton from '@/components/reusable/FormButton.vue';
 import axios from 'axios';
 
+import ResponseError from '@/interfaces/ResponseError';
+
 const router = useRouter();
 
 interface RegisterData {
@@ -81,11 +83,12 @@ const handleRegister = async () => {
 		} as RegisterData);
 		router.push('/');
 
-	} catch (error: any) {
+	} catch (error: unknown) {
 		state.error = true;
-		if (error.response.status === '400') {
+		const { response } = error as ResponseError;
+		if (response.status === '400') {
 			setErrors('loginForm', ['Wrong login and/or password!']);
-		} else if (error.response.status === '500') {
+		} else if (response.status === '500') {
 			setErrors('loginForm', ['Internal server error.']);
 		}
 
