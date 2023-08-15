@@ -9,15 +9,15 @@
 import getMessageDate from '../../helpers/getMessageDate';
 
 const props = defineProps({
-  message: {
-    type: String,
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true
-  },
-})
+	message: {
+		type: String,
+		required: true,
+	},
+	date: {
+		type: String,
+		required: true
+	},
+});
 
 </script>
 <style module lang="scss">

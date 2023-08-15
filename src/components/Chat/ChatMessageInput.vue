@@ -26,19 +26,19 @@ interface MessageData {
   message: string;
 }
 
-const route = useRoute()
+const route = useRoute();
 
 const currentChatId = computed(() => {
-  return route.params.chatId
-})
+	return route.params.chatId;
+});
 
 const sendMessage = (data: MessageData) => {
-  axios.put(`/send-message/${currentChatId}`, {
-    message: data.message
-  }).then(() => {
-    reset('messageForm');
-  });
-}
+	axios.put(`/send-message/${currentChatId.value}`, {
+		message: data.message
+	}).then(() => {
+		reset('messageForm');
+	});
+};
 </script>
 
 <style lang="scss">
@@ -75,20 +75,30 @@ const sendMessage = (data: MessageData) => {
   }
 
   #messageForm {
-    .formkit-message {
+    position: relative;
+
+    .formkit-messages {
       position: absolute;
-      margin: auto;
-      bottom: 50px;
-      left: 50%;
-      transform: translateY(-50%) translateX(-50%);
-      color: $txt-color-primary;
-      text-align: center;
-      border-radius: 1.25rem;
-      background-color: $bg-color-secondary;
-      padding: 0.7rem;
-      width: 50%;
+      left: 25%;
+      transform: translate(-50%, -50%);
+
+      .formkit-message {
+        position: absolute;
+        margin: auto;
+        bottom: 55px;
+        color: $txt-color-primary;
+        text-align: center;
+        border-radius: 1.25rem;
+        background-color: $bg-color-secondary;
+        padding: 0.7rem;
+        width: 180px;
+      }
     }
 
+
+    #messageForm-incomplete {
+      display: none;
+    }
 
     .formkit-inner {
       .formkit-input {

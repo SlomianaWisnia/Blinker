@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export default (dateString: any): any => {
+export default (dateString: Date): string => {
 	const currentDate = moment();
 	const givenDate = moment(dateString);
 
