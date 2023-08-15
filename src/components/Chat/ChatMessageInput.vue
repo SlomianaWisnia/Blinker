@@ -32,7 +32,7 @@ const currentChatId = computed(() => {
 	return route.params.chatId;
 });
 
-const sendMessage = (data: any) => {
+const sendMessage = (data: MessageData) => {
 	axios.put(`/send-message/${currentChatId.value}`, {
 		message: data.message
 	}).then(() => {
