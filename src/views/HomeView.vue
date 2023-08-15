@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import ChatsList from '@/components/home/ChatsList.vue';
+import ChatsList from '@/components/Home/ChatsList.vue';
 </script>
 
 <style lang="scss"></style>
