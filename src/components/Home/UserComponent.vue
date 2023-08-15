@@ -5,7 +5,7 @@
       <h4>{{ chat.friend.username }}</h4>
       <p>{{ lastMessageType }}</p>
     </div>
-    <p :class="$style.date">{{ getMessageDate(props.chat.last_message.created) }}</p>
+    <p :class="$style.date">{{ getMessageDate(props.chat.last_message.createdAt) }}</p>
   </li>
 </template>
 
@@ -26,6 +26,7 @@ const props = defineProps({
     required: true,
   },
 })
+
 
 const lastMessageType = computed(() => {
   const { last_message } = props.chat
@@ -51,11 +52,16 @@ const goToChat = () => {
   color: $txt-color-primary;
 
   .info {
-    width: 70%;
+    width: 60%;
 
     p {
       margin-top: 0.5rem;
     }
+  }
+
+  .date {
+    width: 14%;
+    text-align: right;
   }
 }
 </style>

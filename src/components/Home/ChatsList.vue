@@ -38,6 +38,7 @@ const getChatrooms = async () => {
       const friend = members.find(({ username }) => username !== loggedInUserUsername);
       return { id: _id, friend, last_message };
     });
+    console.log(state.chats)
 
   } catch (error: unknown) {
     if (error instanceof Error) {
