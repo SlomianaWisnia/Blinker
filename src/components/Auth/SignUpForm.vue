@@ -47,7 +47,7 @@ import { FormKit, setErrors, clearErrors } from '@formkit/vue';
 import FormButton from '@/components/reusable/FormButton.vue';
 import axios from 'axios';
 
-const router = useRouter()
+const router = useRouter();
 
 interface RegisterData {
   username: string;
@@ -57,49 +57,49 @@ interface RegisterData {
 
 
 const state = reactive({
-  passwordIsVisible: false,
-  username: '',
-  email: '',
-  password: '',
-  confirmedPassword: '',
-  loading: false,
-  error: false,
-  errorMessage: '',
-})
+	passwordIsVisible: false,
+	username: '',
+	email: '',
+	password: '',
+	confirmedPassword: '',
+	loading: false,
+	error: false,
+	errorMessage: '',
+});
 
 const props = defineProps({
-  switchAuthMethod: { type: Function, required: true },
-})
+	switchAuthMethod: { type: Function, required: true },
+});
 
 const handleRegister = async () => {
-  state.loading = true;
-  try {
-    await axios.post('/register', {
-      username: state.username,
-      email: state.email,
-      password: state.password
-    } as RegisterData);
-    router.push('/')
+	state.loading = true;
+	try {
+		await axios.post('/register', {
+			username: state.username,
+			email: state.email,
+			password: state.password
+		} as RegisterData);
+		router.push('/');
 
-  } catch (error: any) {
-    state.error = true;
-    if (error.response.status === '400') {
-      setErrors('loginForm', ['Wrong login and/or password!'])
-    } else if (error.response.status === '500') {
-      setErrors('loginForm', ['Internal server error.'])
-    }
+	} catch (error: any) {
+		state.error = true;
+		if (error.response.status === '400') {
+			setErrors('loginForm', ['Wrong login and/or password!']);
+		} else if (error.response.status === '500') {
+			setErrors('loginForm', ['Internal server error.']);
+		}
 
-  } finally {
-    state.loading = false;
-  }
-}
+	} finally {
+		state.loading = false;
+	}
+};
 
 const switchPasswordVisiblity = () => {
-  state.passwordIsVisible = !state.passwordIsVisible
-}
+	state.passwordIsVisible = !state.passwordIsVisible;
+};
 
 watch([() => state.email, () => state.password, () => state.username, () => state.confirmedPassword], () => {
-  clearErrors('registerForm')
+	clearErrors('registerForm');
 });
 </script>
 <style lang="scss">

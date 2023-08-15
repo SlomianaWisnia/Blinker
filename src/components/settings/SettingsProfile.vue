@@ -13,11 +13,11 @@ import { useStore } from 'vuex';
 import { computed } from 'vue';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
-const store = useStore()
+const store = useStore();
 
 const loggedInUserInfo = computed(() => {
-  return store.state.loggedInUserData.user
-})
+	return store.state.loggedInUserData.user;
+});
 </script>
 
 <style module lang="scss">

@@ -9,67 +9,67 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watchEffect } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import axios from 'axios'
-import ChatMessage from '@/components/Chat/ChatMessage.vue'
+import { reactive, watchEffect } from 'vue';
+import { useRoute } from 'vue-router';
+import { useStore } from 'vuex';
+import axios from 'axios';
+import ChatMessage from '@/components/Chat/ChatMessage.vue';
 import Message from '@/interfaces/Message';
-import { HalfCircleSpinner } from 'epic-spinners'
-import ErrorMessage from '@/components/reusable/ErrorMessage.vue'
+import { HalfCircleSpinner } from 'epic-spinners';
+import ErrorMessage from '@/components/reusable/ErrorMessage.vue';
 
-const AMOUNT_TO_FETCH = 10
-const store = useStore()
-const route = useRoute()
+const AMOUNT_TO_FETCH = 10;
+const store = useStore();
+const route = useRoute();
 
-const chatId = route.params.chatId
+const chatId = route.params.chatId;
 
 const state = reactive({
-  messages: [] as Array<Message>,
-  messagesAmount: AMOUNT_TO_FETCH,
-  reachedMax: false,
-  loading: false,
-  error: false,
-  errorMessage: '',
-})
+	messages: [] as Array<Message>,
+	messagesAmount: AMOUNT_TO_FETCH,
+	reachedMax: false,
+	loading: false,
+	error: false,
+	errorMessage: '',
+});
 
 const fetchLastMessages = async () => {
-  state.loading = true;
+	state.loading = true;
 
-  try {
-    const res = await axios.get(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`);
-    const newMessages = res.data.messages.reverse();
-    state.messages.unshift(...newMessages);
-    state.reachedMax = res.data.reachedMax;
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      state.error = true;
-      state.errorMessage = error.message;
-      console.error(error.message);
-    }
-  } finally {
-    state.loading = false;
-  }
+	try {
+		const res = await axios.get(`/messages/${chatId}/${state.messagesAmount - AMOUNT_TO_FETCH}/${state.messagesAmount}`);
+		const newMessages = res.data.messages.reverse();
+		state.messages.unshift(...newMessages);
+		state.reachedMax = res.data.reachedMax;
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			state.error = true;
+			state.errorMessage = error.message;
+			console.error(error.message);
+		}
+	} finally {
+		state.loading = false;
+	}
 };
 
 const handleInfiniteScroll = () => {
-  if (!state.error) {
-    const isAtTopOfPage = window.scrollY <= 20;
-    if (isAtTopOfPage && !state.reachedMax) {
-      state.messagesAmount += AMOUNT_TO_FETCH;
-    }
-  }
+	if (!state.error) {
+		const isAtTopOfPage = window.scrollY <= 20;
+		if (isAtTopOfPage && !state.reachedMax) {
+			state.messagesAmount += AMOUNT_TO_FETCH;
+		}
+	}
 };
 
 watchEffect(() => {
-  fetchLastMessages();
+	fetchLastMessages();
 });
 
 const checkMessageSender = (message: Message) => {
-  return message.from.username === store.state.loggedInUserData.user.username ? 'userMessage' : 'friendMessage'
-}
+	return message.from.username === store.state.loggedInUserData.user.username ? 'userMessage' : 'friendMessage';
+};
 
-window.addEventListener("scroll", handleInfiniteScroll);
+window.addEventListener('scroll', handleInfiniteScroll);
 </script>
 
 <style module lang="scss">

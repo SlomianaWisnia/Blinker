@@ -26,19 +26,19 @@ interface MessageData {
   message: string;
 }
 
-const route = useRoute()
+const route = useRoute();
 
 const currentChatId = computed(() => {
-  return route.params.chatId
-})
+	return route.params.chatId;
+});
 
 const sendMessage = (data: any) => {
-  axios.put(`/send-message/${currentChatId.value}`, {
-    message: data.message
-  }).then(() => {
-    reset('messageForm');
-  });
-}
+	axios.put(`/send-message/${currentChatId.value}`, {
+		message: data.message
+	}).then(() => {
+		reset('messageForm');
+	});
+};
 </script>
 
 <style lang="scss">

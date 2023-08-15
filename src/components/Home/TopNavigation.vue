@@ -16,14 +16,14 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useStore } from 'vuex'
+import { useStore } from 'vuex';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
-const store = useStore()
+const store = useStore();
 
 const userAvatar = computed(() => {
-  return store.state.loggedInUserData.user.avatar
-})
+	return store.state.loggedInUserData.user.avatar;
+});
 
 </script>
 

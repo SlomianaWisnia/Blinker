@@ -34,7 +34,7 @@ import { FormKit, setErrors, clearErrors } from '@formkit/vue';
 import FormButton from '@/components/reusable/FormButton.vue';
 import axios from 'axios';
 
-const router = useRouter()
+const router = useRouter();
 
 interface LoginData {
 	username: string;
@@ -42,46 +42,46 @@ interface LoginData {
 }
 
 const state = reactive({
-  passwordIsVisible: false,
-  email: '',
-  password: '',
-  loading: false,
-  error: false,
-  errorMessage: '',
-})
+	passwordIsVisible: false,
+	email: '',
+	password: '',
+	loading: false,
+	error: false,
+	errorMessage: '',
+});
 
 const props = defineProps({
-  switchAuthMethod: { type: Function, required: true },
-})
+	switchAuthMethod: { type: Function, required: true },
+});
 
 const handleLogin = async () => {
-  state.loading = true;
-  try {
-    await axios.post('auth', {
-      username: state.email,
-      password: state.password
-    } as LoginData);
-    router.push('/')
+	state.loading = true;
+	try {
+		await axios.post('auth', {
+			username: state.email,
+			password: state.password
+		} as LoginData);
+		router.push('/');
 
-  } catch (error: any) {
-    state.error = true;
-    if (error.response.status === '400') {
-      setErrors('loginForm', ['Wrong login and/or password!'])
-    } else if (error.response.status === '500') {
-      setErrors('loginForm', ['Internal server error.'])
-    }
+	} catch (error: any) {
+		state.error = true;
+		if (error.response.status === '400') {
+			setErrors('loginForm', ['Wrong login and/or password!']);
+		} else if (error.response.status === '500') {
+			setErrors('loginForm', ['Internal server error.']);
+		}
 
-  } finally {
-    state.loading = false;
-  }
-}
+	} finally {
+		state.loading = false;
+	}
+};
 
 const switchPasswordVisiblity = () => {
-  state.passwordIsVisible = !state.passwordIsVisible
-}
+	state.passwordIsVisible = !state.passwordIsVisible;
+};
 
 watch([() => state.email, () => state.password], () => {
-  clearErrors('loginForm')
+	clearErrors('loginForm');
 });
 
 </script>

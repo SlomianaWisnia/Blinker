@@ -5,19 +5,19 @@
   </FormKit>
 </template>
 <script setup lang="ts">
-import { HalfCircleSpinner } from 'epic-spinners'
+import { HalfCircleSpinner } from 'epic-spinners';
 
 const props = defineProps({
-  loading: {
-    type: Boolean,
-    default: undefined,
-    required: true,
-  },
-  type: {
-    type: String,
-    required: true,
-  }
-})
+	loading: {
+		type: Boolean,
+		default: undefined,
+		required: true,
+	},
+	type: {
+		type: String,
+		required: true,
+	}
+});
 </script>
 <style lang="scss">
 .submit {

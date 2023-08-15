@@ -17,31 +17,31 @@ import getMessageDate from '@/helpers/getMessageDate';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 import Chats from '@/interfaces/Chats';
 
-const router = useRouter()
-const store = useStore()
+const router = useRouter();
+const store = useStore();
 
 const props = defineProps({
-  chat: {
-    type: Object as () => Chats,
-    required: true,
-  },
-})
+	chat: {
+		type: Object as () => Chats,
+		required: true,
+	},
+});
 
 
 const lastMessageType = computed(() => {
-  const { last_message } = props.chat
-  const { loggedInUserData } = store.state
+	const { last_message } = props.chat;
+	const { loggedInUserData } = store.state;
 
-  if (last_message.message) {
-    return last_message.message
-  } else {
-    return last_message.from.username === loggedInUserData.user.username ? 'You sent a media file.' : 'Received a media file.'
-  }
-})
+	if (last_message.message) {
+		return last_message.message;
+	} else {
+		return last_message.from.username === loggedInUserData.user.username ? 'You sent a media file.' : 'Received a media file.';
+	}
+});
 
 const goToChat = () => {
-  router.push(`/chat/${props.chat.id}`);
-}
+	router.push(`/chat/${props.chat.id}`);
+};
 </script>
 
 <style module lang="scss">

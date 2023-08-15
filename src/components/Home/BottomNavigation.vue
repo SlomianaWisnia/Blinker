@@ -26,11 +26,11 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute()
+const route = useRoute();
 
 const currentRoutePath = computed(() => {
-  return route.path
-})
+	return route.path;
+});
 </script>
 
 <style module lang="scss">

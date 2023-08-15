@@ -3,11 +3,11 @@
 </template>
 <script setup lang="ts">
 const props = defineProps({
-  message: {
-    type: String,
-    default: undefined,
-  },
-})
+	message: {
+		type: String,
+		default: undefined,
+	},
+});
 </script>
 <style module lang="scss">
 .errorMsg {

@@ -11,11 +11,11 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-const route = useRoute()
+const route = useRoute();
 
 const currentRouteName = computed(() => {
-  let routeName = route.name as string;
-  return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
+	let routeName = route.name as string;
+	return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
 }); 
 </script>
 

@@ -8,45 +8,45 @@
 </template>
 
 <script setup lang="ts">
-import generalIcon from '@/assets/icons/settings/general.svg'
-import appearanceIcon from '@/assets/icons/settings/appearance.svg'
-import chatIcon from '@/assets/icons/footer/chat.svg'
-import callIcon from '@/assets/icons/footer/call.svg'
-import notificationsIcon from '@/assets/icons/settings/notifications.svg'
-import privacyIcon from '@/assets/icons/settings/privacy.svg'
+import generalIcon from '@/assets/icons/settings/general.svg';
+import appearanceIcon from '@/assets/icons/settings/appearance.svg';
+import chatIcon from '@/assets/icons/footer/chat.svg';
+import callIcon from '@/assets/icons/footer/call.svg';
+import notificationsIcon from '@/assets/icons/settings/notifications.svg';
+import privacyIcon from '@/assets/icons/settings/privacy.svg';
 
 const settingsTabs = [
-  {
-    title: 'General',
-    to: '/settings/general',
-    icon: generalIcon
-  },
-  {
-    title: 'Appearance',
-    to: '/settings/appearance',
-    icon: appearanceIcon
-  },
-  {
-    title: 'Chats',
-    to: '/settings/chats',
-    icon: chatIcon
-  },
-  {
-    title: 'Calls',
-    to: '/settings/calls',
-    icon: callIcon
-  },
-  {
-    title: 'Notifications',
-    to: '/settings/notifications',
-    icon: notificationsIcon
-  },
-  {
-    title: 'Privacy',
-    to: '/settings/privacy',
-    icon: privacyIcon
-  },
-]
+	{
+		title: 'General',
+		to: '/settings/general',
+		icon: generalIcon
+	},
+	{
+		title: 'Appearance',
+		to: '/settings/appearance',
+		icon: appearanceIcon
+	},
+	{
+		title: 'Chats',
+		to: '/settings/chats',
+		icon: chatIcon
+	},
+	{
+		title: 'Calls',
+		to: '/settings/calls',
+		icon: callIcon
+	},
+	{
+		title: 'Notifications',
+		to: '/settings/notifications',
+		icon: notificationsIcon
+	},
+	{
+		title: 'Privacy',
+		to: '/settings/privacy',
+		icon: privacyIcon
+	},
+];
 </script>
 
 <style module lang="scss">

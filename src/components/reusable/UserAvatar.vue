@@ -9,21 +9,21 @@
 import { ref } from 'vue';
 import getCapitalizedFirstLetter from '@/helpers/getCapitalizedFirstLetter';
 
-const isImgValid = ref(true)
+const isImgValid = ref(true);
 const props = defineProps({
-  avatar: {
-    type: String,
-    default: undefined,
-  },
-  username: {
-    type: String,
-    required: true,
-  },
-})
+	avatar: {
+		type: String,
+		default: undefined,
+	},
+	username: {
+		type: String,
+		required: true,
+	},
+});
 
 const imgErrorHandler = () => {
-  isImgValid.value = false
-}
+	isImgValid.value = false;
+};
 </script>
 
 <style module lang="scss">
