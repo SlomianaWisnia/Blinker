@@ -21,6 +21,11 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { reset, submitForm } from '@formkit/vue';
 
+
+interface MessageData {
+  message: string;
+}
+
 const route = useRoute()
 
 const currentChatId = computed(() => {
@@ -31,8 +36,8 @@ const sendMessage = (data: any) => {
   axios.put(`/send-message/${currentChatId.value}`, {
     message: data.message
   }).then(() => {
-    reset('messageForm')
-  })
+    reset('messageForm');
+  });
 }
 </script>
 
