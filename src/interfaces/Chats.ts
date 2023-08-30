@@ -6,7 +6,7 @@ export default interface Chats {
 	};
 	last_message: {
 		_id: string;
-		createdAt: string;
+		created: string;
 		message: string;
 		from: {
 			avatar?: string | undefined;
