@@ -1,9 +1,7 @@
 <template>
   <nav>
     <div :class="$style.info">
-      <router-link to="/settings">
-        <UserAvatar :avatar="userAvatar" :username="store.state.loggedInUserData.user.username" />
-      </router-link>
+      <UserAvatar @click="goToSettings" />
       <h1>Blinker</h1>
     </div>
     <div :class="$style.controls">
@@ -15,16 +13,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
-const store = useStore();
+const router = useRouter()
 
-const userAvatar = computed(() => {
-	return store.state.loggedInUserData.user.avatar;
-});
-
+const goToSettings = () => {
+  router.push('/settings')
+}
 </script>
 
 <style module lang="scss">
