@@ -6,10 +6,11 @@ import PageNotFound from '../views/PageNotFound.vue';
 import AuthView from '../views/AuthView.vue';
 import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
-import SettingsLayout from '../layouts/SettingsLayout.vue';
+import DefaultLayout from '../layouts/DefaultLayout.vue';
 import SettingsView from '../views/settings/SettingsView.vue';
 import ChatView from '../views/ChatView.vue';
 import ChatLayout from '../layouts/ChatLayout.vue';
+import ProfileView from '@/views/ProfileView.vue';
 
 let isAuthorized = false;
 
@@ -57,13 +58,25 @@ const routes: Array<RouteRecordRaw> = [
 	},
 	{
 		path: '/settings',
-		component: SettingsLayout,
+		component: DefaultLayout,
 		meta: { requireAuth: true },
 		children: [
 			{
 				name: 'settings',
 				path: '',
 				component: SettingsView,
+			},
+		],
+	},
+	{
+		path: '/profile',
+		component: DefaultLayout,
+		meta: { requireAuth: true },
+		children: [
+			{
+				name: 'profile',
+				path: '',
+				component: ProfileView,
 			},
 		],
 	},
