@@ -11,7 +11,7 @@ import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import './services/db';
 import swaggerUI from 'swagger-ui-express';
-import specs from './docs/index';
+import specs from './docs/rest/index';
 import auth from './routes/auth';
 import authorization from './middleware/express/auth';
 import register from './routes/register';
@@ -77,7 +77,7 @@ io.use(authorizationSocket);
 io.engine.use(helmet());
 
 if (process.env.NODE_ENV === 'development') {
-  app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs));
+  app.use('/docs/rest', swaggerUI.serve, swaggerUI.setup(specs));
 }
 app.use('/api/auth', auth);
 app.use('/api/register', register);

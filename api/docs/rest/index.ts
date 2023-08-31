@@ -17,7 +17,7 @@ const options = {
       url: process.env.SERVER_DOMAIN
     }
   ],
-  apis: ['./docs/*.ts', './docs/**/*.ts']
+  apis: ['./docs/rest/*.ts', './docs/rest/**/*.ts']
 };
 
 export default swaggerJSDoc(options);
