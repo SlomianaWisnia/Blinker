@@ -15,13 +15,13 @@ const route = useRoute();
 const router = useRouter();
 
 const currentRouteName = computed(() => {
-  let routeName = route.name as string;
-  return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
+	let routeName = route.name as string;
+	return routeName ? routeName.charAt(0).toUpperCase() + routeName.slice(1) : '';
 });
 
 const goBackOnePage = () => {
-  router.go(-1)
-}
+	router.go(-1);
+};
 </script>
 
 <style module lang="scss">
