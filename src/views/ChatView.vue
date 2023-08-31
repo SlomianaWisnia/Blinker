@@ -1,11 +1,9 @@
 <template>
   <main>
-    <ChatsList />
+    <AllChatMessages />
   </main>
 </template>
-
 <script setup lang="ts">
-import ChatsList from '@/components/Home/ChatsList.vue';
+import AllChatMessages from '@/components/Chat/AllChatMessages.vue';
 </script>
-
 <style lang="scss"></style>

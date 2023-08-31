@@ -1,17 +1,10 @@
 <template>
-  <Navigation />
+  <TopNavigation />
   <router-view />
-  <Footer />
+  <BottomNavigation />
 </template>
-<script lang="ts">
-import Navigation from '../components/Navigation.vue';
-import Footer from '../components/Footer.vue';
-export default {
-  name: 'HomeLayout',
-  components: {
-    Navigation,
-    Footer
-  }
-}
+<script setup lang="ts">
+import TopNavigation from '@/components/Home/TopNavigation.vue';
+import BottomNavigation from '@/components/Home/BottomNavigation.vue';
 </script>
 <style module lang="scss"></style>

@@ -6,3 +6,9 @@
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
 }
+
+body {
+	background-color: $bg-color-primary;
+	height: 100%;
+	color: $txt-color-primary;
+}

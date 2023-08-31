@@ -8,6 +8,8 @@ import HomeLayout from '../layouts/HomeLayout.vue';
 import AuthLayout from '../layouts/AuthLayout.vue';
 import SettingsLayout from '../layouts/SettingsLayout.vue';
 import SettingsView from '../views/settings/SettingsView.vue';
+import ChatView from '../views/ChatView.vue';
+import ChatLayout from '../layouts/ChatLayout.vue';
 
 let isAuthorized = false;
 
@@ -26,6 +28,18 @@ const routes: Array<RouteRecordRaw> = [
 				path: '/:catchAll(.*)',
 				name: 'NotFound',
 				component: PageNotFound,
+			},
+		],
+	},
+	{
+		path: '/chat',
+		component: ChatLayout,
+		meta: { requireAuth: true },
+		children: [
+			{
+				path: '/chat/:chatId',
+				name: 'chat',
+				component: ChatView,
 			},
 		],
 	},
@@ -58,6 +72,15 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
 	history: createWebHashHistory(),
 	routes,
+	scrollBehavior(to) {
+		if (to.name === 'chat') {
+			return {
+				top: document.body.clientHeight,
+			};
+		} else {
+			return { top: 0 };
+		}
+	},
 });
 
 router.beforeEach((to, _from, next) => {
