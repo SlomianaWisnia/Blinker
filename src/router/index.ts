@@ -11,6 +11,7 @@ import SettingsView from '../views/settings/SettingsView.vue';
 import ChatView from '../views/ChatView.vue';
 import ChatLayout from '../layouts/ChatLayout.vue';
 import ProfileView from '@/views/ProfileView.vue';
+import ProfilePhotoEditVue from '@/components/profile/ProfilePhotoEdit.vue';
 
 let isAuthorized = false;
 
@@ -77,6 +78,12 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'profile',
 				path: '',
 				component: ProfileView,
+			},
+			{
+				name: 'Photo Edit',
+				path: 'photo-edit',
+				component: ProfilePhotoEditVue,
+				meta: { layoutType: 'close' },
 			},
 		],
 	},
