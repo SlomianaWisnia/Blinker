@@ -16,11 +16,11 @@
 import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
-const router = useRouter()
+const router = useRouter();
 
 const goToSettings = () => {
-  router.push('/settings')
-}
+	router.push('/settings');
+};
 </script>
 
 <style module lang="scss">

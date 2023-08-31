@@ -13,35 +13,35 @@
 <script setup lang="ts">
 import { useStore } from 'vuex';
 import { computed } from 'vue';
-import accountIcon from '@/assets/icons/profile/account.svg'
-import aboutIcon from '@/assets/icons/profile/about.svg'
-import badgesIcon from '@/assets/icons/profile/badges.svg'
+import accountIcon from '@/assets/icons/profile/account.svg';
+import aboutIcon from '@/assets/icons/profile/about.svg';
+import badgesIcon from '@/assets/icons/profile/badges.svg';
 
-const store = useStore()
+const store = useStore();
 
 const loggedInUserUserName = computed(() => {
-  return store.state.loggedInUserData.user.username;
+	return store.state.loggedInUserData.user.username;
 });
 
 const profileOptions = [
-  {
-    title: loggedInUserUserName,
-    icon: accountIcon,
-    description: 'Your name',
-    to: '/profile/name'
-  },
-  {
-    title: 'About',
-    icon: aboutIcon,
-    description: 'Write a few words about yourself',
-    to: '/profile/about'
-  },
-  {
-    title: 'Badges',
-    icon: badgesIcon,
-    description: 'Check out your collection',
-    to: '/profile/badges'
-  },
+	{
+		title: loggedInUserUserName,
+		icon: accountIcon,
+		description: 'Your name',
+		to: '/profile/name'
+	},
+	{
+		title: 'About',
+		icon: aboutIcon,
+		description: 'Write a few words about yourself',
+		to: '/profile/about'
+	},
+	{
+		title: 'Badges',
+		icon: badgesIcon,
+		description: 'Check out your collection',
+		to: '/profile/badges'
+	},
 
 ];
 </script>

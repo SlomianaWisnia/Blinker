@@ -18,27 +18,27 @@ import getCapitalizedFirstLetter from '@/helpers/getCapitalizedFirstLetter';
 const store = useStore();
 
 const loggedInUserInfo = computed(() => {
-  return store.state.loggedInUserData.user;
+	return store.state.loggedInUserData.user;
 });
 
 const isImgValid = ref(true);
 const props = defineProps({
-  avatar: {
-    type: String,
-    default: undefined,
-  },
-  username: {
-    type: String,
-    default: undefined,
-  },
-  size: {
-    type: Number,
-    default: 40
-  }
+	avatar: {
+		type: String,
+		default: undefined,
+	},
+	username: {
+		type: String,
+		default: undefined,
+	},
+	size: {
+		type: Number,
+		default: 40
+	}
 });
 
 const imgErrorHandler = () => {
-  isImgValid.value = false;
+	isImgValid.value = false;
 };
 
 const sizePx = computed(() => `${props.size}px`);

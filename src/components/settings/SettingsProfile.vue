@@ -15,15 +15,15 @@ import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 
 const store = useStore();
-const router = useRouter()
+const router = useRouter();
 
 const loggedInUserInfo = computed(() => {
-  return store.state.loggedInUserData.user;
+	return store.state.loggedInUserData.user;
 });
 
 const goToProfile = () => {
-  router.push('/profile')
-}
+	router.push('/profile');
+};
 
 </script>
 
