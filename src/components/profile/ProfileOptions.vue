@@ -1,13 +1,13 @@
 <template>
-  <div :class="$style.profileOptions">
-    <router-link v-for="option in profileOptions" :to="option.to" :key="option.to" :class="$style.option">
-      <img :src="option.icon">
-      <div>
-        <h4>{{ option.title }}</h4>
-        <p>{{ option.description }}</p>
-      </div>
-    </router-link>
-  </div>
+	<div :class="$style.profileOptions">
+		<router-link v-for="option in profileOptions" :to="option.to" :key="option.to" :class="$style.option">
+			<img :src="option.icon">
+			<div>
+				<h4>{{ option.title }}</h4>
+				<p>{{ option.description }}</p>
+			</div>
+		</router-link>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -48,30 +48,30 @@ const profileOptions = [
 
 <style module lang="scss">
 .profileOptions {
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
+	display: flex;
+	flex-direction: column;
+	margin-top: 2rem;
 
 
-  .option {
-    display: flex;
-    gap: 1rem;
-    color: $txt-color-primary;
-    text-decoration: none;
-    padding: 1.3rem 2rem;
+	.option {
+		display: flex;
+		gap: 1rem;
+		color: $txt-color-primary;
+		text-decoration: none;
+		padding: 1.3rem 2.2rem;
 
-    p {
-      opacity: 0.8;
-    }
+		p {
+			opacity: 0.8;
+		}
 
-    img {
-      width: 30px;
-    }
-  }
+		img {
+			width: 30px;
+		}
+	}
 
-  .option:hover {
-    background-color: lighten($bg-color-secondary, 3%);
-  }
+	.option:hover {
+		background-color: lighten($bg-color-secondary, 3%);
+	}
 
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
-  <div :class="$style.settingsTabs">
-    <router-link v-for="tab in settingsTabs" :to="tab.to" :key="tab.to">
-      <img :src="tab.icon" :alt="tab.title">
-      <p>{{ tab.title }}</p>
-    </router-link>
-  </div>
+	<div :class="$style.settingsTabs">
+		<router-link v-for="tab in settingsTabs" :to="tab.to" :key="tab.to">
+			<img :src="tab.icon" :alt="tab.title">
+			<p>{{ tab.title }}</p>
+		</router-link>
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -51,28 +51,28 @@ const settingsTabs = [
 
 <style module lang="scss">
 .settingsTabs {
-  display: flex;
-  flex-direction: column;
-  padding: 0 1.5rem;
+	display: flex;
+	flex-direction: column;
+	padding: 0 2.2rem;
 
-  a {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    text-decoration: none;
-    color: inherit;
-    font-size: 1.15rem;
-    margin-bottom: 2rem;
+	a {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		text-decoration: none;
+		color: inherit;
+		font-size: 1.15rem;
+		margin-bottom: 2rem;
 
-    img {
-      width: 27px;
-    }
-  }
+		img {
+			width: 27px;
+		}
+	}
 
-  a:nth-of-type(2),
-  a:nth-of-type(4) {
-    border-bottom: 1px solid rgba(128, 128, 128, 0.336);
-    padding-bottom: 2rem;
-  }
+	a:nth-of-type(2),
+	a:nth-of-type(4) {
+		border-bottom: 1px solid rgba(128, 128, 128, 0.336);
+		padding-bottom: 2rem;
+	}
 }
 </style>
