@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
 import { io } from '../index';
-import { encrypt } from '../services/encrypt';
+import { encrypt } from '../utils/encrypt';
 const router = Router();
 
 router.put('/:id', async (req:RequestSession, res:Response) => {
@@ -87,7 +87,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
 
         const messageBody = {
           from: userId,
-          message: encrypt(message)
+          message: await encrypt(message)
         };
 
         const result = await ChatRoom.findOneAndUpdate({ _id: id }, {
