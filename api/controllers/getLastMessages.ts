@@ -2,36 +2,45 @@ import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import log from '../utils/log';
 import ChatRoom from '../models/ChatRoom';
-import ChatRoomInterface from '../interfaces/models/ChatRoom';
-import Message from '../interfaces/models/Message';
-import { decrypt } from '../services/encrypt';
+import { decrypt } from '../utils/encrypt';
+
 const router = Router();
 
-router.get('/', async (req:RequestSession, res:Response) => {
+router.get('/', async (req: RequestSession, res: Response) => {
   try {
     const { userId } = req.session;
-    const result = await ChatRoom.find({ members: userId }).select('members messages').slice('messages', -1).populate('members messages.from', '-_id username avatar avatarHex');
 
-    if (!result)
+    const chatRooms = await ChatRoom.find({ members: userId })
+      .select('members messages')
+      .populate('members messages.from', '-_id username avatar avatarHex');
+
+    if (!chatRooms || chatRooms.length === 0) {
       return res.json({ chats: [] });
+    }
 
-    const decryptedResult = result.map((room:ChatRoomInterface) => {
-      const decryptedMessages = room.messages.map((message:Message) => {
-        const decryptedContent = message.message ? decrypt(message.message) : '';
-        return decryptedContent
-          ? {
-              ...message.toObject(),
-              message: decryptedContent,
-            }
-          : { ...message.toObject() };
-      });
-      return {
-        ...room.toObject(),
-        messages: decryptedMessages,
-      };
-    });
+    const decryptedChatRooms = [];
 
-    return res.json({ chats: decryptedResult });
+    for (const room of chatRooms) {
+      if (room.messages.length) {
+        const lastMessage = room.messages[room.messages.length - 1];
+
+        if (lastMessage && typeof lastMessage.message === 'string') {
+          const decrypted = await decrypt(lastMessage.message);
+          lastMessage.message = decrypted;
+        }
+
+        decryptedChatRooms.push({
+          ...room.toObject(),
+          messages: [lastMessage],
+        });
+      } else {
+        decryptedChatRooms.push({
+          ...room.toObject(),
+        });
+      }
+    }
+
+    return res.json({ chats: decryptedChatRooms });
   } catch (ex) {
     log.error({ label: 'Get Last Messages', message: ex });
     return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
