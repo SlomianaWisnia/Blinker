@@ -9,16 +9,18 @@ if (!process.env.ENCRYPT_SECRET) {
   process.exit(0);
 }
 
-const encrypt = (msg: string) => {
-  if (typeof msg !== 'string')
-    return new Error('Message has to be a string!');
+const encrypt = async (msg: string) => {
+  if (typeof msg !== 'string') {
+    throw new Error('Message has to be a string!');
+  }
 
   return aes256.encrypt(process.env.ENCRYPT_SECRET, msg);
 };
 
-const decrypt = (msg: string) => {
-  if (typeof msg !== 'string')
-    return new Error('Message has to be a string!');
+const decrypt = async (msg: string) => {
+  if (typeof msg !== 'string') {
+    throw new Error('Message has to be a string!');
+  }
 
   return aes256.decrypt(process.env.ENCRYPT_SECRET, msg);
 };
