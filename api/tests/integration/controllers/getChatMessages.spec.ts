@@ -2,7 +2,7 @@ import request from 'supertest';
 import { server } from '../../../index';
 import User from '../../../models/User';
 import ChatRoom from '../../../models/ChatRoom';
-import { encrypt } from '../../../services/encrypt';
+import { encrypt } from '../../../utils/encrypt';
 import mongoose from 'mongoose';
 
 describe('GET /api/messages/:id/:start/:limit', () => {
@@ -43,7 +43,7 @@ describe('GET /api/messages/:id/:start/:limit', () => {
       chatRoom2.messages.push({
         // @ts-ignore
         from: user1Id,
-        message: encrypt(`${i}`)
+        message: await encrypt(`${i}`)
       });
     }
     await chatRoom2.save();
