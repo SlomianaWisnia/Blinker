@@ -196,6 +196,7 @@ describe('GET /api/messages/:id/:start/:limit', () => {
     expect(Array.isArray(response.body.messages)).toBe(true);
     expect(response.body.messages.length).toBe(3);
     expect(response.body.messages[0].message).toBe('4');
+    expect(response.body.messages[0]).toHaveProperty('_id');
     expect(response.body.messages[0]).toHaveProperty('createdAt');
     expect(response.body.messages[0].from).toHaveProperty('username');
     expect(response.body.messages[0].from).toHaveProperty('avatar');
