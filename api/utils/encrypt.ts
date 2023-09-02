@@ -1,6 +1,6 @@
 import aes256 from 'aes256';
 import dotenv from 'dotenv';
-import log from '../utils/log';
+import log from './log';
 
 dotenv.config({ path: `../config/${process.env.NODE_ENV}.env` });
 
