@@ -3,7 +3,7 @@ import { server } from '../../../index';
 import User from '../../../models/User';
 import Client from 'socket.io-client';
 import ChatRoom from '../../../models/ChatRoom';
-import { decrypt } from '../../../services/encrypt';
+import { decrypt } from '../../../utils/encrypt';
 import dotenv from 'dotenv';
 dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
@@ -115,7 +115,7 @@ describe('PUT /api/send-message/:id', () => {
 
     expect(res.status).toBe(200);
     expect(chatRoom.messages[0].from.toString()).toBe(user1Id);
-    expect(decrypt(chatRoom.messages[0].message)).toBe('Hello World!');
+    expect(await decrypt(chatRoom.messages[0].message)).toBe('Hello World!');
   });
   it('should add message to the database when cookie is correct and media file is valid', async () => {
     const fd = { media: 'tests/components/test.gif' };
