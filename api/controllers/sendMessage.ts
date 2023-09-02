@@ -5,6 +5,8 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
+import { io } from '../index';
+import { encrypt } from '../utils/encrypt';
 const router = Router();
 
 router.put('/:id', async (req:RequestSession, res:Response) => {
@@ -64,9 +66,15 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
           source: `${req.file.filename}.${req.file.originalname.split('.').pop()}`
         };
 
-        await ChatRoom.updateOne({ _id: id }, {
+        const result = await ChatRoom.findOneAndUpdate({ _id: id }, {
           $push: { messages: messageBody }
-        });
+        }, { new: true });
+
+        const chatId = `${id}`;
+        const messageId = `${result.messages.pop()._id}`;
+
+        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username avatar avatarHex');
+        io.to(`${id}`).emit('sendMessage', { chatId, message: messages[0] });
 
         return res.json({ msg: 'Message successfully sent!' });
       } else {
@@ -79,12 +87,23 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
 
         const messageBody = {
           from: userId,
-          message
+          message: await encrypt(message)
         };
 
-        await ChatRoom.updateOne({ _id: id }, {
-          $push: { messages: messageBody }
-        });
+        const result = await ChatRoom.findOneAndUpdate({ _id: id }, {
+          $push: { messages: messageBody },
+        }, { new: true });
+
+        const chatId = `${id}`;
+        const messageId = `${result.messages.pop()._id}`;
+
+        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username avatar avatarHex');
+        const decryptedContent = message;
+        const decryptedMessage = decryptedContent ? {
+          ...messages[0].toObject(),
+          message: decryptedContent,
+        } : { ...messages[0].toObject};
+        io.to(`${id}`).emit('sendMessage', { chatId, message: decryptedMessage });
 
         return res.json({ msg: 'Message successfully sent!' });
       }

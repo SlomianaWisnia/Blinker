@@ -24,7 +24,12 @@ router.post('/', async (req:RequestSession, res:Response) => {
       return res.status(400).json({ msg: 'Invalid username or password!' });
 
     req.session.userId = `${result._id}`;
-    req.session.save();
+    req.session.save(err => {
+      if (err) {
+        log.error({ label: 'Auth Controller / Saving session', message: err });
+        return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+      }
+    });
 
     return res.json({ msg: 'Sucessfully logged in!' });
   } catch (ex) {

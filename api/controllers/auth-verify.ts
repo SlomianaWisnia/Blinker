@@ -1,7 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import User from '../models/User';
-import _ from 'lodash';
 import log from '../utils/log';
 const router = Router();
 

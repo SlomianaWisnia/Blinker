@@ -1,8 +1,8 @@
 import request from 'supertest';
-import server from '../../../index';
+import { server } from '../../../index';
 import User from '../../../models/User';
 
-describe('Authorization Middleware', () => {
+describe('Express Authorization Middleware', () => {
   const clearDB = async () => await User.deleteMany({});
 
   beforeAll(() => clearDB());

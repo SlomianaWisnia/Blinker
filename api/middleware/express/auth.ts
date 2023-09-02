@@ -1,7 +1,7 @@
-import User from '../models/User';
-import RequestSession from '../interfaces/RequestSession';
+import User from '../../models/User';
+import RequestSession from '../../interfaces/RequestSession';
 import { Response, NextFunction } from 'express';
-import log from '../utils/log';
+import log from '../../utils/log';
 
 export default async function (req:RequestSession, res:Response, next:NextFunction) {
   try {
@@ -17,7 +17,7 @@ export default async function (req:RequestSession, res:Response, next:NextFuncti
 
     if (!await User.exists({ _id: userId }))
       return res.status(400).json({ msg: 'Invalid token!' });
-    
+
     next();
   } catch (ex) {
       log.error({ label: 'Auth Middleware', message: ex });

@@ -1,7 +1,11 @@
 import request from 'supertest';
-import server from '../../../index';
+import { server } from '../../../index';
 import User from '../../../models/User';
+import Client from 'socket.io-client';
 import ChatRoom from '../../../models/ChatRoom';
+import { decrypt } from '../../../utils/encrypt';
+import dotenv from 'dotenv';
+dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
 describe('PUT /api/send-message/:id', () => {
   const clearDB = async () => {
@@ -103,7 +107,7 @@ describe('PUT /api/send-message/:id', () => {
     const res = await exec(chatRoomId, sessionCookie, fd);
     expect(res.status).toBe(400);
   });
-  it('should add message to the database when cookie is correct and message is in correct format', async () => {
+  it('should add encrypted message to the database when cookie is correct and message is in correct format', async () => {
     const fd = { message: 'Hello World!' };
     const res = await exec(chatRoomId, sessionCookie, fd);
 
@@ -111,7 +115,7 @@ describe('PUT /api/send-message/:id', () => {
 
     expect(res.status).toBe(200);
     expect(chatRoom.messages[0].from.toString()).toBe(user1Id);
-    expect(chatRoom.messages[0].message).toBe('Hello World!');
+    expect(await decrypt(chatRoom.messages[0].message)).toBe('Hello World!');
   });
   it('should add message to the database when cookie is correct and media file is valid', async () => {
     const fd = { media: 'tests/components/test.gif' };
@@ -122,5 +126,31 @@ describe('PUT /api/send-message/:id', () => {
     expect(res.status).toBe(200);
     expect(chatRoom.messages[0].from.toString()).toBe(user1Id);
     expect(chatRoom.messages[0].source).toBeDefined();
+  });
+  it('should return valid socket.io data when cookie is correct and message is a text', async () => {
+    const fd = { message: 'Hello World!' };
+    await exec(chatRoomId, sessionCookie, fd);
+    const clientSocket = Client(`http://localhost:${process.env.PORT}`, {
+      withCredentials: true
+    });
+
+    const chatRoom = await ChatRoom.findOne({ _id: chatRoomId, members: user1Id }).select('messages');
+
+    clientSocket.on('connection', (data:any) => {
+      expect(data).toBe(chatRoom.messages[0]);
+    });
+  });
+  it('should return valid socket.io data when cookie is correct and message is media', async () => {
+    const fd = { media: 'tests/components/test.gif' };
+    await exec(chatRoomId, sessionCookie, fd);
+    const clientSocket = Client(`http://localhost:${process.env.PORT}`, {
+      withCredentials: true
+    });
+
+    const chatRoom = await ChatRoom.findOne({ _id: chatRoomId, members: user1Id }).select('messages');
+
+    clientSocket.on('connection', (data:any) => {
+      expect(data).toBe(chatRoom.messages[0]);
+    });
   });
 });

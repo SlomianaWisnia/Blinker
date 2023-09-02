@@ -3,6 +3,8 @@ import Router, { Response } from 'express';
 import mongoose from 'mongoose';
 import log from '../utils/log';
 import ChatRoom from '../models/ChatRoom';
+import Message from '../interfaces/models/Message';
+import { decrypt } from '../utils/encrypt';
 const router = Router();
 
 router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
@@ -61,6 +63,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
                 },
               },
             },
+            "messages._id": 1,
             "messages.message": 1,
             "messages.source": 1,
             "messages.createdAt": 1,
@@ -68,7 +71,6 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
         },
         {
           $project: {
-            "messages.from._id": 0,
             "messages.from.__v": 0,
           },
         },
@@ -96,6 +98,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
               $map: {
                 input: "$messages",
                 in: {
+                  _id: "$$this._id",
                   message: "$$this.message",
                   source: "$$this.source",
                   createdAt: "$$this.createdAt",
@@ -107,11 +110,21 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
         },
       ]);     
         
+      const decryptedMessagesPromises = result[0].messages.map(async (message:Message) => {
+        return message.message ? {
+          ...message,
+          message: await decrypt(message.message)
+        } : { ...message };
+      });
+      const decryptedMessages = await Promise.all(decryptedMessagesPromises);
+  
+      result[0].messages = decryptedMessages;
+  
       const { messages, reachedMax } = result[0];
       if (!messages[0].from)
-        return res.json({ messages: [], reachedMax } );
-
-      return res.json({ messages, reachedMax } );
+        return res.json({ messages: [], reachedMax });
+  
+      return res.json({ messages, reachedMax });
   } catch (ex) {
       log.error({ label: 'Get Chat Messages', message: ex });
       return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
