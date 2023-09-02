@@ -1,7 +1,7 @@
 <template>
 	<FormKit type="submit" outer-class="submit" :disabled="props.loading">
 		<p v-if="!props.loading">{{ props.type === 'login' ? 'Log in' : 'Sign Up' }}</p>
-		<HalfCircleSpinner v-if="props.loading" color=#dfeed8 :size=30 />
+		<HalfCircleSpinner v-if="props.loading" color=#dfeed8 :size=30 class="formBtnSpinner" />
 	</FormKit>
 </template>
 <script setup lang="ts">
@@ -42,6 +42,13 @@ const props = defineProps({
 		&:disabled {
 			opacity: 0.6;
 			cursor: not-allowed;
+		}
+
+		.formBtnSpinner {
+			position: absolute !important;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
 		}
 	}
 }
