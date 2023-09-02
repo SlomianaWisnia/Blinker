@@ -63,6 +63,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
                 },
               },
             },
+            "messages._id": 1,
             "messages.message": 1,
             "messages.source": 1,
             "messages.createdAt": 1,
@@ -70,7 +71,6 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
         },
         {
           $project: {
-            "messages.from._id": 0,
             "messages.from.__v": 0,
           },
         },
@@ -98,6 +98,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
               $map: {
                 input: "$messages",
                 in: {
+                  _id: "$$this._id",
                   message: "$$this.message",
                   source: "$$this.source",
                   createdAt: "$$this.createdAt",
