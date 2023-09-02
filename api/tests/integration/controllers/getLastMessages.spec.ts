@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { server } from '../../../index';
 import User from '../../../models/User';
-import { encrypt } from '../../../services/encrypt';
+import { encrypt } from '../../../utils/encrypt';
 import ChatRoom from '../../../models/ChatRoom';
 
 describe('GET /api/get-last-messages', () => {
@@ -56,11 +56,11 @@ describe('GET /api/get-last-messages', () => {
       messages:[
         {
           from: _id,
-          message: encrypt('Hello World!')
+          message: await encrypt('Hello World!')
         },
         {
           from: _id,
-          message: encrypt('Last Message')
+          message: await encrypt('Last Message')
         }
       ]
     }).save();
