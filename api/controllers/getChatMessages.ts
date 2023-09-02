@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import log from '../utils/log';
 import ChatRoom from '../models/ChatRoom';
 import Message from '../interfaces/models/Message';
-import { decrypt } from '../services/encrypt';
+import { decrypt } from '../utils/encrypt';
 const router = Router();
 
 router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
