@@ -35,8 +35,9 @@ const getChatrooms = async () => {
 		const fetchedChats: Array<FetchedChats> = res.data.chats;
 		state.chats = fetchedChats.map(({ _id, messages, members }) => {
 			const last_message = messages[0];
+
 			const friend = members.find(({ username }) => username !== loggedInUserUsername);
-			return { id: _id, friend, last_message };
+			return { id: _id, friend, last_message: { ...last_message, } };
 		});
 
 	} catch (error: unknown) {

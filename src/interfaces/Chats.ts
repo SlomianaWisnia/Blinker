@@ -3,10 +3,11 @@ export default interface Chats {
 	friend?: {
 		username: string;
 		avatar?: string | undefined;
+		avatarHex?: string | undefined;
 	};
 	last_message: {
 		_id: string;
-		created: string;
+		createdAt: Date;
 		message: string;
 		from: {
 			avatar?: string | undefined;
