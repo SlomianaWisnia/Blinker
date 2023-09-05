@@ -89,6 +89,8 @@ app.use('/api/auth-verify', [authorization, authVerify]);
 app.use('/api/update-avatar', [authorization, updateAvatar]);
 app.use('/api/logout', logOut);
 
+app.use('/media/users', express.static(__dirname + '/media/users'));
+
 io.on('connection', async (socket:Socket & { request: { session: { userId: string } } }) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
   chatrooms.forEach((room:{ _id: Schema.Types.ObjectId }) => {
