@@ -6,6 +6,7 @@ interface Friend {
 export default interface UserInfo {
 	user: {
 		avatar?: string;
+		avatarHex?: string;
 		username: string;
 		email: string;
 	};
