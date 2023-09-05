@@ -10,6 +10,11 @@
  *         description: ID of the chat room
  *         required: true
  *         type: string
+ *       - in: cookie
+ *         name: connect.sid
+ *         schema:
+ *           type: string
+ *           required: true
  *     requestBody:
  *       required: true
  *       content:
