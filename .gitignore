@@ -14,7 +14,7 @@ dist-ssr
 production.env
 coverage
 log
-api/media/chats
+api/media
 
 # Editor directories and files
 .vscode/*

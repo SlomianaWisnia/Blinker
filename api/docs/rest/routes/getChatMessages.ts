@@ -23,6 +23,11 @@
  *         required: true
  *         schema:
  *           type: number
+ *       - in: cookie
+ *         name: connect.sid
+ *         schema:
+ *           type: string
+ *           required: true
  *         description: The number of messages to retrieve
  *     responses:
  *       200:

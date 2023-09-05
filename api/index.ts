@@ -20,6 +20,7 @@ import getChatMessages from './routes/getChatMessages';
 import sendMessage from './routes/sendMessage';
 import authVerify from './routes/auth-verify';
 import logOut from './routes/logOut';
+import updateAvatar from './routes/updateAvatar';
 import log from './utils/log';
 
 import ChatRoom from './models/ChatRoom';
@@ -85,7 +86,10 @@ app.use('/api/get-last-messages', [authorization, getLastMessages]);
 app.use('/api/messages', [authorization, getChatMessages]);
 app.use('/api/send-message', [authorization, sendMessage]);
 app.use('/api/auth-verify', [authorization, authVerify]);
+app.use('/api/update-avatar', [authorization, updateAvatar]);
 app.use('/api/logout', logOut);
+
+app.use('/media/users', express.static(__dirname + '/media/users'));
 
 io.on('connection', async (socket:Socket & { request: { session: { userId: string } } }) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
