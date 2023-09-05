@@ -1,6 +1,6 @@
 <template>
 	<ErrorMessage v-if="state.error" :message="state.errorMessage" />
-	<button @click="optionsSaveHandler" :class="$style.saveBtn" :disabled="state.loading">
+	<button @click="optionsSaveHandler" :class="$style.saveBtn" :disabled="state.loading || props.disabled">
 		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 :size=30 :class="$style.optSaveBtn" />
 		<p v-if="!state.loading">Save</p>
 	</button>
@@ -8,18 +8,29 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
+import { useStore } from 'vuex';
 import axios from 'axios';
 import { HalfCircleSpinner } from 'epic-spinners';
 import ErrorMessage from '@/components/reusable/ErrorMessage.vue';
 
+const store = useStore();
+
+const addUserAvatarToLocalStore = () => {
+	store.commit('addUserAvatar', props.payload);
+};
+
 const props = defineProps({
 	payload: {
-		type: Object,
+		type: String,
 		default: undefined,
 	},
 	endpoint: {
 		type: String,
 		default: undefined
+	},
+	disabled: {
+		type: Boolean,
+		default: undefined,
 	}
 });
 
@@ -33,9 +44,10 @@ const optionsSaveHandler = async () => {
 	state.loading = true;
 
 	try {
-		await axios.put(`${props.endpoint}`, {
-			...props.payload
-		});
+		await axios.put(`${props.endpoint}`,
+			props.payload
+		);
+		addUserAvatarToLocalStore();
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			state.error = true;
