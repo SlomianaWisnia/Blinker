@@ -12,6 +12,7 @@ import ChatView from '../views/ChatView.vue';
 import ChatLayout from '../layouts/ChatLayout.vue';
 import ProfileView from '@/views/ProfileView.vue';
 import ProfilePhotoEditVue from '@/components/profile/ProfilePhotoEdit.vue';
+import UsernameChange from '@/components/profile/UsernameChange.vue';
 
 let isAuthorized = false;
 
@@ -83,6 +84,12 @@ const routes: Array<RouteRecordRaw> = [
 				name: 'Photo Edit',
 				path: 'photo-edit',
 				component: ProfilePhotoEditVue,
+				meta: { layoutType: 'close' },
+			},
+			{
+				name: 'Your Name',
+				path: 'username-edit',
+				component: UsernameChange,
 				meta: { layoutType: 'close' },
 			},
 		],

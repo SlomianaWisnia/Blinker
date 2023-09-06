@@ -28,7 +28,7 @@ const profileOptions = [
 		title: loggedInUserUserName,
 		icon: accountIcon,
 		description: 'Your name',
-		to: '/profile/name'
+		to: '/profile/username-edit'
 	},
 	{
 		title: 'About',
