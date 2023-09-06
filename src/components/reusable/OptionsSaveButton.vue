@@ -2,7 +2,8 @@
 	<ErrorMessage v-if="state.error" :message="state.errorMessage" />
 	<button @click="optionsSaveHandler" :class="$style.saveBtn" :disabled="state.loading || props.disabled">
 		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 :size=30 :class="$style.optSaveBtn" />
-		<p v-if="!state.loading">Save</p>
+		<img :src=doneIcon v-if="state.isDone" :class="$style.doneIcon" alt="Icon marking that the action succeded">
+		<p v-if="!state.loading && !state.isDone">Save</p>
 	</button>
 </template>
 
@@ -12,6 +13,7 @@ import { useStore } from 'vuex';
 import axios from 'axios';
 import { HalfCircleSpinner } from 'epic-spinners';
 import ErrorMessage from '@/components/reusable/ErrorMessage.vue';
+import doneIcon from '@/assets/icons/forms/done.svg';
 
 const store = useStore();
 
@@ -21,7 +23,7 @@ const addUserAvatarToLocalStore = () => {
 
 const props = defineProps({
 	payload: {
-		type: String,
+		type: Object,
 		default: undefined,
 	},
 	endpoint: {
@@ -38,10 +40,12 @@ const state = reactive({
 	loading: false,
 	error: false,
 	errorMessage: '',
+	isDone: false,
 });
 
 const optionsSaveHandler = async () => {
 	state.loading = true;
+	state.isDone = false;
 
 	try {
 		await axios.put(`${props.endpoint}`,
@@ -56,6 +60,10 @@ const optionsSaveHandler = async () => {
 		}
 	} finally {
 		state.loading = false;
+		state.isDone = true;
+		setTimeout(() => {
+			state.isDone = false;
+		}, 1500);
 	}
 };
 
@@ -91,5 +99,13 @@ const optionsSaveHandler = async () => {
 .saveBtn:disabled {
 	opacity: 0.6;
 	cursor: not-allowed;
+}
+
+.doneIcon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 30px;
 }
 </style>
