@@ -37,14 +37,18 @@ const props = defineProps({
 	display: flex;
 	flex-direction: column;
 	width: 90%;
+
+	.modalCloseBtn {
+		position: absolute;
+		width: 30px;
+		right: 0;
+		top: -30px;
+		background: none;
+		padding: 0;
+	}
 }
 
-.modalCloseBtn {
-	position: absolute;
-	width: 30px;
-	right: 0;
-	top: -30px;
-}
+
 
 .modalFade-enter-from,
 .modalFade-leave-to {

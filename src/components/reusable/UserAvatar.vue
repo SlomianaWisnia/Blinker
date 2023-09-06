@@ -4,8 +4,8 @@
 			:style="{ width: sizePx, height: sizePx, fontSize: fontSizePx, backgroundColor: props.avatarHex ? props.avatarHex : loggedInUserInfo.avatarHex }">
 			{{ getCapitalizedFirstLetter(props.username || loggedInUserInfo.username) }}
 		</p>
-		<img @error="imgErrorHandler" :class="$style.avatarImg" v-if="props.avatar && isImgValid"
-			:src="props.avatar || loggedInUserInfo.avatar" alt="" />
+		<img @error="imgErrorHandler" :class="$style.avatarImg" :style="{ width: sizePx, height: sizePx }"
+			v-if="props.avatar && isImgValid" :src="props.avatar || loggedInUserInfo.avatar" alt="" />
 	</div>
 </template>
 
@@ -57,7 +57,6 @@ const fontSizePx = computed(() => `${props.size * 0.45}px`);
 }
 
 .avatarImg {
-	height: 140px;
 	border-radius: 50%;
 	box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.2);
 	margin-right: 0.2rem;
