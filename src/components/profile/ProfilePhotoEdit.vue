@@ -7,7 +7,7 @@
 		</div>
 		<div :class="$style.options">
 			<div>
-				<img :src="cameraIcon" alt="camera icon">
+				<img :src="cameraIcon" alt="camera icon" @click="showModal">
 				<p>Camera</p>
 			</div>
 			<div>
@@ -17,6 +17,14 @@
 			</div>
 		</div>
 		<OptionsSaveButton :payload=image :disabled=!isImageModified />
+
+		<Modal v-show="isModalVisible" :close="closeModal">
+			<template v-slot:content>
+				<div :class="$style.webCam">
+					<WebCamUI fullScreenState="false" fullscreenButton="false" @photoTaken="photoTaken" />
+				</div>
+			</template>
+		</Modal>
 	</div>
 </template>
 
@@ -28,11 +36,28 @@ import cameraIcon from '@/assets/icons/profile/camera.svg';
 import photoIcon from '@/assets/icons/profile/photo.svg';
 import closeIcon from '@/assets/icons/navigation/close.svg';
 import OptionsSaveButton from '@/components/reusable/OptionsSaveButton.vue';
+import { WebCamUI } from 'vue-camera-lib';
+import Modal from '@/components/reusable/Modal.vue';
 
 const store = useStore();
 
 const hiddenFileInput = ref<null | HTMLInputElement>(null);
 const image = ref(store.state.loggedInUserData.user.avatar);
+
+const isModalVisible = ref(false);
+
+const showModal = () => {
+	isModalVisible.value = true;
+};
+
+const closeModal = () => {
+	isModalVisible.value = false;
+};
+
+const photoTaken = (data) => {
+	console.log('image blob: ', data.blob);
+	console.log('image data url', data.image_data_url);
+};
 
 const isAvatarDefault = computed(() => {
 	return image.value;
@@ -89,7 +114,6 @@ const deleteImage = () => {
 
 	}
 
-
 	.options {
 		@include flex-center;
 		gap: 2rem;
@@ -119,5 +143,29 @@ const deleteImage = () => {
 			height: 58px;
 		}
 	}
+
+
+	.webCam {
+		color: black;
+		text-align: center;
+
+		button {
+			font-size: 1rem;
+			color: $txt-color-primary;
+			border-radius: 0.5rem;
+			border: none;
+			padding: 0.7rem 1.8rem;
+			background-color: lighten($bg-color-secondary, 1%);
+			cursor: pointer;
+			margin-top: 1rem;
+
+			&:hover {
+				background-color: lighten($bg-color-secondary, 4%);
+			}
+
+		}
+
+	}
+
 }
 </style>
