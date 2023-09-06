@@ -36,6 +36,7 @@ const props = defineProps({
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	width: 90%;
 }
 
 .modalCloseBtn {
