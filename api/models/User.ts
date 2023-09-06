@@ -18,13 +18,11 @@ const schema = new mongoose.Schema<User>({
     emoji: {
       type: String,
       length: 1,
-      required: true,
     },
     bio: {
       type: String,
       minlength: 1,
       maxLength: 256,
-      required: true,
     },
   },
   avatar: {
@@ -48,5 +46,13 @@ const schema = new mongoose.Schema<User>({
     ref: 'User'
   }]
 });
+
+schema.path('about.emoji').validate(
+  function (val):boolean {
+    const both = Boolean(val && this.about.bio);
+    return Boolean(both || !both);
+  },
+  'Both paths about.emoji and about.bio have to be filled or empty!'
+);
 
 export default mongoose.model('User', schema);
