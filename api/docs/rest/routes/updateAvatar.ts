@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/update-avatar:
+ * /api/user/update-avatar:
  *   put:
  *     summary: Updates User Avatar
  *     tags: [Update User]

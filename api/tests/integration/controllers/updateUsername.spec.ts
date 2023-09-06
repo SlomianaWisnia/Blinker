@@ -5,7 +5,7 @@ import User from '../../../models/User';
 import dotenv from 'dotenv';
 dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
-describe('PUT /api/update-username', () => {
+describe('PUT /api/user/update-username', () => {
   const clearDB = async () => {
     await User.deleteMany({});
   }
@@ -14,7 +14,7 @@ describe('PUT /api/update-username', () => {
 
   const exec = async (cookie: string, body:any) => {
     return request(server)
-      .put('/api/update-username')
+      .put('/api/user/update-username')
       .set('Cookie', cookie)
       .send(body);
   };

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /api/update-username:
+ * /api/user/update-username:
  *   put:
  *     summary: Updates User Username
  *     tags: [Update User]
