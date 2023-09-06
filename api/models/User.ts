@@ -14,6 +14,19 @@ const schema = new mongoose.Schema<User>({
     maxlength: 70,
     required: true
   },
+  about: {
+    emoji: {
+      type: String,
+      length: 1,
+      required: true,
+    },
+    bio: {
+      type: String,
+      minlength: 1,
+      maxLength: 256,
+      required: true,
+    },
+  },
   avatar: {
     type: String,
     minlength: 5,
