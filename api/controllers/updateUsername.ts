@@ -30,7 +30,7 @@ router.put('/', async (req:RequestSession, res:Response) => {
       username: req.body.username,
     });
 
-    return res.json({ msg: 'Username susccessfully updated!' });
+    return res.json({ msg: 'Username successfully updated!' });
   } catch (ex) {
     log.error({ label: 'Update Username', message: ex });
     return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
