@@ -53,6 +53,22 @@
  *                           username:
  *                             type: string
  *                             required: true
+ *                           about:
+ *                             type: object
+ *                             properties:
+ *                               emoji:
+ *                                 type: string
+ *                                 minLength: 1
+ *                                 maxLength: 1
+ *                                 example: '👍'
+ *                                 required: true
+ *                                 description: Emoji for User About
+ *                               bio:
+ *                                 type: string
+ *                                 minLength: 1
+ *                                 maxLength: 256
+ *                                 required: true
+ *                                 description: Bio for User About
  *                           avatar:
  *                             type: string
  *                           avatarHex:
@@ -68,7 +84,7 @@
  *                 reachedMax:
  *                   type: boolean
  *               example:
- *                 messages: [{ _id: '649424a8f3ca6c564f58c857', from: { username: 'Test1', avatar: 'example.png', avatarHex: '#cbcbcb' }, message: 'Hello World!', createdAt: '2023-06-26T16:35:31.538Z' }]
+ *                 messages: [{ _id: '649424a8f3ca6c564f58c857', from: { username: 'Test1', about: { emoji: '👍', bio: 'Hello World!' }, avatar: 'example.png', avatarHex: '#cbcbcb' }, message: 'Hello World!', createdAt: '2023-06-26T16:35:31.538Z' }]
  *                 reachedMax: false
  *       400:
  *         description: Invalid parameters, Chat Room ID or cookie is signed for invalid User

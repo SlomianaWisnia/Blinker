@@ -12,7 +12,7 @@ router.get('/', async (req: RequestSession, res: Response) => {
 
     const chatRooms = await ChatRoom.find({ members: userId })
       .select('members messages')
-      .populate('members messages.from', '-_id username avatar avatarHex');
+      .populate('members messages.from', '-_id username about avatar avatarHex');
 
     if (!chatRooms || chatRooms.length === 0) {
       return res.json({ chats: [] });

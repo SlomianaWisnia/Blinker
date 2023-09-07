@@ -68,6 +68,22 @@
  *                                 description: Member's username
  *                                 example: Test1
  *                                 required: true
+ *                               about:
+ *                                 type: object
+ *                                 properties:
+ *                                   emoji:
+ *                                     type: string
+ *                                     minLength: 1
+ *                                     maxLength: 1
+ *                                     example: '👍'
+ *                                     required: true
+ *                                     description: Emoji for User About
+ *                                   bio:
+ *                                     type: string
+ *                                     minLength: 1
+ *                                     maxLength: 256
+ *                                     required: true
+ *                                     description: Bio for User About
  *                               avatar:
  *                                 type: string
  *                                 minLength: 5
@@ -99,6 +115,22 @@
  *                                     maxLength: 50
  *                                     description: Sender's username
  *                                     required: true
+ *                                   about:
+ *                                     type: object
+ *                                     properties:
+ *                                       emoji:
+ *                                         type: string
+ *                                         minLength: 1
+ *                                         maxLength: 1
+ *                                         example: '👍'
+ *                                         required: true
+ *                                         description: Emoji for User About
+ *                                       bio:
+ *                                         type: string
+ *                                         minLength: 1
+ *                                         maxLength: 256
+ *                                         required: true
+ *                                         description: Bio for User About
  *                                   avatar:
  *                                     type: string
  *                                     minLength: 5
@@ -130,6 +162,7 @@
  *                             _id: 64830300d29f75fd600c4436
  *                             from: {
  *                               username: 'Test1',
+ *                               about: { emoji: '👍', bio: 'Hello World!' },
  *                               avatar: '64830300d29f75fd600c4436.jpg',
  *                               avatarHex: '#333333',
  *                             }
