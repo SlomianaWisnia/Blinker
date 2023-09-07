@@ -11,7 +11,9 @@ router.put('/', async (req:RequestSession, res:Response) => {
   try {
     const { userId } = req.session;
 
-    const path = `./media/users/${userId}/avatar`;
+    const user = await User.findOne({ _id: userId }).select('username avatar');
+
+    const path = `./media/users/${user.username}/avatar`;
 
     const storage = multer.diskStorage(
       {
@@ -43,8 +45,6 @@ router.put('/', async (req:RequestSession, res:Response) => {
         cb(null, true);
       }
     }).single('avatar');
-
-    const user = await User.findOne({ _id: userId }).select('avatar');
 
     upload(req, res, async (err) => {
       if (req.file !== undefined) {
