@@ -64,6 +64,22 @@
  *                             description: Logged user's email
  *                             example: a@vp.pl
  *                             required: true
+ *                           about:
+ *                             type: object
+ *                             properties:
+ *                               emoji:
+ *                                 type: string
+ *                                 minLength: 1
+ *                                 maxLength: 1
+ *                                 example: '👍'
+ *                                 required: true
+ *                                 description: Emoji for User About
+ *                               bio:
+ *                                 type: string
+ *                                 minLength: 1
+ *                                 maxLength: 256
+ *                                 required: true
+ *                                 description: Bio for User About
  *                           avatar:
  *                             type: string
  *                             description: Logged user's path for avatar
@@ -83,6 +99,22 @@
  *                               type: string
  *                               description: Friend's username
  *                               required: true
+ *                             about:
+ *                               type: object
+ *                               properties:
+ *                                 emoji:
+ *                                   type: string
+ *                                   minLength: 1
+ *                                   maxLength: 1
+ *                                   example: '👍'
+ *                                   required: true
+ *                                   description: Emoji for User About
+ *                                 bio:
+ *                                   type: string
+ *                                   minLength: 1
+ *                                   maxLength: 256
+ *                                   required: true
+ *                                   description: Bio for User About
  *                             avatar:
  *                               type: string
  *                               description: Friend's path for avatar

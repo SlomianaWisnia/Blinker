@@ -1,11 +1,10 @@
 import request from 'supertest';
 import { server } from '../../../index';
-import fs from 'fs';
 import User from '../../../models/User';
 import dotenv from 'dotenv';
 dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
-describe('PUT /api/user/update-username', () => {
+describe('PUT /api/user/update-about', () => {
   const clearDB = async () => {
     await User.deleteMany({});
   }
@@ -14,7 +13,7 @@ describe('PUT /api/user/update-username', () => {
 
   const exec = async (cookie: string, body:any) => {
     return request(server)
-      .put('/api/user/update-username')
+      .put('/api/user/update-about')
       .set('Cookie', cookie)
       .send(body);
   };
@@ -29,14 +28,6 @@ describe('PUT /api/user/update-username', () => {
       password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
     });
     await user1.save();
-    
-    const user2 = new User({
-      username: 'user2',
-      email: 'user2@example.com',
-      avatarHex: '#123456',
-      password: '$2b$15$5CW6wntRwsGIgF/FKhX3SO7/Bp9mthsfC/CqxtQ6x16dJSVOcueju' // 12345678 password
-    });
-    await user2.save();
 
     const authResponse = await request(server)
       .post('/api/auth')
@@ -69,21 +60,43 @@ describe('PUT /api/user/update-username', () => {
     const res = await exec(sessionCookie, '');
     expect(res.status).toBe(400);
   });
-  it('should return 400 if cookie is valid but username is the same', async () => {
-    const res = await exec(sessionCookie, { username: 'user1' });
+  it('should return 400 if cookie is valid but emoji is not defined', async () => {
+    const res = await exec(sessionCookie, { about: { bio: 'Hello World!' } });
 
     expect(res.status).toBe(400);
   });
-  it('should return 400 if cookie is valid but username is already taken', async () => {
-    const res = await exec(sessionCookie, { username: 'user2' });
+  it('should return 400 if cookie is valid but bio is not defined', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '😋' } });
 
     expect(res.status).toBe(400);
   });
-  it('should update username if cookie and username are valid', async () => {
-    const res = await exec(sessionCookie, { username: 'user3' });
+  it('should return 400 if cookie is valid but emoji is an empty string', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '', bio: 'Hello World!' } });
+
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if cookie is valid but bio is an empty string', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '😋', bio: '' } });
+
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if cookie is valid but emoji is 2 chars long', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '😋😋', bio: 'Hello World!' } });
+
+    expect(res.status).toBe(400);
+  });
+  it('should return 400 if cookie is valid but bio is 257 chars long', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '😋', bio: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' } });
+
+    expect(res.status).toBe(400);
+  });
+  it('should update username if cookie and about object are valid', async () => {
+    const res = await exec(sessionCookie, { about: { emoji: '😋', bio: 'Hello World!' } });
 
     expect(res.status).toBe(200);
-    expect(await User.exists({ username: 'user3' })).toBeTruthy();
-    expect(await User.exists({ username: 'user1' })).toBeFalsy();
+
+    const user = await User.findOne({ username: 'user1' });
+    expect(user.about.emoji).toBe('😋');
+    expect(user.about.bio).toBe('Hello World!');
   });
 });

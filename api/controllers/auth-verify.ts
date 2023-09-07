@@ -7,7 +7,7 @@ const router = Router();
 router.post('/', async (req:RequestSession, res:Response) => {
   try {
     const { userId } = req.session;
-    const user = await User.findOne({ _id: userId }).lean().select('-_id username email avatar avatarHex').populate('friends', '-_id username avatar avatarHex');
+    const user = await User.findOne({ _id: userId }).lean().select('-_id username email about avatar avatarHex').populate('friends', '-_id username about avatar avatarHex');
 
     const { friends } = user;
     delete user.friends;

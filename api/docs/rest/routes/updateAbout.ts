@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /api/user/update-username:
+ * /api/user/update-about:
  *   put:
- *     summary: Updates User Username
+ *     summary: Updates User About
  *     tags: [Update User]
  *     parameters:
  *       - in: cookie
@@ -11,19 +11,30 @@
  *           type: string
  *           required: true
  *     requestBody:
- *       description: User's new username
+ *       description: User's new About
  *       required: true
  *       content:
  *         application/json:
  *           schema:
  *             type: object
  *             properties:
- *               username:
- *                 type: string
- *                 minLength: 5
- *                 maxLength: 70
- *                 required: true
- *                 description: User's new username
+ *               about:
+ *                type: object
+ *                required: true
+ *                properties:
+ *                 emoji:
+ *                  type: string
+ *                  minLength: 1
+ *                  maxLength: 1
+ *                  example: 👍
+ *                  required: true
+ *                  description: User's new Emoji
+ *                 bio:
+ *                  type: string
+ *                  minLength: 1
+ *                  maxLength: 256
+ *                  required: true
+ *                  description: User's new Bio
  *     responses:
  *        400:
  *          description: Invalid body
@@ -53,7 +64,7 @@
  *                  msg:
  *                    type: string
  *        200:
- *          description: Successfully updated username
+ *          description: Successfully updated about section
  *          content:
  *             application/json:
  *               schema:

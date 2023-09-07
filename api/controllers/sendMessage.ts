@@ -73,7 +73,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
         const chatId = `${id}`;
         const messageId = `${result.messages.pop()._id}`;
 
-        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username avatar avatarHex');
+        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username about avatar avatarHex');
         io.to(`${id}`).emit('sendMessage', { chatId, message: messages[0] });
 
         return res.json({ msg: 'Message successfully sent!' });
@@ -97,7 +97,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
         const chatId = `${id}`;
         const messageId = `${result.messages.pop()._id}`;
 
-        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username avatar avatarHex');
+        const { messages } = await ChatRoom.findOne({ _id: chatId, 'messages._id': messageId }).select('messages').slice('messages', -1).populate('messages.from', '-_id username about avatar avatarHex');
         const decryptedContent = message;
         const decryptedMessage = decryptedContent ? {
           ...messages[0].toObject(),
