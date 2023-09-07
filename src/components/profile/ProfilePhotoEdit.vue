@@ -1,9 +1,9 @@
 <template>
 	<div :class="$style.profilePhotoEdit">
 		<div :class="$style.avatar">
-			<UserAvatar :avatar=image :size="140" />
-			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault" :class="$style.cancelIcon"
-				@click="deleteImage">
+			<UserAvatar :avatar="image" @handleImgError="handleImgError" :size="140" />
+			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault && !isImageInvalid"
+				:class="$style.cancelIcon" @click="deleteImage">
 		</div>
 		<div :class="$style.options">
 			<CameraCapture @photoTake="onPhotoTaken" />
@@ -24,6 +24,7 @@ import CameraCapture from './CameraCapture.vue';
 
 const store = useStore();
 
+const isImageInvalid = ref(false);
 const image = ref(store.state.loggedInUserData.user.avatar);
 
 const isAvatarDefault = computed(() => {
@@ -49,6 +50,9 @@ const deleteImage = () => {
 	image.value = null;
 };
 
+const handleImgError = () => {
+	isImageInvalid.value = !isImageInvalid.value;
+};
 </script>
 
 <style module lang="scss">

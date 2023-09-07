@@ -10,16 +10,18 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
 import { ref } from 'vue';
 import getCapitalizedFirstLetter from '@/helpers/getCapitalizedFirstLetter';
 
 const store = useStore();
+const emit = defineEmits(['handleImgError']);
 
 const loggedInUserInfo = computed(() => {
 	return store.state.loggedInUserData.user;
 });
+
 
 const isImgValid = ref(true);
 const props = defineProps({
@@ -41,8 +43,14 @@ const props = defineProps({
 	}
 });
 
+watch(props, () => {
+	isImgValid.value = true;
+	emit('handleImgError');
+});
+
 const imgErrorHandler = () => {
 	isImgValid.value = false;
+	emit('handleImgError');
 };
 
 const sizePx = computed(() => `${props.size}px`);
