@@ -28,7 +28,9 @@
  *         properties:
  *          emoji:
  *           type: string
- *           length: 1
+ *           minLength: 1
+ *           maxLength: 1
+ *           example: '👍'
  *           required: true
  *           description: Emoji for User About
  *          bio:
