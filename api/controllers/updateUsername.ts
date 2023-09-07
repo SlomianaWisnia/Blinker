@@ -1,5 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
+import fs from 'fs';
 import log from '../utils/log';
 import User from '../models/User';
 import validate from '../validate/updateUsername';
@@ -16,6 +17,14 @@ router.put('/', async (req:RequestSession, res:Response) => {
 
     if (await User.exists({ username: req.body.username }))
       return res.status(400).json({ msg: 'Username is already taken!' });
+
+    const user = await User.findOne({ _id: userId }).select('username avatar');
+
+    const path = `./media/users/${user.username}`;
+
+    if (fs.existsSync(path)) {
+      fs.renameSync(path, `./media/users/${req.body.username}`);
+    }
 
     await User.findOneAndUpdate({ _id: userId }, {
       username: req.body.username,
