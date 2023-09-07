@@ -9,7 +9,7 @@
 import { ref } from 'vue';
 import photoIcon from '@/assets/icons/profile/photo.svg';
 
-const emit = defineEmits();
+const emit = defineEmits(['imageChange']);
 const hiddenFileInput = ref<null | HTMLInputElement>(null);
 
 const handleImageUpload = () => {

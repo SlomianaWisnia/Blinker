@@ -17,8 +17,14 @@ import doneIcon from '@/assets/icons/forms/done.svg';
 
 const store = useStore();
 
-const addUserAvatarToLocalStore = () => {
-	store.commit('addUserAvatar', props.payload);
+const addOptionsToLocalStore = () => {
+	if (props.payload) {
+		if ('username' in props.payload) {
+			store.commit('changeUsername', props.payload.username);
+		} else if ('avatar' in props.payload) {
+			store.commit('addUserAvatar', props.payload);
+		}
+	}
 };
 
 const props = defineProps({
@@ -51,7 +57,7 @@ const optionsSaveHandler = async () => {
 		await axios.put(`${props.endpoint}`,
 			props.payload
 		);
-		addUserAvatarToLocalStore();
+		addOptionsToLocalStore();
 	} catch (error: unknown) {
 		if (error instanceof Error) {
 			state.error = true;

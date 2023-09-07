@@ -25,6 +25,11 @@ const store = createStore<RootState>({
 				state.loggedInUserData.user['avatar'] = payload;
 			}
 		},
+		changeUsername(state: RootState, payload: string) {
+			if (state.loggedInUserData) {
+				state.loggedInUserData.user['username'] = payload;
+			}
+		},
 	},
 });
 
