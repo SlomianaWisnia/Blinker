@@ -58,6 +58,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
                 input: "$messages.from",
                 in: {
                   username: "$$this.username",
+                  about: "$$this.about",
                   avatar: "$$this.avatar",
                   avatarHex: "$$this.avatarHex",
                 },
