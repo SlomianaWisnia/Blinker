@@ -10,19 +10,7 @@ import authorizationSocket from './middleware/socket/auth';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import './services/db';
-import swaggerUI from 'swagger-ui-express';
-import specs from './docs/rest/index';
-import auth from './routes/auth';
-import authorization from './middleware/express/auth';
-import register from './routes/register';
-import getLastMessages from './routes/getLastMessages';
-import getChatMessages from './routes/getChatMessages';
-import sendMessage from './routes/sendMessage';
-import authVerify from './routes/auth-verify';
-import logOut from './routes/logOut';
-import updateAvatar from './routes/updateAvatar';
-import updateUsername from './routes/updateUsername';
-import updateAbout from './routes/updateAbout';
+import routes from './routes';
 import log from './utils/log';
 
 import ChatRoom from './models/ChatRoom';
@@ -71,6 +59,8 @@ app.use(sessionMiddleware);
 
 app.use(helmet());
 
+app.use(routes);
+
 io.use(function (socket:Socket & { request: { res: object } }, next: () => void) {
   sessionMiddleware(socket.request, socket.request.res, next);
 });
@@ -78,20 +68,6 @@ io.use(function (socket:Socket & { request: { res: object } }, next: () => void)
 io.use(authorizationSocket);
 
 io.engine.use(helmet());
-
-if (process.env.NODE_ENV === 'development') {
-  app.use('/docs/rest', swaggerUI.serve, swaggerUI.setup(specs));
-}
-app.use('/api/auth', auth);
-app.use('/api/register', register);
-app.use('/api/get-last-messages', [authorization, getLastMessages]);
-app.use('/api/messages', [authorization, getChatMessages]);
-app.use('/api/send-message', [authorization, sendMessage]);
-app.use('/api/auth-verify', [authorization, authVerify]);
-app.use('/api/user/update-avatar', [authorization, updateAvatar]);
-app.use('/api/user/update-username', [authorization, updateUsername]);
-app.use('/api/user/update-about', [authorization, updateAbout]);
-app.use('/api/logout', logOut);
 
 app.use('/media/users', express.static(__dirname + '/media/users'));
 
