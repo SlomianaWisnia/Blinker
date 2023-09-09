@@ -2,7 +2,8 @@
 	<ErrorMessage v-if="state.error" :message="state.errorMessage" />
 	<button @click="optionsSaveHandler" :class="$style.saveBtn" :disabled="state.loading || props.disabled">
 		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 :size=30 :class="$style.optSaveBtn" />
-		<img :src=doneIcon v-if="state.isDone" :class="$style.doneIcon" alt="Icon marking that the action succeded">
+		<img :src=doneIcon v-if="state.isDone && !state.error" :class="$style.doneIcon"
+			alt="Icon marking that the action succeded">
 		<p v-if="!state.loading && !state.isDone">Save</p>
 	</button>
 </template>
@@ -16,15 +17,9 @@ import ErrorMessage from '@/components/reusable/ErrorMessage.vue';
 import doneIcon from '@/assets/icons/forms/done.svg';
 
 const store = useStore();
-
-const addOptionsToLocalStore = () => {
-	if (props.payload) {
-		if ('username' in props.payload) {
-			store.commit('changeUsername', props.payload.username);
-		} else if ('avatar' in props.payload) {
-			store.commit('addUserAvatar', props.payload);
-		}
-	}
+const fd = new FormData();
+const axiosConfig = {
+	headers: {},
 };
 
 const props = defineProps({
@@ -49,13 +44,40 @@ const state = reactive({
 	isDone: false,
 });
 
+const setMultiPartData = () => {
+	if (props.payload) {
+		if ('avatar' in props.payload) {
+			console.log(props.payload.avatar);
+			const avatarFile = new File([props.payload.avatar], 'piece of art.png', { type: 'image/png' });
+			console.log(avatarFile);
+			axiosConfig.headers['Content-Type'] = 'multipart/form-data';
+			fd.set('avatar', avatarFile);
+			return fd;
+		} else {
+			return props.payload;
+		}
+	}
+};
+
+const addOptionsToLocalStore = () => {
+	if (props.payload) {
+		if ('username' in props.payload) {
+			store.commit('changeUsername', props.payload.username);
+		} else if ('avatar' in props.payload) {
+			console.log(props.payload.avatar);
+			store.commit('addUserAvatar', props.payload.avatar);
+		}
+	}
+};
+
 const optionsSaveHandler = async () => {
 	state.loading = true;
 	state.isDone = false;
 
 	try {
+		const data = setMultiPartData();
 		await axios.put(`${props.endpoint}`,
-			props.payload
+			data, axiosConfig
 		);
 		addOptionsToLocalStore();
 	} catch (error: unknown) {
@@ -66,13 +88,15 @@ const optionsSaveHandler = async () => {
 		}
 	} finally {
 		state.loading = false;
-		state.isDone = true;
-		setTimeout(() => {
-			state.isDone = false;
-		}, 1500);
+		if (!state.error) {
+			state.isDone = true;
+			setTimeout(() => {
+				state.isDone = false;
+			}, 1500);
+		}
+		delete axiosConfig.headers['Content-Type'];
 	}
 };
-
 </script>
 
 <style module lang="scss">

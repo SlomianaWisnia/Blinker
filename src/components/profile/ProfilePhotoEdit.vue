@@ -1,15 +1,15 @@
 <template>
 	<div :class="$style.profilePhotoEdit">
 		<div :class="$style.avatar">
-			<UserAvatar :avatar="image" @handleImgError="handleImgError" :size="140" />
-			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault && !isImageInvalid"
-				:class="$style.cancelIcon" @click="deleteImage">
+			<UserAvatar :avatar="isPreview" @handleImgError="handleImgError" :size="140" />
+			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault" :class="$style.cancelIcon"
+				@click="deleteImage">
 		</div>
 		<div :class="$style.options">
 			<CameraCapture @photoTake="onPhotoTaken" />
 			<PhotoUpload @imageChange="onImageChange" />
 		</div>
-		<OptionsSaveButton :payload=image :disabled=!isImageModified />
+		<OptionsSaveButton :payload="{ avatar: image }" :disabled=!isImageModified endpoint="/user/update-avatar" />
 	</div>
 </template>
 
@@ -26,10 +26,15 @@ import CameraData from '@/interfaces/CameraData.ts';
 const store = useStore();
 
 const isImageInvalid = ref(false);
-const image = ref(store.state.loggedInUserData.user.avatar);
+const imageUrl = `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
+const image = ref(imageUrl);
 
 const isAvatarDefault = computed(() => {
 	return image.value;
+});
+
+const isPreview = computed(() => {
+	return store.state.loggedInUserData.user.avatarPreview ? store.state.loggedInUserData.user.avatarPreview : `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
 });
 
 const isImageModified = computed(() => {
@@ -45,10 +50,12 @@ const onPhotoTaken = (data: CameraData) => {
 
 const onImageChange = (newImage: string) => {
 	image.value = newImage;
+	store.commit('addUserAvatarPreview', newImage);
 };
 
 const deleteImage = () => {
 	image.value = null;
+	store.commit('addUserAvatarPreview', '');
 };
 
 const handleImgError = () => {

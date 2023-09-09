@@ -23,7 +23,7 @@ interface FileChangeEvent extends Event {
 
 const onImageChange = (event: FileChangeEvent) => {
 	if (event.target.files && event.target.files[0]) {
-		emit('imageChange', URL.createObjectURL(event.target.files[0]));
+		emit('imageChange', event.target.files[0]);
 	}
 	hiddenFileInput.value!.value = '';
 };

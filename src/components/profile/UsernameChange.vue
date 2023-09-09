@@ -2,7 +2,7 @@
 	<div class="usernameEdit">
 		<FormKit type="text" outer-class="usernameInput" help="At least 3 characters" :value=newUsername
 			v-model="newUsername" />
-		<OptionsSaveButton :disabled="!isUsernameModified || newUsername.length <= 3" endpoint="update-username"
+		<OptionsSaveButton :disabled="!isUsernameModified || newUsername.length <= 3" endpoint="/user/update-username"
 			:payload="{ username: newUsername }" />
 	</div>
 </template>
@@ -21,8 +21,6 @@ const currentUsernameValue = computed(() => {
 const newUsername = ref(currentUsernameValue.value);
 
 const isUsernameModified = computed(() => {
-	console.log(newUsername.value);
-	console.log(currentUsernameValue.value);
 	if (newUsername.value === currentUsernameValue.value) {
 		return false;
 	} else {

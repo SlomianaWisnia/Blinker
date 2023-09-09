@@ -5,10 +5,9 @@
 			{{ getCapitalizedFirstLetter(props.username || loggedInUserInfo.username) }}
 		</p>
 		<img @error="imgErrorHandler" :class="$style.avatarImg" :style="{ width: sizePx, height: sizePx }"
-			v-if="props.avatar && isImgValid" :src="props.avatar || loggedInUserInfo.avatar" alt="" />
+			v-if="props.avatar && isImgValid" :src="props.avatar" alt="" />
 	</div>
 </template>
-
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { useStore } from 'vuex';
