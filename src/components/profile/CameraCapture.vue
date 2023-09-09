@@ -3,20 +3,21 @@
 		<img :src="cameraIcon" alt="camera icon" @click="showModal">
 		<p>Camera</p>
 	</div>
-	<Modal v-show="isModalVisible" :close="closeModal">
+	<ModalComponent v-show="isModalVisible" :close="closeModal">
 		<template v-slot:content>
 			<div :class="$style.webCam">
 				<WebCamUI fullScreenState="false" :fullscreenButton="{ default: false }" @photoTaken="onPhotoTaken" />
 			</div>
 		</template>
-	</Modal>
+	</ModalComponent>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { WebCamUI } from 'vue-camera-lib';
 import cameraIcon from '@/assets/icons/profile/camera.svg';
-import Modal from '@/components/reusable/Modal.vue';
+import ModalComponent from '@/components/reusable/ModalComponent.vue';
+import CameraData from '@/interfaces/CameraData.ts';
 
 const emit = defineEmits(['photoTake']);
 
@@ -30,7 +31,7 @@ const closeModal = () => {
 	isModalVisible.value = false;
 };
 
-const onPhotoTaken = (data) => {
+const onPhotoTaken = (data: CameraData) => {
 	emit('photoTake', data);
 };
 

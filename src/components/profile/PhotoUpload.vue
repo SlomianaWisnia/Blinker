@@ -5,6 +5,7 @@
 		<p>Photo</p>
 	</div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue';
 import photoIcon from '@/assets/icons/profile/photo.svg';
@@ -16,12 +17,16 @@ const handleImageUpload = () => {
 	hiddenFileInput.value!.click();
 };
 
-const onImageChange = (event) => {
+interface FileChangeEvent extends Event {
+	target: HTMLInputElement;
+}
+
+const onImageChange = (event: FileChangeEvent) => {
 	if (event.target.files && event.target.files[0]) {
 		emit('imageChange', URL.createObjectURL(event.target.files[0]));
 	}
 	hiddenFileInput.value!.value = '';
 };
-
 </script>
+
 <style module lang="scss"></style>

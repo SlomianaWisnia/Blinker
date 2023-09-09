@@ -21,6 +21,7 @@ import closeIcon from '@/assets/icons/navigation/close.svg';
 import OptionsSaveButton from '@/components/reusable/OptionsSaveButton.vue';
 import PhotoUpload from './PhotoUpload.vue';
 import CameraCapture from './CameraCapture.vue';
+import CameraData from '@/interfaces/CameraData.ts';
 
 const store = useStore();
 
@@ -38,11 +39,11 @@ const isImageModified = computed(() => {
 	return image.value !== store.state.loggedInUserData.user.avatar;
 });
 
-const onPhotoTaken = (data) => {
+const onPhotoTaken = (data: CameraData) => {
 	image.value = data.image_data_url;
 };
 
-const onImageChange = (newImage) => {
+const onImageChange = (newImage: string) => {
 	image.value = newImage;
 };
 
