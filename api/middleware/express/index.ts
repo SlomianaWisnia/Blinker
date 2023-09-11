@@ -38,7 +38,9 @@ router.use(express.json());
 router.use(cors(corsOptions));
 router.use(cookieParser());
 router.use(sessionMiddleware);
-router.use(helmet());
+router.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 router.use(routes);
 
 // Path for user static files

@@ -49,7 +49,9 @@ io.use(function (socket:Socket & { request: { res: object } }, next: () => void)
 
 io.use(authorizationSocket);
 
-io.engine.use(helmet());
+io.engine.use(helmet({
+  crossOriginResourcePolicy: false,
+}));
 
 io.on('connection', async (socket:Socket & { request: { session: { userId: string } } }) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
