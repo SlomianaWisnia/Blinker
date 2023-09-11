@@ -2,16 +2,15 @@ import express from 'express';
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import http from 'http';
 import dotenv from 'dotenv';
-import cors from 'cors';
 import session from 'express-session';
 import MongoDBStore from 'connect-mongo';
 import { Schema } from 'mongoose';
 import authorizationSocket from './middleware/socket/auth';
-import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import './services/db';
-import routes from './routes';
 import log from './utils/log';
+
+import expressMiddlewares from './middleware/express';
 
 import ChatRoom from './models/ChatRoom';
 
@@ -23,13 +22,7 @@ const io = new SocketIOServer(httpServer, {
   cors: { origin: process.env.REQUEST_DOMAIN, credentials: true }
 });
 
-app.use(express.json());
-
-const corsOptions = {
-  origin: process.env.REQUEST_DOMAIN,
-  credentials: true,
-  optionSuccessStatus: 200
-};
+app.use(expressMiddlewares);
 
 const store = MongoDBStore.create({
   mongoUrl: `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`,
@@ -38,7 +31,6 @@ const store = MongoDBStore.create({
   stringify: false,
   ttl: 3 * 60 * 60 //3H
 });
-
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
@@ -51,16 +43,6 @@ const sessionMiddleware = session({
   },
 });
 
-app.use(cors(corsOptions));
-
-app.use(cookieParser());
-
-app.use(sessionMiddleware);
-
-app.use(helmet());
-
-app.use(routes);
-
 io.use(function (socket:Socket & { request: { res: object } }, next: () => void) {
   sessionMiddleware(socket.request, socket.request.res, next);
 });
@@ -68,8 +50,6 @@ io.use(function (socket:Socket & { request: { res: object } }, next: () => void)
 io.use(authorizationSocket);
 
 io.engine.use(helmet());
-
-app.use('/media/users', express.static(__dirname + '/media/users'));
 
 io.on('connection', async (socket:Socket & { request: { session: { userId: string } } }) => {
   const chatrooms = await ChatRoom.find({ members: socket.request.session.userId }).select('_id');
