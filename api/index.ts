@@ -10,7 +10,7 @@ import './middleware/socket';
 
 app.use(expressMiddlewares);
 
-const port = config.PORT || 3001;
+const port = config.APP_PORT || 3001;
 
 const server = httpServer.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
 export { server };
