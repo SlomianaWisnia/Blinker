@@ -3,6 +3,7 @@ import Router, { Response } from 'express';
 import errorHandle from '../utils/errorHandling/router';
 import multer from 'multer';
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
 import io from '../services/io';
@@ -26,7 +27,10 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
 
     const storage = multer.diskStorage(
       {
-        destination: `./media/chats/${id}`
+        destination: `./media/chats/${id}`,
+        filename: function (_req, file, cb) {
+          cb(null, `${new Date().toISOString()}-${uuidv4()}.${file.originalname.split('.').pop()}`)
+        }
       }
     );
 
@@ -62,7 +66,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
 
         const messageBody = {
           from: userId,
-          source: `${req.file.filename}.${req.file.originalname.split('.').pop()}`
+          source: `${req.file.filename}`
         };
 
         const result = await ChatRoom.findOneAndUpdate({ _id: id }, {

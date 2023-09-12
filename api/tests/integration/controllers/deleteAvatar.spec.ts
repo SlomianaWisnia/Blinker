@@ -3,7 +3,7 @@ import { server } from '../../../index';
 import fs from 'fs-extra';
 import User from '../../../models/User';
 
-describe('PUT /api/user/update-avatar', () => {
+describe('DELETE /api/user/delete-avatar', () => {
   const clearDB = async () => {
     await User.deleteMany({});
   }
