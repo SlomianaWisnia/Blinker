@@ -20,7 +20,7 @@ const store = createStore<RootState>({
 		addUserInfo(state: RootState, payload: UserInfo) {
 			state.loggedInUserData = payload;
 		},
-		addUserAvatar(state: RootState, payload: any) {
+		addUserAvatar(state: RootState, payload: string) {
 			if (state.loggedInUserData) {
 				state.loggedInUserData.user['avatar'] = payload;
 			}
@@ -30,6 +30,7 @@ const store = createStore<RootState>({
 				state.loggedInUserData.user['username'] = payload;
 			}
 		},
+		// eslint-disable-next-line
 		addUserAvatarPreview(state: RootState, payload: any) {
 			if (state.loggedInUserData) {
 				payload === ''

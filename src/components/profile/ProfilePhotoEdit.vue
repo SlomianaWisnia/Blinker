@@ -57,17 +57,16 @@ const isPreview = computed(() => {
 });
 
 const isImageModified = computed(() => {
-	if (image.value != avatar) {
-		return true;
-	}
+	return !!(image.value != avatar);
 });
 
 const onPhotoTaken = (data: CameraData) => {
-	const photo = new File([data as any], "my_image.png", { type: "image/png", lastModified: new Date().getTime() });
+	// eslint-disable-next-line
+	const photo = new File([data as any], 'my_image.png', { type: 'image/png', lastModified: new Date().getTime() });
 	image.value = URL.createObjectURL(photo);
 };
 
-const onImageChange = (newImage: any) => {
+const onImageChange = (newImage: File) => {
 	image.value = newImage;
 	resetBasicVariables();
 	store.commit('addUserAvatarPreview', newImage);

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { HalfCircleSpinner } from 'epic-spinners';
@@ -50,7 +50,9 @@ const setMultiPartData = () => {
 	if (props.payload) {
 		if ('avatar' in props.payload) {
 			axiosConfig.headers['Content-Type'] = 'multipart/form-data';
+			console.log(props.payload);
 			fd.set('avatar', props.payload.avatar);
+			// eslint-disable-next-line
 			return fd as FormData as any;
 		} else {
 			return props.payload;
@@ -68,12 +70,11 @@ const addOptionsToLocalStore = () => {
 	}
 };
 
-const isAvatarDeleted = (data: FormData) => {
-	const avatarFile = data.get('avatar');
-	if (avatarFile instanceof File) {
-		return avatarFile.size === 0;
+const isAvatarEmpty = computed(() => {
+	if (props.payload) {
+		return typeof props.payload.avatar === 'string' && props.payload.avatar.trim() === '';
 	}
-};
+});
 
 const optionsSaveHandler = async () => {
 	state.loading = true;
@@ -81,13 +82,14 @@ const optionsSaveHandler = async () => {
 
 	try {
 		const data = setMultiPartData();
-		if (isAvatarDeleted(data)) {
+		if (isAvatarEmpty.value) {
 			await axios.delete('/user/delete-avatar');
 		} else {
 			await axios.put(`${props.endpoint}`,
 				data, axiosConfig
 			);
 		}
+		emit('switchIsImgSavedTrue');
 		addOptionsToLocalStore();
 	} catch (error: unknown) {
 		if (error instanceof Error) {
@@ -103,7 +105,6 @@ const optionsSaveHandler = async () => {
 				state.isDone = false;
 			}, 1500);
 		}
-		emit('switchIsImgSavedTrue');
 		delete axiosConfig.headers['Content-Type'];
 	}
 };
