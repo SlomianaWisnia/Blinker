@@ -1,7 +1,7 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import User from '../models/User';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 const router = Router();
 
 router.post('/', async (req:RequestSession, res:Response) => {
@@ -17,8 +17,7 @@ router.post('/', async (req:RequestSession, res:Response) => {
       data: { user, friends }
     });
   } catch (ex) {
-    log.error({ label: 'Auth Verify', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Auth Verify', res, `${ex}`);
   }
 });
 
