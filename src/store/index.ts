@@ -32,7 +32,10 @@ const store = createStore<RootState>({
 		},
 		addUserAvatarPreview(state: RootState, payload: any) {
 			if (state.loggedInUserData) {
-				state.loggedInUserData.user['avatarPreview'] = URL.createObjectURL(payload);
+				payload === ''
+					? (state.loggedInUserData.user['avatarPreview'] = '')
+					: (state.loggedInUserData.user['avatarPreview'] =
+							URL.createObjectURL(payload));
 			}
 		},
 	},

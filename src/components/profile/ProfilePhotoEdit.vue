@@ -26,15 +26,15 @@ import CameraData from '@/interfaces/CameraData.ts';
 const store = useStore();
 
 const isImageInvalid = ref(false);
-const imageUrl = `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
-const image = ref(imageUrl);
+let baseImage = `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
+const image = ref(baseImage);
 
 const isAvatarDefault = computed(() => {
 	return image.value;
 });
 
 const isPreview = computed(() => {
-	return store.state.loggedInUserData.user.avatarPreview ? store.state.loggedInUserData.user.avatarPreview : `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
+	return store.state.loggedInUserData.user.avatarPreview ? store.state.loggedInUserData.user.avatarPreview : baseImage;
 });
 
 const isImageModified = computed(() => {
@@ -54,7 +54,8 @@ const onImageChange = (newImage: string) => {
 };
 
 const deleteImage = () => {
-	image.value = null;
+	image.value = '';
+	baseImage = '';
 	store.commit('addUserAvatarPreview', '');
 };
 
