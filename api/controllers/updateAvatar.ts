@@ -1,6 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 import multer from 'multer';
 import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
@@ -51,8 +51,7 @@ router.put('/', async (req:RequestSession, res:Response) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({ msg: err });
         } else if (err) {
-          log.error({ label: 'Update Avatar', message: err });
-          return res.status(500).json({ msg: 'Something went wrong! Please, try again later' });
+          errorHandle('Update Avatar / Upload', res, `${err}`);
         }
 
         const previousAvatar = user.avatar;
@@ -71,8 +70,7 @@ router.put('/', async (req:RequestSession, res:Response) => {
       return res.status(400).json({ msg: 'No file provided!' });
     });
   } catch (ex) {
-    log.error({ label: 'Update Avatar', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Update Avatar', res, `${ex}`);
   }
 });
 

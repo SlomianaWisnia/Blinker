@@ -1,6 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 import ChatRoom from '../models/ChatRoom';
 import { decrypt } from '../utils/encrypt';
 
@@ -42,8 +42,7 @@ router.get('/', async (req: RequestSession, res: Response) => {
 
     return res.json({ chats: decryptedChatRooms });
   } catch (ex) {
-    log.error({ label: 'Get Last Messages', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Get Last Messages', res, `${ex}`);
   }
 });
 

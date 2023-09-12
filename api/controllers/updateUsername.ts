@@ -1,7 +1,7 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import fs from 'fs-extra';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 import User from '../models/User';
 import validate from '../validate/updateUsername';
 const router = Router();
@@ -33,8 +33,7 @@ router.put('/', async (req:RequestSession, res:Response) => {
 
     return res.json({ msg: 'Username successfully updated!' });
   } catch (ex) {
-    log.error({ label: 'Update Username', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Update Username', res, `${ex}`);
   }
 });
 

@@ -1,6 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 import multer from 'multer';
 import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
@@ -57,8 +57,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
         if (err instanceof multer.MulterError) {
           return res.status(400).json({ msg: err });
         } else if (err) {
-          log.error({ label: 'Send Message', message: err });
-          return res.status(500).json({ msg: 'Something went wrong! Please, try again later' });
+          errorHandle('Send Message / Upload', res, `${err}`);
         }
 
         const messageBody = {
@@ -109,8 +108,7 @@ router.put('/:id', async (req:RequestSession, res:Response) => {
       }
     });
   } catch (ex) {
-    log.error({ label: 'Send Message', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Send Message', res, `${ex}`);
   }
 });
 
