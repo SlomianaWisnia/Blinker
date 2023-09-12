@@ -4,16 +4,11 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 
 import routes from '../../routes';
+import corsOptions from '../../config/corsOptions';
 
 import sessionMiddleware from '../express/session';
 
 const router = express.Router();
-
-const corsOptions = {
-  origin: process.env.REQUEST_DOMAIN,
-  credentials: true,
-  optionSuccessStatus: 200
-};
 
 router.use(express.json());
 router.use(cors(corsOptions));
