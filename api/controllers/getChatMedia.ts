@@ -5,7 +5,6 @@ import path from 'path';
 import fs from 'fs-extra';
 import errorHandle from '../utils/errorHandling/router';
 import ChatRoom from '../models/ChatRoom';
-import { decrypt } from '../utils/encrypt';
 
 const router = Router();
 

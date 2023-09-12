@@ -2,7 +2,7 @@
  * @swagger
  * /api/get-chat-media/:id/:source:
  *   get:
- *     summary: Returns Message source files is User is logged in
+ *     summary: Returns Message source files when connect.sid cookie is correct
  *     tags: [Get Messages]
  *     parameters:
  *       - in: cookie
