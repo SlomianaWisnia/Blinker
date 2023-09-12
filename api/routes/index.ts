@@ -12,6 +12,7 @@ import sendMessage from './sendMessage';
 import authVerify from './auth-verify';
 import logOut from './logOut';
 import updateAvatar from './updateAvatar';
+import deleteAvatar from './deleteAvatar';
 import updateUsername from './updateUsername';
 import updateAbout from './updateAbout';
 
@@ -27,6 +28,7 @@ router.use('/api/messages', [authorization, getChatMessages]);
 router.use('/api/send-message', [authorization, sendMessage]);
 router.use('/api/auth-verify', [authorization, authVerify]);
 router.use('/api/user/update-avatar', [authorization, updateAvatar]);
+router.use('/api/user/delete-avatar', [authorization, deleteAvatar]);
 router.use('/api/user/update-username', [authorization, updateUsername]);
 router.use('/api/user/update-about', [authorization, updateAbout]);
 router.use('/api/logout', logOut);
