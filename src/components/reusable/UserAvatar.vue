@@ -24,7 +24,7 @@ const props = defineProps({
 	},
 	username: {
 		type: String,
-		default: undefined,
+		default: null,
 		required: true,
 	},
 	avatarHex: {

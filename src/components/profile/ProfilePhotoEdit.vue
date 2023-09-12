@@ -63,7 +63,7 @@ const isImageModified = computed(() => {
 });
 
 const onPhotoTaken = (data: CameraData) => {
-	const photo = new File([data], "my_image.png", { type: "image/png", lastModified: new Date().getTime() });
+	const photo = new File([data as any], "my_image.png", { type: "image/png", lastModified: new Date().getTime() });
 	image.value = URL.createObjectURL(photo);
 };
 
