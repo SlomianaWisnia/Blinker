@@ -1,7 +1,8 @@
 import MongoDBStore from "connect-mongo";
+import config from "../utils/config";
 
 const store = MongoDBStore.create({
-  mongoUrl: `mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`,
+  mongoUrl: `mongodb://${config.DB_HOST}/${config.DB_NAME}`,
   collectionName: 'sessions',
   autoRemove: 'interval',
   stringify: false,

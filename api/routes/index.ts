@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import swaggerUI from 'swagger-ui-express';
 import specs from '../docs/rest/index';
+import config from '../utils/config';
+
 import auth from './auth';
 import authorization from '../middleware/express/auth';
 import register from './register';
@@ -15,7 +17,7 @@ import updateAbout from './updateAbout';
 
 const router = Router();
 
-if (process.env.NODE_ENV === 'development') {
+if (config.NODE_ENV === 'development') {
   router.use('/docs/rest', swaggerUI.serve, swaggerUI.setup(specs));
 }
 router.use('/api/auth', auth);

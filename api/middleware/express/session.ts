@@ -1,8 +1,10 @@
 import session from 'express-session';
 import store from '../../services/store';
 
+import config from '../../utils/config';
+
 const sessionMiddleware = session({
-  secret: process.env.SESSION_SECRET,
+  secret: config.SESSION_SECRET,
   resave: true,
   saveUninitialized: false,
   store,
