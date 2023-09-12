@@ -1,7 +1,7 @@
 <template>
 	<ErrorMessage v-if="state.error" :message="state.errorMessage" />
 	<button @click="optionsSaveHandler" :class="$style.saveBtn" :disabled="state.loading || props.disabled">
-		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 :size=30 :class="$style.optSaveBtn" />
+		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 :size=30 :class="$style.spinner" />
 		<img :src=doneIcon v-if="state.isDone && !state.error" :class="$style.doneIcon"
 			alt="Icon marking that the action succeded">
 		<p v-if="!state.loading && !state.isDone">Save</p>
@@ -21,6 +21,8 @@ const fd = new FormData();
 const axiosConfig = {
 	headers: {},
 };
+
+const emit = defineEmits(['switchIsImgSavedTrue']);
 
 const props = defineProps({
 	payload: {
@@ -47,12 +49,9 @@ const state = reactive({
 const setMultiPartData = () => {
 	if (props.payload) {
 		if ('avatar' in props.payload) {
-			console.log(props.payload.avatar);
-			const avatarFile = new File([props.payload.avatar], 'piece of art.png', { type: 'image/png' });
-			console.log(avatarFile);
 			axiosConfig.headers['Content-Type'] = 'multipart/form-data';
-			fd.set('avatar', avatarFile);
-			return fd;
+			fd.set('avatar', props.payload.avatar);
+			return fd as FormData as any;
 		} else {
 			return props.payload;
 		}
@@ -64,9 +63,15 @@ const addOptionsToLocalStore = () => {
 		if ('username' in props.payload) {
 			store.commit('changeUsername', props.payload.username);
 		} else if ('avatar' in props.payload) {
-			console.log(props.payload.avatar);
 			store.commit('addUserAvatar', props.payload.avatar);
 		}
+	}
+};
+
+const isAvatarDeleted = (data: FormData) => {
+	const avatarFile = data.get('avatar');
+	if (avatarFile instanceof File) {
+		return avatarFile.size === 0;
 	}
 };
 
@@ -76,9 +81,13 @@ const optionsSaveHandler = async () => {
 
 	try {
 		const data = setMultiPartData();
-		await axios.put(`${props.endpoint}`,
-			data, axiosConfig
-		);
+		if (isAvatarDeleted(data)) {
+			await axios.delete('/user/delete-avatar');
+		} else {
+			await axios.put(`${props.endpoint}`,
+				data, axiosConfig
+			);
+		}
 		addOptionsToLocalStore();
 	} catch (error: unknown) {
 		if (error instanceof Error) {
@@ -94,6 +103,7 @@ const optionsSaveHandler = async () => {
 				state.isDone = false;
 			}, 1500);
 		}
+		emit('switchIsImgSavedTrue');
 		delete axiosConfig.headers['Content-Type'];
 	}
 };
@@ -113,13 +123,13 @@ const optionsSaveHandler = async () => {
 	background-color: lighten($bg-color-secondary, 1%);
 	cursor: pointer;
 
-}
+	.spinner {
+		position: absolute !important;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 
-.optSaveBtn {
-	position: absolute !important;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
 }
 
 .saveBtn:hover {
