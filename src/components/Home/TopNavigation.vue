@@ -1,7 +1,7 @@
 <template>
 	<nav>
 		<div :class="$style.info">
-			<UserAvatar @click="goToSettings" />
+			<UserAvatar :avatar="avatar" :avatarHex="avatarHex" :username="username" @click="goToSettings" />
 			<h1>Blinker</h1>
 		</div>
 		<div :class="$style.controls">
@@ -15,8 +15,10 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
+import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
 
 const router = useRouter();
+const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
 const goToSettings = () => {
 	router.push('/settings');

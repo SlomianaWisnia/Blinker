@@ -1,6 +1,6 @@
 <template>
 	<div :class="$style.profile" @click="goToProfile">
-		<UserAvatar />
+		<UserAvatar :avatar="avatar" :avatarHex="avatarHex" :username="username" />
 		<div :class="$style.profileInfo">
 			<h3>{{ loggedInUserInfo.username }}</h3>
 			<p>{{ loggedInUserInfo.email }}</p>
@@ -13,6 +13,10 @@ import { computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
+
+import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
+
+const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
 const store = useStore();
 const router = useRouter();

@@ -1,6 +1,6 @@
 <template>
 	<div :class="$style.profilePhoto">
-		<UserAvatar :size="110" />
+		<UserAvatar :avatar="avatar" :avatarHex="avatarHex" :username="username" :size="110" />
 		<button @click="goToPhotoEdit">Edit photo</button>
 	</div>
 </template>
@@ -8,6 +8,9 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
+import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
+
+const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
 const router = useRouter();
 

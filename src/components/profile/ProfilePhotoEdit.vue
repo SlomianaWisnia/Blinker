@@ -1,7 +1,8 @@
 <template>
 	<div :class="$style.profilePhotoEdit">
 		<div :class="$style.avatar">
-			<UserAvatar :avatar="isPreview" @handleImgError="handleImgError" :size="140" />
+			<UserAvatar :avatar="isPreview" :avatarHex="avatarHex" :username="username" @handleImgError="handleImgError"
+				:size="140" />
 			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault" :class="$style.cancelIcon"
 				@click="deleteImage">
 		</div>
@@ -23,11 +24,14 @@ import OptionsSaveButton from '@/components/reusable/OptionsSaveButton.vue';
 import PhotoUpload from './PhotoUpload.vue';
 import CameraCapture from './CameraCapture.vue';
 import CameraData from '@/interfaces/CameraData.ts';
+import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
+
+const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
 const store = useStore();
 
 const isImageInvalid = ref(false);
-let baseImage = `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
+let baseImage = avatar;
 const image = ref(baseImage);
 const isImgSaved = ref(false);
 
@@ -53,7 +57,7 @@ const isPreview = computed(() => {
 });
 
 const isImageModified = computed(() => {
-	if (image.value != `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`) {
+	if (image.value != avatar) {
 		return true;
 	}
 });
@@ -63,7 +67,7 @@ const onPhotoTaken = (data: CameraData) => {
 	image.value = URL.createObjectURL(photo);
 };
 
-const onImageChange = (newImage: string) => {
+const onImageChange = (newImage: any) => {
 	image.value = newImage;
 	resetBasicVariables();
 	store.commit('addUserAvatarPreview', newImage);
