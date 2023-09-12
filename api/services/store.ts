@@ -1,5 +1,5 @@
-import MongoDBStore from "connect-mongo";
-import config from "../utils/config";
+import MongoDBStore from 'connect-mongo';
+import config from '../utils/config';
 
 const store = MongoDBStore.create({
   mongoUrl: `mongodb://${config.DB_HOST}/${config.DB_NAME}`,
