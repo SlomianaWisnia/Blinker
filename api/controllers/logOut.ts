@@ -1,6 +1,6 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 const router = Router();
 
 router.post('/', async (req:RequestSession, res:Response) => {
@@ -11,8 +11,7 @@ router.post('/', async (req:RequestSession, res:Response) => {
     req.session.destroy();
     return res.json({ msg: 'Sucessfully logged out!' });
   } catch (ex) {
-    log.error({ label: 'Log Out Controller', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Log Out', res, `${ex}`);
   }
 });
 

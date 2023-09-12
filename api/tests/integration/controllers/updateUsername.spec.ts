@@ -1,9 +1,7 @@
 import request from 'supertest';
 import { server } from '../../../index';
-import fs from 'fs';
+import fs from 'fs-extra';
 import User from '../../../models/User';
-import dotenv from 'dotenv';
-dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
 describe('PUT /api/user/update-username', () => {
   const clearDB = async () => {
@@ -79,11 +77,20 @@ describe('PUT /api/user/update-username', () => {
 
     expect(res.status).toBe(400);
   });
-  it('should update username if cookie and username are valid', async () => {
+  it('should update username and media path if cookie and username are valid', async () => {
     const res = await exec(sessionCookie, { username: 'user3' });
 
     expect(res.status).toBe(200);
     expect(await User.exists({ username: 'user3' })).toBeTruthy();
     expect(await User.exists({ username: 'user1' })).toBeFalsy();
+
+    const user = await User.findOne({ username: 'user3' }).select('avatar');
+
+    const path = `./media/users/${user.username}`;
+
+    if (fs.existsSync(path)) {
+      expect(fs.existsSync(`./media/users/user3`)).toBeTruthy();
+      expect(fs.existsSync(`./media/users/user1`)).toBeFalsy();
+    }
   });
 });

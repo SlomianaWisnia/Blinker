@@ -1,10 +1,8 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
 import log from '../utils/log';
 
-dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
-
-const config = process.env;
+import config from '../utils/config';
+import exit from '../utils/errorHandling/exit';
 
 mongoose.connect(`mongodb://${config.DB_HOST}:${config.DB_PORT}/${config.DB_NAME}`)
   .catch((ex) => {
@@ -29,7 +27,6 @@ mongoose.connection.on('connected', () =>
 );
 
 process.on('SIGINT', () => {
-  log.error({ label: 'DB', message: 'Forced to close MongoDB connection!' });
   mongoose.connection.close();
-  process.exit(1);
+  exit({ label: 'DB', message: 'Forced to close MongoDB connection!' });
 });

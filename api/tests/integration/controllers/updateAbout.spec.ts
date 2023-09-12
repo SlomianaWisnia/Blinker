@@ -1,8 +1,6 @@
 import request from 'supertest';
 import { server } from '../../../index';
 import User from '../../../models/User';
-import dotenv from 'dotenv';
-dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
 
 describe('PUT /api/user/update-about', () => {
   const clearDB = async () => {
