@@ -9,7 +9,7 @@ export default interface Chatrooms {
 	messages: [
 		{
 			_id: string;
-			created: string;
+			createdAt: Date;
 			message: string;
 			from: {
 				avatar?: string;

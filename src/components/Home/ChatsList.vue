@@ -1,10 +1,10 @@
 <template>
-  <HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
-  <ErrorMessage v-if="state.error" :message="state.errorMessage" />
-  <NoChats v-if="state.chats.length === 0 && !state.loading" />
-  <ul v-else :class="$style.chatsList">
-    <UserComponent v-for="chat in state.chats" :key="chat.id" :chat="chat" />
-  </ul>
+	<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+	<ErrorMessage v-if="state.error" :message="state.errorMessage" />
+	<NoChats v-if="state.chats.length === 0 && !state.loading" />
+	<ul v-else :class="$style.chatsList">
+		<UserComponent v-for="chat in state.chats" :key="chat.id" :chat="chat" />
+	</ul>
 </template>
 <script setup lang="ts">
 import { reactive, onMounted } from 'vue';
@@ -35,10 +35,10 @@ const getChatrooms = async () => {
 		const fetchedChats: Array<FetchedChats> = res.data.chats;
 		state.chats = fetchedChats.map(({ _id, messages, members }) => {
 			const last_message = messages[0];
+
 			const friend = members.find(({ username }) => username !== loggedInUserUsername);
-			return { id: _id, friend, last_message };
+			return { id: _id, friend, last_message: { ...last_message, } };
 		});
-		console.log(state.chats);
 
 	} catch (error: unknown) {
 		if (error instanceof Error) {
@@ -56,16 +56,16 @@ onMounted(getChatrooms);
 </script>
 <style module lang="scss">
 .chatsList {
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  gap: 2.5rem;
-  margin-top: 1rem;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+	gap: 2.5rem;
+	margin-top: 1rem;
 }
 
 .noChats {
-  color: $txt-color-primary;
-  text-align: center;
-  margin-top: 3rem;
+	color: $txt-color-primary;
+	text-align: center;
+	margin-top: 3rem;
 }
 </style>

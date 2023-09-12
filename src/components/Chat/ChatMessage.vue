@@ -1,9 +1,8 @@
 <template>
-  <div :class="$style.chatMessage">
-    <p :class="$style.message">{{ message }}</p>
-    <p :class="$style.date">{{ getMessageDate(props.date) }}</p>
-  </div>
-  <!-- Add dynamic background color based on user settings on a specific chat -->
+	<div :class="$style.chatMessage">
+		<p :class="$style.message">{{ message }}</p>
+		<p :class="$style.date">{{ getMessageDate(new Date(props.date)) }}</p>
+	</div>
 </template>
 <script setup lang="ts">
 import getMessageDate from '../../helpers/getMessageDate';
@@ -22,19 +21,19 @@ const props = defineProps({
 </script>
 <style module lang="scss">
 .chatMessage {
-  display: flex;
-  align-items: flex-end;
-  gap: 1rem;
-  padding: 0.4rem;
-  border-radius: 10px;
-  background-color: gray;
-  color: white;
-  max-width: 100%;
-  word-wrap: break-word;
+	display: flex;
+	align-items: flex-end;
+	gap: 1rem;
+	padding: 0.4rem;
+	border-radius: 10px;
+	background-color: gray;
+	color: white;
+	max-width: 100%;
+	word-wrap: break-word;
 
-  .date {
-    color: rgba(255, 255, 255, 0.425);
-  }
+	.date {
+		color: rgba(255, 255, 255, 0.425);
+	}
 
 }
 </style>

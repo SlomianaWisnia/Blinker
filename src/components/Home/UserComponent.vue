@@ -1,12 +1,12 @@
 <template>
-  <li v-if="chat.friend" :class="$style.friend" @click="goToChat()">
-    <UserAvatar :avatar="chat.friend.avatar" :username="chat.friend.username" />
-    <div :class="$style.info">
-      <h4>{{ chat.friend.username }}</h4>
-      <p>{{ lastMessageType }}</p>
-    </div>
-    <p :class="$style.date">{{ getMessageDate(props.chat.last_message.createdAt) }}</p>
-  </li>
+	<li v-if="chat.friend" :class="$style.friend" @click="goToChat()">
+		<UserAvatar :avatar="chat.friend.avatar" :username="chat.friend.username" :avatarHex="chat.friend.avatarHex" />
+		<div :class="$style.info">
+			<h4>{{ chat.friend.username }}</h4>
+			<p>{{ lastMessageType }}</p>
+		</div>
+		<p :class="$style.date">{{ getMessageDate(lastMessageDate) }}</p>
+	</li>
 </template>
 
 <script setup lang="ts">
@@ -27,7 +27,6 @@ const props = defineProps({
 	},
 });
 
-
 const lastMessageType = computed(() => {
 	const { last_message } = props.chat;
 	const { loggedInUserData } = store.state;
@@ -35,8 +34,17 @@ const lastMessageType = computed(() => {
 	if (last_message.message) {
 		return last_message.message;
 	} else {
-		return last_message.from.username === loggedInUserData.user.username ? 'You sent a media file.' : 'Received a media file.';
+		return last_message.from.username === loggedInUserData.user.username
+			? 'You sent a media file.'
+			: 'Received a media file.';
 	}
+});
+
+const lastMessageDate = computed(() => {
+	const { last_message } = props.chat;
+	return typeof last_message.createdAt === 'string'
+		? new Date(last_message.createdAt)
+		: last_message.createdAt;
 });
 
 const goToChat = () => {
@@ -46,22 +54,22 @@ const goToChat = () => {
 
 <style module lang="scss">
 .friend {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  color: $txt-color-primary;
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	color: $txt-color-primary;
 
-  .info {
-    width: 60%;
+	.info {
+		width: 60%;
 
-    p {
-      margin-top: 0.5rem;
-    }
-  }
+		p {
+			margin-top: 0.5rem;
+		}
+	}
 
-  .date {
-    width: 14%;
-    text-align: right;
-  }
+	.date {
+		width: 14%;
+		text-align: right;
+	}
 }
 </style>
