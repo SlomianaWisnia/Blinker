@@ -1,6 +1,6 @@
 import request from 'supertest';
 import { server } from '../../../index';
-import fs from 'fs';
+import fs from 'fs-extra';
 import User from '../../../models/User';
 import dotenv from 'dotenv';
 dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });

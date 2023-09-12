@@ -2,7 +2,7 @@ import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import log from '../utils/log';
 import multer from 'multer';
-import fs from 'fs';
+import fs from 'fs-extra';
 import { v4 as uuidv4 } from 'uuid';
 import User from '../models/User';
 const router = Router();
