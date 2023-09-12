@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+import config from './utils/config';
 import './services/db';
 import log from './utils/log';
 
@@ -8,11 +8,9 @@ import expressMiddlewares from './middleware/express';
 
 import './middleware/socket';
 
-dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
-
 app.use(expressMiddlewares);
 
-const port = process.env.PORT || 3001;
+const port = config.PORT || 3001;
 
 const server = httpServer.listen(port, () => log.init({ label: 'APP', message: `App listening on port ${port}` }));
 export { server };

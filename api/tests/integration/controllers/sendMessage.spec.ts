@@ -4,8 +4,7 @@ import User from '../../../models/User';
 import Client from 'socket.io-client';
 import ChatRoom from '../../../models/ChatRoom';
 import { decrypt } from '../../../utils/encrypt';
-import dotenv from 'dotenv';
-dotenv.config({ path: `../../config/${process.env.NODE_ENV}.env` });
+import config from '../../../utils/config';
 
 describe('PUT /api/send-message/:id', () => {
   const clearDB = async () => {
@@ -130,7 +129,7 @@ describe('PUT /api/send-message/:id', () => {
   it('should return valid socket.io data when cookie is correct and message is a text', async () => {
     const fd = { message: 'Hello World!' };
     await exec(chatRoomId, sessionCookie, fd);
-    const clientSocket = Client(`http://localhost:${process.env.PORT}`, {
+    const clientSocket = Client(`http://localhost:${config.PORT}`, {
       withCredentials: true
     });
 
@@ -143,7 +142,7 @@ describe('PUT /api/send-message/:id', () => {
   it('should return valid socket.io data when cookie is correct and message is media', async () => {
     const fd = { media: 'tests/components/test.gif' };
     await exec(chatRoomId, sessionCookie, fd);
-    const clientSocket = Client(`http://localhost:${process.env.PORT}`, {
+    const clientSocket = Client(`http://localhost:${config.PORT}`, {
       withCredentials: true
     });
 
