@@ -2,6 +2,7 @@ import request from 'supertest';
 import { server } from '../../../index';
 import User from '../../../models/User';
 import Client from 'socket.io-client';
+import fs from 'fs-extra';
 import ChatRoom from '../../../models/ChatRoom';
 import { decrypt } from '../../../utils/encrypt';
 import config from '../../../utils/config';
@@ -116,7 +117,7 @@ describe('PUT /api/send-message/:id', () => {
     expect(chatRoom.messages[0].from.toString()).toBe(user1Id);
     expect(await decrypt(chatRoom.messages[0].message)).toBe('Hello World!');
   });
-  it('should add message to the database when cookie is correct and media file is valid', async () => {
+  it('should add message to the database and save the file when cookie is correct and media file is valid', async () => {
     const fd = { media: 'tests/components/test.gif' };
     const res = await exec(chatRoomId, sessionCookie, fd);
 
@@ -125,6 +126,8 @@ describe('PUT /api/send-message/:id', () => {
     expect(res.status).toBe(200);
     expect(chatRoom.messages[0].from.toString()).toBe(user1Id);
     expect(chatRoom.messages[0].source).toBeDefined();
+
+    expect(fs.existsSync(`./media/chats/${chatRoomId}/${chatRoom.messages[0].source}`)).toBeTruthy();
   });
   it('should return valid socket.io data when cookie is correct and message is a text', async () => {
     const fd = { message: 'Hello World!' };
