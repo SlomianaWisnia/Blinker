@@ -5,7 +5,7 @@ import multer from 'multer';
 import mongoose from 'mongoose';
 import ChatRoom from '../models/ChatRoom';
 import validate from '../validate/message';
-import { io } from '../index';
+import io from '../services/io';
 import { encrypt } from '../utils/encrypt';
 const router = Router();
 
