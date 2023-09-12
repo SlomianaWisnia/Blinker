@@ -1,7 +1,7 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
-import fs from 'fs';
-import log from '../utils/log';
+import fs from 'fs-extra';
+import errorHandle from '../utils/errorHandling/router';
 import User from '../models/User';
 import validate from '../validate/updateUsername';
 const router = Router();
@@ -23,7 +23,8 @@ router.put('/', async (req:RequestSession, res:Response) => {
     const path = `./media/users/${user.username}`;
 
     if (fs.existsSync(path)) {
-      fs.renameSync(path, `./media/users/${req.body.username}`);
+      fs.copySync(path, `./media/users/${req.body.username}`);
+      fs.removeSync(path, { recursive: true, force: true });
     }
 
     await User.findOneAndUpdate({ _id: userId }, {
@@ -32,8 +33,7 @@ router.put('/', async (req:RequestSession, res:Response) => {
 
     return res.json({ msg: 'Username successfully updated!' });
   } catch (ex) {
-    log.error({ label: 'Update Username', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Update Username', res, `${ex}`);
   }
 });
 

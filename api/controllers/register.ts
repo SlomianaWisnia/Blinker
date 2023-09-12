@@ -4,6 +4,7 @@ import User from '../models/User';
 import bcrypt from 'bcrypt';
 import validate from '../validate/register';
 import randomHexColor from '../utils/randomHexColor';
+import errorHandle from '../utils/errorHandling/router';
 const router = Router();
 
 router.post('/', async (req:RequestSession, res:Response) => {
@@ -35,7 +36,7 @@ router.post('/', async (req:RequestSession, res:Response) => {
 
     return res.json({ msg: 'Sucessfully registered!' });
   } catch (ex) {
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Register', res, `${ex}`);
   }
 });
 

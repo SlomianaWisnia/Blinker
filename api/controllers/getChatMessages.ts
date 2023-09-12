@@ -1,7 +1,7 @@
 import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import mongoose from 'mongoose';
-import log from '../utils/log';
+import errorHandle from '../utils/errorHandling/router';
 import ChatRoom from '../models/ChatRoom';
 import Message from '../interfaces/models/Message';
 import { decrypt } from '../utils/encrypt';
@@ -127,8 +127,7 @@ router.get('/:id/:start/:limit', async (req:RequestSession, res:Response) => {
   
       return res.json({ messages, reachedMax });
   } catch (ex) {
-      log.error({ label: 'Get Chat Messages', message: ex });
-      return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Get Chat Messages', res, `${ex}`);
   }
 });
 

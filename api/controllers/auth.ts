@@ -2,8 +2,8 @@ import RequestSession from '../interfaces/RequestSession';
 import Router, { Response } from 'express';
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import log from '../utils/log';
 import validate from '../validate/auth';
+import errorHandle from '../utils/errorHandling/router';
 const router = Router();
 
 router.post('/', async (req:RequestSession, res:Response) => {
@@ -26,15 +26,13 @@ router.post('/', async (req:RequestSession, res:Response) => {
     req.session.userId = `${result._id}`;
     req.session.save(err => {
       if (err) {
-        log.error({ label: 'Auth Controller / Saving session', message: err });
-        return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+        errorHandle('Auth Controller / Saving session', res, `${err}`);
       }
     });
 
     return res.json({ msg: 'Sucessfully logged in!' });
   } catch (ex) {
-    log.error({ label: 'Auth Controller', message: ex });
-    return res.status(500).json({ msg: 'Something went wrong! Please, try again later.' });
+    errorHandle('Auth Controller', res, `${ex}`);
   }
 });
 

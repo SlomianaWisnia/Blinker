@@ -1,6 +1,4 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: `config/${process.env.NODE_ENV}.env` });
-
+import config from '../../utils/config';
 import swaggerJSDoc from 'swagger-jsdoc';
 
 const options = {
@@ -14,7 +12,7 @@ const options = {
   },
   servers: [
     {
-      url: process.env.SERVER_DOMAIN
+      url: config.SERVER_DOMAIN
     }
   ],
   apis: ['./docs/rest/*.ts', './docs/rest/**/*.ts']
