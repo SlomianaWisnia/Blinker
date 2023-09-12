@@ -9,7 +9,8 @@
 			<CameraCapture @photoTake="onPhotoTaken" />
 			<PhotoUpload @imageChange="onImageChange" />
 		</div>
-		<OptionsSaveButton :payload="{ avatar: image }" :disabled=!isImageModified endpoint="/user/update-avatar" />
+		<OptionsSaveButton :payload="{ avatar: image }" @switchIsImgSavedTrue=switchIsImgSavedTrue
+			:disabled="!isImageModified || isImgSaved" endpoint="/user/update-avatar" />
 	</div>
 </template>
 
@@ -28,6 +29,20 @@ const store = useStore();
 const isImageInvalid = ref(false);
 let baseImage = `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`;
 const image = ref(baseImage);
+const isImgSaved = ref(false);
+
+const switchIsImgSavedTrue = () => {
+	isImgSaved.value = true;
+};
+
+const switchIsImgSavedFalse = () => {
+	isImgSaved.value = false;
+};
+
+const resetBasicVariables = () => {
+	baseImage = '';
+	switchIsImgSavedFalse();
+};
 
 const isAvatarDefault = computed(() => {
 	return image.value;
@@ -38,24 +53,25 @@ const isPreview = computed(() => {
 });
 
 const isImageModified = computed(() => {
-	if (!store.state.loggedInUserData.user.avatar && image.value === null) {
-		return false;
+	if (image.value != `http://localhost:3002/media/users/${store.state.loggedInUserData.user.username}/avatar/${store.state.loggedInUserData.user.avatar}`) {
+		return true;
 	}
-	return image.value !== store.state.loggedInUserData.user.avatar;
 });
 
 const onPhotoTaken = (data: CameraData) => {
-	image.value = data.image_data_url;
+	const photo = new File([data], "my_image.png", { type: "image/png", lastModified: new Date().getTime() });
+	image.value = URL.createObjectURL(photo);
 };
 
 const onImageChange = (newImage: string) => {
 	image.value = newImage;
+	resetBasicVariables();
 	store.commit('addUserAvatarPreview', newImage);
 };
 
 const deleteImage = () => {
 	image.value = '';
-	baseImage = '';
+	resetBasicVariables();
 	store.commit('addUserAvatarPreview', '');
 };
 
