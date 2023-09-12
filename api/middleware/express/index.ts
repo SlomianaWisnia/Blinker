@@ -20,6 +20,6 @@ router.use(helmet({
 router.use(routes);
 
 // Path for user static files
-router.use('/media/users', express.static(__dirname + '/media/users'));
+router.use('/media/users', express.static(__dirname + '/../../media/users'));
 
 export default router;
