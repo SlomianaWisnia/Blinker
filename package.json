@@ -16,6 +16,7 @@
     "epic-spinners": "^2.0.0",
     "moment": "^2.29.4",
     "simple-vue-camera": "^1.1.3",
+    "socket.io-client": "^4.7.2",
     "vue": "^3.2.47",
     "vue-camera-lib": "^1.0.4",
     "vue-router": "^4.2.2",
