@@ -50,7 +50,6 @@ const setMultiPartData = () => {
 	if (props.payload) {
 		if ('avatar' in props.payload) {
 			axiosConfig.headers['Content-Type'] = 'multipart/form-data';
-			console.log(props.payload);
 			fd.set('avatar', props.payload.avatar);
 			// eslint-disable-next-line
 			return fd as FormData as any;
@@ -65,16 +64,13 @@ const addOptionsToLocalStore = () => {
 		if ('username' in props.payload) {
 			store.commit('changeUsername', props.payload.username);
 		} else if ('avatar' in props.payload) {
-			store.commit('addUserAvatar', props.payload.avatar);
+			const objectURL = !props.payload.avatar.length ? props.payload.avatar : URL.createObjectURL(props.payload.avatar);
+			store.commit('changeUserAvatar', objectURL);
 		}
 	}
 };
 
-const isAvatarEmpty = computed(() => {
-	if (props.payload) {
-		return typeof props.payload.avatar === 'string' && props.payload.avatar.trim() === '';
-	}
-});
+const isAvatarEmpty = computed(() => typeof props.payload?.avatar === 'string' ? props.payload.avatar.trim() === '' : true);
 
 const optionsSaveHandler = async () => {
 	state.loading = true;
@@ -103,7 +99,7 @@ const optionsSaveHandler = async () => {
 			state.isDone = true;
 			setTimeout(() => {
 				state.isDone = false;
-			}, 1500);
+			}, 1000);
 		}
 		delete axiosConfig.headers['Content-Type'];
 	}
