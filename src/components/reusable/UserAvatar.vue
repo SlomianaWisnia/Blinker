@@ -39,7 +39,7 @@ const props = defineProps({
 });
 
 const srcType = computed(() => {
-	return props.avatar?.includes('blob') ? props.avatar : `http://localhost:3002/media/users/${props.username}/avatar/${props.avatar}`;
+	return props.avatar?.slice(0, 4) === 'blob' ? props.avatar : `http://localhost:3002/media/users/${props.username}/avatar/${props.avatar}`;
 });
 
 watch(props, () => {

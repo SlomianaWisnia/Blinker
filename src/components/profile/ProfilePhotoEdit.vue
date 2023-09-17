@@ -3,7 +3,7 @@
 		<div :class="$style.avatar">
 			<UserAvatar :avatar="isPreview" :avatarHex="avatarHex" :username="username" @handleImgError="handleImgError"
 				:size="140" />
-			<img :src=closeIcon alt="Button to delete image" v-if="isAvatarDefault" :class="$style.cancelIcon"
+			<img :src=closeIcon alt="Button to delete image" v-if="!isAvatarDefault" :class="$style.cancelIcon"
 				@click="deleteImage">
 		</div>
 		<div :class="$style.options">
@@ -17,7 +17,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { useStore } from 'vuex';
 import UserAvatar from '@/components/reusable/UserAvatar.vue';
 import closeIcon from '@/assets/icons/navigation/close.svg';
 import OptionsSaveButton from '@/components/reusable/OptionsSaveButton.vue';
@@ -28,37 +27,20 @@ import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
 
 const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
-const store = useStore();
-
 const isImageInvalid = ref(false);
-let baseImage = avatar;
-const image = ref(baseImage);
+const image = ref(avatar);
+const avatarPreview = ref();
 const isImgSaved = ref(false);
 
-const switchIsImgSavedTrue = () => {
-	isImgSaved.value = true;
-};
+const switchIsImgSavedTrue = () => isImgSaved.value = true;
 
-const switchIsImgSavedFalse = () => {
-	isImgSaved.value = false;
-};
+const switchIsImgSavedFalse = () => isImgSaved.value = false;
 
-const resetBasicVariables = () => {
-	baseImage = '';
-	switchIsImgSavedFalse();
-};
+const isAvatarDefault = computed(() => !image.value);
 
-const isAvatarDefault = computed(() => {
-	return image.value;
-});
+const isImageModified = computed(() => image.value != avatar);
 
-const isPreview = computed(() => {
-	return store.state.loggedInUserData.user.avatarPreview ? store.state.loggedInUserData.user.avatarPreview : baseImage;
-});
-
-const isImageModified = computed(() => {
-	return !!(image.value != avatar);
-});
+const isPreview = computed(() => avatarPreview.value ? avatarPreview.value : image.value);
 
 const onPhotoTaken = (data: CameraData) => {
 	// eslint-disable-next-line
@@ -68,14 +50,14 @@ const onPhotoTaken = (data: CameraData) => {
 
 const onImageChange = (newImage: File) => {
 	image.value = newImage;
-	resetBasicVariables();
-	store.commit('addUserAvatarPreview', newImage);
+	avatarPreview.value = URL.createObjectURL(newImage);
+	switchIsImgSavedFalse();
 };
 
 const deleteImage = () => {
 	image.value = '';
-	resetBasicVariables();
-	store.commit('addUserAvatarPreview', '');
+	avatarPreview.value = null;
+	switchIsImgSavedFalse();
 };
 
 const handleImgError = () => {

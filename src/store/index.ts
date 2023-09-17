@@ -20,7 +20,7 @@ const store = createStore<RootState>({
 		addUserInfo(state: RootState, payload: UserInfo) {
 			state.loggedInUserData = payload;
 		},
-		addUserAvatar(state: RootState, payload: string) {
+		changeUserAvatar(state: RootState, payload: string) {
 			if (state.loggedInUserData) {
 				state.loggedInUserData.user['avatar'] = payload;
 			}
@@ -28,15 +28,6 @@ const store = createStore<RootState>({
 		changeUsername(state: RootState, payload: string) {
 			if (state.loggedInUserData) {
 				state.loggedInUserData.user['username'] = payload;
-			}
-		},
-		// eslint-disable-next-line
-		addUserAvatarPreview(state: RootState, payload: any) {
-			if (state.loggedInUserData) {
-				payload === ''
-					? (state.loggedInUserData.user['avatarPreview'] = '')
-					: (state.loggedInUserData.user['avatarPreview'] =
-							URL.createObjectURL(payload));
 			}
 		},
 	},
