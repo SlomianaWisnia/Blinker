@@ -64,13 +64,13 @@ const addOptionsToLocalStore = () => {
 		if ('username' in props.payload) {
 			store.commit('changeUsername', props.payload.username);
 		} else if ('avatar' in props.payload) {
-			const objectURL = !props.payload.avatar.length ? props.payload.avatar : URL.createObjectURL(props.payload.avatar);
+			const objectURL = props.payload.avatar.length === 0 ? props.payload.avatar : URL.createObjectURL(props.payload.avatar);
 			store.commit('changeUserAvatar', objectURL);
 		}
 	}
 };
 
-const isAvatarEmpty = computed(() => typeof props.payload?.avatar === 'string' ? props.payload.avatar.trim() === '' : true);
+const isAvatarEmpty = computed(() => props.payload?.avatar === '' ? true : false);
 
 const optionsSaveHandler = async () => {
 	state.loading = true;

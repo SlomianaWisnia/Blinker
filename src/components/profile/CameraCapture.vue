@@ -6,7 +6,7 @@
 	<ModalComponent v-show="isModalVisible" :close="closeModal">
 		<template v-slot:content>
 			<div :class="$style.webCam">
-				<WebCamUI fullScreenState="false" :fullscreenButton="{ default: false }" @photoTaken="onPhotoTaken" />
+				<WebCamUI fullScreenState="false" :fullscreenButton="{ default: false }" @photoTaken="onCameraCapture" />
 			</div>
 		</template>
 	</ModalComponent>
@@ -31,7 +31,7 @@ const closeModal = () => {
 	isModalVisible.value = false;
 };
 
-const onPhotoTaken = (data: CameraData) => {
+const onCameraCapture = (data: CameraData) => {
 	emit('photoTake', data);
 };
 
