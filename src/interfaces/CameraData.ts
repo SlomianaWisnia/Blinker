@@ -1,7 +1,4 @@
 export default interface Chats {
-	blob: {
-		size: number;
-		type: string;
-	};
+	blob: Blob;
 	image_data_url: string;
 }

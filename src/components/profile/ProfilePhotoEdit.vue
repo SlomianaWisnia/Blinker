@@ -7,7 +7,7 @@
 				@click="deleteImage">
 		</div>
 		<div :class="$style.options">
-			<CameraCapture @photoTake="onPhotoTaken" />
+			<CameraCapture @photoTake="onCameraCapture" />
 			<PhotoUpload @imageChange="onImageChange" />
 		</div>
 		<OptionsSaveButton :payload="{ avatar: image }" @switchIsImgSavedTrue=switchIsImgSavedTrue
@@ -42,10 +42,17 @@ const isImageModified = computed(() => image.value != avatar);
 
 const isPreview = computed(() => avatarPreview.value ? avatarPreview.value : image.value);
 
-const onPhotoTaken = (data: CameraData) => {
-	// eslint-disable-next-line
-	const photo = new File([data as any], 'my_image.png', { type: 'image/png', lastModified: new Date().getTime() });
-	image.value = URL.createObjectURL(photo);
+const blobToFile = (theBlob: Blob, fileName: string): File => {
+	const b: any = theBlob;
+	b.lastModifiedDate = new Date();
+	b.name = fileName;
+
+	return theBlob as File;
+};
+
+const onCameraCapture = (data: CameraData) => {
+	avatarPreview.value = URL.createObjectURL(data.blob);
+	image.value = blobToFile(data.blob, 'avatar');
 };
 
 const onImageChange = (newImage: File) => {
