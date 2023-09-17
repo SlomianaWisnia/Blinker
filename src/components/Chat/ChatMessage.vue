@@ -35,5 +35,9 @@ const props = defineProps({
 		color: rgba(255, 255, 255, 0.425);
 	}
 
+	p {
+		max-width: 80%;
+	}
+
 }
 </style>

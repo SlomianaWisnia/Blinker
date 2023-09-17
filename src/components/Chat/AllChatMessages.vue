@@ -1,11 +1,11 @@
 <template>
-  <div :class="$style.chatMessages">
-    <HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
-    <ErrorMessage v-if="state.error" :message="state.errorMessage" />
-    <p :class="$style.noMessages" v-if="state.messages.length === 0 && !state.loading">No messages yet!</p>
-    <ChatMessage v-else v-for="message in state.messages" :key="message.createdAt" :message="message.message"
-      :date="message.createdAt" :class="$style[checkMessageSender(message)]" />
-  </div>
+	<div :class="$style.chatMessages">
+		<HalfCircleSpinner v-if="state.loading && !state.error" color=#dfeed8 />
+		<ErrorMessage v-if="state.error" :message="state.errorMessage" />
+		<p :class="$style.noMessages" v-if="state.messages.length === 0 && !state.loading">No messages yet!</p>
+		<ChatMessage v-else v-for="message in state.messages" :key="message.createdAt" :message="message.message"
+			:date="message.createdAt" :class="$style[checkMessageSender(message)]" />
+	</div>
 </template>
 
 <script setup lang="ts">
@@ -17,6 +17,11 @@ import ChatMessage from '@/components/Chat/ChatMessage.vue';
 import Message from '@/interfaces/Message';
 import { HalfCircleSpinner } from 'epic-spinners';
 import ErrorMessage from '@/components/reusable/ErrorMessage.vue';
+import Client from 'socket.io-client';
+
+const clientSocket = Client('http://localhost:3002/', {
+	withCredentials: true
+});
 
 const AMOUNT_TO_FETCH = 10;
 const store = useStore();
@@ -31,6 +36,14 @@ const state = reactive({
 	loading: false,
 	error: false,
 	errorMessage: '',
+});
+
+clientSocket.on('sendMessage', (data: { message: Message; }) => {
+	state.messages.push(data.message);
+	setTimeout(() => {
+		window.scrollTo(0, document.body.scrollHeight);
+	}, 1);
+
 });
 
 const fetchLastMessages = async () => {
@@ -74,29 +87,28 @@ window.addEventListener('scroll', handleInfiniteScroll);
 
 <style module lang="scss">
 .chatMessages {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  gap: 2rem;
-  min-height: 100vh;
-  margin: 6rem 0 4rem 0;
-  padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	position: relative;
+	gap: 2rem;
+	min-height: 100vh;
+	margin: 6rem 0 4rem 0;
+	padding: 1rem;
 
-  .userMessage {
-    align-self: flex-end;
-  }
+	.userMessage {
+		align-self: flex-end;
+	}
 
-  .friendMessage {
-    align-self: flex-start;
-  }
+	.friendMessage {
+		align-self: flex-start;
+	}
 
-  .noMessages {
-    position: fixed;
-    top: 140px;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
+	.noMessages {
+		position: fixed;
+		top: 140px;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
 }
 </style>
