@@ -23,7 +23,6 @@ const clientSocket = Client('http://localhost:3002/', {
 	withCredentials: true
 });
 
-
 const AMOUNT_TO_FETCH = 10;
 const store = useStore();
 const route = useRoute();
@@ -39,7 +38,7 @@ const state = reactive({
 	errorMessage: '',
 });
 
-clientSocket.on('sendMessage', (data) => {
+clientSocket.on('sendMessage', (data: { message: Message; }) => {
 	state.messages.push(data.message);
 	setTimeout(() => {
 		window.scrollTo(0, document.body.scrollHeight);
