@@ -6,6 +6,7 @@ import config from '../utils/config';
 import auth from './auth';
 import authorization from '../middleware/express/auth';
 import register from './register';
+import listUsers from './listUsers';
 import getLastMessages from './getLastMessages';
 import getChatMessages from './getChatMessages';
 import getChatMedia from './getChatMedia';
@@ -24,6 +25,7 @@ if (config.NODE_ENV === 'development') {
 }
 router.use('/api/auth', auth);
 router.use('/api/register', register);
+router.use('/api/list-users', listUsers);
 router.use('/api/get-last-messages', [authorization, getLastMessages]);
 router.use('/api/get-chat-media', [authorization, getChatMedia]);
 router.use('/api/messages', [authorization, getChatMessages]);
