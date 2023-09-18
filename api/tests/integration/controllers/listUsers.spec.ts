@@ -75,8 +75,8 @@ describe('GET /api/list-users', () => {
     expect(res.status).toBe(400);
   });
   
-  it('should return 400 when string is longer than 70 chars', async () => {
-    const res = await exec('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  it('should return 400 when string is longer than 50 chars', async () => {
+    const res = await exec(Array(52).join('a'));
     expect(res.status).toBe(400);
   });
   

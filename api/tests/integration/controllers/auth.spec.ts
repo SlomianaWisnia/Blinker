@@ -106,12 +106,12 @@ describe('POST /api/auth', () => {
     const res = await exec({ username: 'Test1', password: '1234567' });
     expect(res.status).toBe(400);
   });
-  it('should return 400 if username is longer than 70 characters', async () => {
-    const res = await exec({ username: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', password: '12345678' });
+  it('should return 400 if username is longer than 50 characters', async () => {
+    const res = await exec({ username: Array(52).join('a'), password: '12345678' });
     expect(res.status).toBe(400);
   });
   it('should return 400 if password is longer than 70 characters', async () => {
-    const res = await exec({ username: 'Test1', password: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' });
+    const res = await exec({ username: 'Test1', password: Array(72).join('a') });
     expect(res.status).toBe(400);
   });
 });
