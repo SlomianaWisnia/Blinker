@@ -74,8 +74,13 @@ describe('POST /api/add-friend', () => {
     expect(res.status).toBe(400);
   });
   
-  it('should return 400 if username is longer than 70 chars', async () => {
-    const res = await exec(sessionCookie, Array(72).join('a'));
+  it('should return 400 if username is less than 5 chars', async () => {
+    const res = await exec(sessionCookie, 'aaaa');
+    expect(res.status).toBe(400);
+  });
+  
+  it('should return 400 if username is longer than 50 chars', async () => {
+    const res = await exec(sessionCookie, Array(52).join('a'));
     expect(res.status).toBe(400);
   });
 
