@@ -24,6 +24,7 @@ import PhotoUpload from './PhotoUpload.vue';
 import CameraCapture from './CameraCapture.vue';
 import CameraData from '@/interfaces/CameraData.ts';
 import getLoggedInUserProfileInfo from '@/helpers/getLoggedInUserProfileInfo';
+import convertBlobToFile from '@/helpers/convertBlobToFile';
 
 const { avatar, avatarHex, username } = getLoggedInUserProfileInfo();
 
@@ -42,17 +43,9 @@ const isImageModified = computed(() => image.value != avatar);
 
 const isPreview = computed(() => avatarPreview.value ? avatarPreview.value : image.value);
 
-const blobToFile = (theBlob: Blob, fileName: string): File => {
-	const b: any = theBlob;
-	b.lastModifiedDate = new Date();
-	b.name = fileName;
-
-	return theBlob as File;
-};
-
 const onCameraCapture = (data: CameraData) => {
 	avatarPreview.value = URL.createObjectURL(data.blob);
-	image.value = blobToFile(data.blob, 'avatar');
+	image.value = convertBlobToFile(data.blob, 'avatar');
 };
 
 const onImageChange = (newImage: File) => {
@@ -120,15 +113,6 @@ const handleImgError = () => {
 			text-align: center;
 			margin-top: 0.4rem;
 		}
-
-		input[type=file] {
-			position: fixed;
-			z-index: -100;
-			opacity: 0;
-			width: 58px;
-			height: 58px;
-		}
 	}
-
 }
 </style>
