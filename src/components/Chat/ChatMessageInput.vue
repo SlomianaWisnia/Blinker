@@ -1,30 +1,49 @@
 <template>
-  <div class="chatMessageInput">
-    <div class="chatBar">
-      <img src="../../assets/icons/chats/emoji_menu.svg" alt="">
-      <FormKit type="form" id="messageForm" @submit="sendMessage" :actions="false" :errors="[]">
-        <FormKit type="textarea" name="message" id="message" placeholder="Message..." validation="required"
-          validation-visibility="submit" :validation-messages="{
-            required: 'Message is empty!'
-          }" wrapper-class="chatBox" rows="1" />
-      </FormKit>
-      <img src="../../assets/icons/chats/camera.svg" alt="">
-      <img src="../../assets/icons/chats/voice_message.svg" alt="">
-    </div>
-    <img src="../../assets/icons/chats/send.svg" class="sendIcon" alt="" @click="submitForm('messageForm')">
-  </div>
+	<div class="chatMessageInput">
+		<div class="chatMedia">
+			<img v-if="areMediaHidden" :src="show_media" id="showMediaIcon" @click="switchMediaVisibility" alt="">
+			<div v-if="!areMediaHidden" class="visibleMedia">
+				<CameraCapture @imageChange="" />
+				<PhotoUpload />
+				<img :src="voice_message" alt="">
+			</div>
+		</div>
+		<div class="chatBar">
+			<FormKit type="form" id="messageForm" @submit="sendMessage" :actions="false" :errors="[]">
+				<FormKit type="textarea" name="message" id="message" placeholder="Aa" validation="required"
+					validation-visibility="submit" :validation-messages="{
+						required: 'Message is empty!'
+					}" wrapper-class="chatBox" rows="1" @focus="switchMediaVisibility" @blur="switchMediaVisibility" />
+			</FormKit>
+			<div class="chatMedia">
+				<img :src="emoji_menu" alt="">
+			</div>
+		</div>
+		<img :src="send" class="sendIcon" alt="" @click="submitForm('messageForm')">
+	</div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { reset, submitForm } from '@formkit/vue';
-
+import CameraCapture from '@/components/profile/CameraCapture.vue';
+import PhotoUpload from '@/components/profile/PhotoUpload.vue';
+import send from '@/assets/icons/chats/send.svg';
+import emoji_menu from '@/assets/icons/chats/emoji_menu.svg';
+import voice_message from '@/assets/icons/chats/voice_message.svg';
+import show_media from '@/assets/icons/chats/show_media.svg';
 
 interface MessageData {
-  message: string;
+	message: string;
 }
+
+const areMediaHidden = ref(false);
+
+const switchMediaVisibility = () => {
+	areMediaHidden.value = !areMediaHidden.value;
+};
 
 const route = useRoute();
 
@@ -43,76 +62,84 @@ const sendMessage = (data: MessageData) => {
 
 <style lang="scss">
 .chatMessageInput {
-  background-color: $bg-color-primary;
-  display: flex;
-  gap: 0.8rem;
-  padding: 0.7rem 1rem 0.7rem 1rem;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+	display: flex;
+	background-color: $bg-color-secondary;
+	gap: 0.3rem;
+	padding: 0.3rem 0.5rem;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
 
-  .chatBar {
-    @include flex-center;
-    background-color: $bg-color-primary;
-    width: 100%;
-    gap: 0.5rem;
-    background-color: $bg-color-secondary;
-    border-radius: 1.25rem;
-    padding: 0.1rem 0.7rem;
-  }
+	.chatBar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: $bg-color-primary;
+		width: 100%;
+		border-radius: 1.25rem;
+		padding: 0 0.5rem;
+	}
 
-  img {
-    width: 30px;
-  }
+	.chatMedia {
+		@include flex-center;
 
-  .sendIcon {
-    background-color: gray;
-    border-radius: 50%;
-    width: 48px;
-    height: 48px;
-    padding-left: 5px;
-    padding: 9.5px;
-  }
+		#showMediaIcon {
+			position: relative;
+			right: -3px;
+			width: 38px;
+			padding: 0;
+		}
 
-  #messageForm {
-    position: relative;
+		.visibleMedia {
+			display: flex;
+			flex-direction: row;
+		}
 
-    .formkit-messages {
-      position: absolute;
-      left: 25%;
-      transform: translate(-50%, -50%);
+		img {
+			width: 45px;
+			border-radius: 1.25rem;
+			padding: 8px;
+			cursor: pointer;
+		}
 
-      .formkit-message {
-        position: absolute;
-        margin: auto;
-        bottom: 55px;
-        color: $txt-color-primary;
-        text-align: center;
-        border-radius: 1.25rem;
-        background-color: $bg-color-secondary;
-        padding: 0.7rem;
-        width: 180px;
-      }
-    }
+		img:hover {
+			background-color: lighten($bg-color-secondary, 3%);
+		}
 
+		p {
+			display: none;
+		}
 
-    #messageForm-incomplete {
-      display: none;
-    }
+	}
 
-    .formkit-inner {
-      .formkit-input {
-        background-color: $bg-color-secondary;
-        border: none;
-        padding: 0.7rem;
-        margin-top: 3px;
-        color: $txt-color-primary;
-        font-size: 1rem;
-        width: 95%;
-        resize: none;
-      }
-    }
+	.sendIcon {
+		border-radius: 50%;
+		width: 48px;
+		height: 48px;
+		padding-left: 5px;
+		padding: 8px;
 
-  }
+		&:hover {
+			background-color: lighten($bg-color-secondary, 3%);
+		}
+	}
+
+	#messageForm-incomplete {
+		display: none;
+	}
+
+	.formkit-inner {
+		.formkit-input {
+			background-color: $bg-color-primary;
+			border: none;
+			padding: 0.7rem;
+			margin-top: 4px;
+			color: $txt-color-primary;
+			font-size: 1rem;
+			width: 100%;
+			resize: none;
+		}
+	}
+
 }
 </style>
