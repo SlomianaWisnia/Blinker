@@ -88,7 +88,7 @@ describe('PUT /api/user/update-about', () => {
 
     expect(res.status).toBe(400);
   });
-  it('should update username if cookie and about object are valid', async () => {
+  it('should update about if cookie and about object are valid', async () => {
     const res = await exec(sessionCookie, { about: { emoji: '😋', bio: 'Hello World!' } });
 
     expect(res.status).toBe(200);
