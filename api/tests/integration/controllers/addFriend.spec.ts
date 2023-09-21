@@ -18,10 +18,11 @@ describe('POST /api/add-friend', () => {
       .send({ username });
   };
 
-  const id:any[] = [];
+  let id:any[] = [];
   let sessionCookie:string;
 
   beforeEach(async () => {
+    id = [];
     const users:any[] = [];
 
     users.push(new User({
